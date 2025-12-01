@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { BurgerIcon, CloseIcon } from '../../utils/icons'
 import Logo from './Logo'
+import ThemeToggle from '../Theme/ThemeToggle'
 
 const navItems = [
   {
@@ -58,19 +59,33 @@ const Navbar = () => {
         </div>
 
         <ul
-          className={`${isVisible ? 'flex' : 'hidden'} animate-fade-in bg-primary absolute top-16 left-0 z-10 h-dvh w-dvw flex-col md:static md:top-0 md:flex md:h-full md:w-[72%] md:flex-row lg:w-[70%]`}>
+          className={`${
+            isVisible ? 'flex' : 'hidden'
+          } animate-fade-in bg-primary absolute top-16 left-0 z-10 h-dvh w-dvw flex-col md:static md:top-0 md:flex md:h-full md:w-[72%] md:flex-row lg:w-[70%]`}
+        >
           {navItems.map(({ label, href }) => (
             <li
               key={href}
               onClick={() => setIsVisible(false)}
-              className="border-border flex items-center border-b px-4 text-2xl md:border-y-0 md:border-e md:text-base md:first:border-s md:last:ml-auto md:last:border-none md:last:px-0 lg:px-8">
+              className="border-border flex items-center border-b px-4 text-2xl md:border-y-0 md:border-e md:text-base md:first:border-s md:last:border-none lg:px-8"
+            >
               <Link
                 href={href}
-                className={`text-primary-content hover:text-neutral w-full py-7 transition-all duration-150 md:py-0 ${pathname === href ? 'text-neutral cursor-text' : ''}`}>
+                className={`text-primary-content hover:text-neutral w-full py-7 transition-all duration-150 md:py-0 ${
+                  pathname === href ? 'text-neutral cursor-text' : ''
+                }`}
+              >
                 {label}
               </Link>
             </li>
           ))}
+
+          {/* 👇 Nuevo item: selector de tema (sol/luna) */}
+          <li className="border-border flex items-center border-b px-4 text-2xl md:border-y-0 md:border-e md:text-base md:ml-auto md:border-none lg:px-0">
+            <div className="w-full py-4 md:py-0 flex justify-center md:justify-end">
+              <ThemeToggle />
+            </div>
+          </li>
         </ul>
       </div>
     </nav>
