@@ -1,50 +1,72 @@
-import type { Metadata } from 'next'
-import './globals.css'
+// src/app/layout.tsx
+import type { Metadata } from "next";
+import "./globals.css";
 
-import Footer from '@/components/Footer/Footer'
-import Navbar from '@/components/Navbar/Navbar'
-import { Fira_Code } from 'next/font/google'
+import Footer from "@/components/Footer/Footer";
+import Navbar from "@/components/Navbar/Navbar";
+import { Fira_Code } from "next/font/google";
 
-const firaCode = Fira_Code({ subsets: ['latin'], weight: ['300', '400', '500', '600', '700'] })
+import { cookies } from "next/headers";
+import { messages, DEFAULT_LOCALE, type Locale } from "@/i18n/messages";
 
-const title = 'John Doe | Full-Stack Web Developer in Chicago'
+const firaCode = Fira_Code({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+});
 
-const description =
-  "Skilled full-stack web developer in Chicago. I build responsive, user-friendly websites with React, NextJS, and NodeJS. Let's bring your vision to life. Hire me today!"
+// Obtener locale desde cookie (server-side)
+function getServerLocale(): Locale {
+  const cookieStore = cookies();
+  const cookieLocale = cookieStore.get("locale")?.value;
 
-const url = process.env.NEXT_PUBLIC_SITE_URL
+  if (cookieLocale === "es" || cookieLocale === "en") {
+    return cookieLocale;
+  }
 
-export const metadata: Metadata = {
-  title,
-  description,
-  category: 'technology',
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL!),
-  alternates: {
-    canonical: url,
-  },
-  openGraph: {
-    title,
-    description,
-    url,
-    siteName: 'John Doe Portfolio',
-    type: 'website',
-  },
-  twitter: {
-    title,
-    description,
-    card: 'summary_large_image',
-    creator: '@Basit_Miyanji',
-  },
+  return DEFAULT_LOCALE; // español por defecto
+}
+
+// SEO dinámico según idioma
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = getServerLocale();
+  const t = messages[locale].seo;
+
+  const url = process.env.NEXT_PUBLIC_SITE_URL!;
+
+  return {
+    title: t.title,
+    description: t.description,
+    category: "technology",
+    metadataBase: new URL(url),
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      title: t.title,
+      description: t.description,
+      url,
+      siteName: t.siteName,
+      type: "website",
+    },
+    twitter: {
+      title: t.title,
+      description: t.description,
+      card: "summary_large_image",
+      creator: t.twitterCreator,
+    },
+  };
 }
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+}: {
+  children: React.ReactNode;
+}) {
+  const locale = getServerLocale();
+
   return (
-    <html lang="en" data-theme="dark">
-      <body className={`${firaCode.className}`}>
+    <html lang={locale} data-theme="dark">
+      <body className={firaCode.className}>
         <header>
           <Navbar />
         </header>
@@ -52,5 +74,5 @@ export default function RootLayout({
         <Footer />
       </body>
     </html>
-  )
+  );
 }
