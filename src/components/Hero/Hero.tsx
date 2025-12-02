@@ -1,19 +1,21 @@
-'use client';
+// src/components/Hero/Hero.tsx
+"use client";
 
-import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import Image from "next/image";
+import { useEffect, useState } from "react";
 
-import useRoleSwitcher from '@/hooks/useRoleSwitcher';
-import useRotatingAnimation from '@/hooks/useRotatingAnimation';
-import Ellipse from './Ellipse';
-import { HeroImage } from '../../utils/images';
+import useRoleSwitcher from "@/hooks/useRoleSwitcher";
+import useRotatingAnimation from "@/hooks/useRotatingAnimation";
+import Ellipse from "./Ellipse";
+import { HeroImage } from "../../utils/images";
+import ChileFlag from "@/components/UI/ChileFlag";
 
 import {
   messages,
   DEFAULT_LOCALE,
   LOCALE_STORAGE_KEY,
   type Locale,
-} from '@/i18n/messages';
+} from "@/i18n/messages";
 
 const Hero = () => {
   const ellipseRef = useRotatingAnimation();
@@ -22,23 +24,23 @@ const Hero = () => {
   const [locale, setLocale] = useState<Locale>(DEFAULT_LOCALE);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === "undefined") return;
 
     const stored = localStorage.getItem(LOCALE_STORAGE_KEY) as Locale | null;
-    if (stored === 'es' || stored === 'en') {
+    if (stored === "es" || stored === "en") {
       setLocale(stored);
     }
 
     const handler = (event: Event) => {
       const custom = event as CustomEvent<Locale>;
       const nextLocale = custom.detail;
-      if (nextLocale === 'es' || nextLocale === 'en') {
+      if (nextLocale === "es" || nextLocale === "en") {
         setLocale(nextLocale);
       }
     };
 
-    window.addEventListener('locale-change', handler);
-    return () => window.removeEventListener('locale-change', handler);
+    window.addEventListener("locale-change", handler);
+    return () => window.removeEventListener("locale-change", handler);
   }, []);
 
   const t = messages[locale].hero;
@@ -50,8 +52,8 @@ const Hero = () => {
   });
 
   const isReactiveRole =
-    currentRole.toLowerCase().includes('reactiv') ||
-    currentRole.toLowerCase().includes('webflux');
+    currentRole.toLowerCase().includes("reactiv") ||
+    currentRole.toLowerCase().includes("webflux");
 
   return (
     <section className="bg-primary bg-small-glow bg-small-glow-position md:bg-large-glow-position lg:bg-large-glow min-h-[calc(100vh-4rem)] bg-no-repeat">
@@ -59,48 +61,32 @@ const Hero = () => {
         {/* Columna izquierda: texto */}
         <div className="flex min-h-48 flex-col justify-between lg:min-h-56 lg:max-w-[33.75rem]">
           {/* Título + bandera */}
-          <div className="flex items-start justify-between gap-4">
+          <div className="flex items-center justify-between gap-4">
             <h1 className="text-neutral">
               <span className="mb-2 block text-3xl font-bold">
-                {locale === 'es' ? `${t.greeting} ${t.name}` : `${t.greeting} ${t.name}`}
+                {locale === "es"
+                  ? `${t.greeting} ${t.name}`
+                  : `${t.greeting} ${t.name}`}
               </span>
             </h1>
 
-            {/* Bandera Chile */}
+            {/* Bandera Chile alineada verticalmente */}
             <a
               href="https://www.gob.cl/nuestro-pais/"
               target="_blank"
               rel="noopener noreferrer"
               aria-label={t.chileAria}
-              className="mt-1 inline-flex items-center justify-center"
+              className="flex items-center"
             >
-              <span className="inline-flex h-9 w-14 items-center justify-center rounded-xl bg-transparent">
-                {/* SVG bandera sin borde exterior para que se funda con el fondo */}
-                <svg
-                  viewBox="0 0 3 2"
-                  className="h-full w-full rounded-xl shadow-[0_0_10px_rgba(0,0,0,0.35)]"
-                >
-                  {/* fondo blanco */}
-                  <rect width="3" height="2" fill="#ffffff" />
-                  {/* franja azul */}
-                  <rect width="1" height="1" fill="#0039A6" />
-                  {/* franja roja */}
-                  <rect y="1" width="3" height="1" fill="#D52B1E" />
-                  {/* estrella */}
-                  <polygon
-                    points="0.5,0.18 0.56,0.36 0.75,0.36 0.60,0.47 0.66,0.65 0.5,0.54 0.34,0.65 0.40,0.47 0.25,0.36 0.44,0.36"
-                    fill="#ffffff"
-                  />
-                </svg>
-              </span>
+              <ChileFlag size={32} />
             </a>
           </div>
 
           {/* Rol dinámico con altura fija para evitar saltos entre idiomas */}
-          <div className="mt-3 h-[3.5rem] flex items-center">
+          <div className="mt-3 flex h-[3.5rem] items-center">
             <p
               className={`text-[1.75rem] font-bold leading-tight ${
-                isReactiveRole ? 'text-[#22c55e]' : 'text-accent'
+                isReactiveRole ? "text-[#22c55e]" : "text-accent"
               }`}
             >
               {currentRole}
@@ -108,7 +94,7 @@ const Hero = () => {
           </div>
 
           {/* Subtítulo */}
-          <h2 className="text-neutral mt-4 text-base md:text-lg">
+          <h2 className="mt-4 text-base text-neutral md:text-lg">
             {t.subtitle}
           </h2>
 
@@ -122,7 +108,6 @@ const Hero = () => {
               aria-label={t.buttons.linkedinAria}
               className="flex h-11 w-11 items-center justify-center rounded-full border border-accent/60 bg-primary/40 text-accent transition-colors hover:bg-accent hover:text-[#00071E]"
             >
-              {/* Logo LinkedIn SVG */}
               <svg
                 viewBox="0 0 24 24"
                 className="h-5 w-5"
@@ -134,19 +119,21 @@ const Hero = () => {
                 />
               </svg>
             </a>
+
             {/* 2. CV */}
             <a
               href="#cv"
               aria-label={t.buttons.cvAria}
-              className="bg-accent min-w-[170px] rounded-lg px-5 py-2.5 text-center text-sm font-medium text-[#00071E] transition-colors hover:bg-accent/90"
+              className="min-w-[170px] rounded-lg bg-accent px-5 py-2.5 text-center text-sm font-medium text-[#00071E] transition-colors hover:bg-accent/90"
             >
               {t.buttons.cv}
             </a>
+
             {/* 3. Proyectos */}
             <a
               href="#projects"
               aria-label={t.buttons.projectsAria}
-              className="bg-secondary min-w-[210px] rounded-lg px-5 py-2.5 text-center text-sm font-medium text-neutral transition-colors hover:bg-secondary/80"
+              className="min-w-[210px] rounded-lg bg-secondary px-5 py-2.5 text-center text-sm font-medium text-neutral transition-colors hover:bg-secondary/80"
             >
               {t.buttons.projects}
             </a>
@@ -155,7 +142,7 @@ const Hero = () => {
             <a
               href="#contact"
               aria-label={t.buttons.contactAria}
-              className="border border-accent/60 min-w-[160px] rounded-lg px-5 py-2.5 text-center text-sm font-medium text-accent transition-colors hover:bg-accent hover:text-[#00071E]"
+              className="min-w-[160px] rounded-lg border border-accent/60 px-5 py-2.5 text-center text-sm font-medium text-accent transition-colors hover:bg-accent hover:text-[#00071E]"
             >
               {t.buttons.contact}
             </a>
