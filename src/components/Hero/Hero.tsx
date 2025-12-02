@@ -8,7 +8,7 @@ import useRoleSwitcher from "@/hooks/useRoleSwitcher";
 import useRotatingAnimation from "@/hooks/useRotatingAnimation";
 import Ellipse from "./Ellipse";
 import { HeroImage } from "../../utils/images";
-import ChileFlag from "@/components/UI/ChileFlag";
+import ChileFlag from "../UI/ChileFlag";
 
 import {
   messages,
@@ -19,8 +19,6 @@ import {
 
 const Hero = () => {
   const ellipseRef = useRotatingAnimation();
-
-  // -------- i18n: leer locale actual --------
   const [locale, setLocale] = useState<Locale>(DEFAULT_LOCALE);
 
   useEffect(() => {
@@ -44,13 +42,7 @@ const Hero = () => {
   }, []);
 
   const t = messages[locale].hero;
-
-  // -------- texto dinámico de roles (4s) --------
-  const currentRole = useRoleSwitcher({
-    roles: t.roles,
-    interval: 4000,
-  });
-
+  const currentRole = useRoleSwitcher({ roles: t.roles, interval: 4000 });
   const isReactiveRole =
     currentRole.toLowerCase().includes("reactiv") ||
     currentRole.toLowerCase().includes("webflux");
@@ -58,19 +50,16 @@ const Hero = () => {
   return (
     <section className="bg-primary bg-small-glow bg-small-glow-position md:bg-large-glow-position lg:bg-large-glow min-h-[calc(100vh-4rem)] bg-no-repeat">
       <div className="mx-auto grid max-w-[1200px] grid-cols-1 items-center gap-4 px-4 pt-12 pb-10 md:grid-cols-2 lg:p-4">
-        {/* Columna izquierda: texto */}
+        {/* Columna izquierda */}
         <div className="flex min-h-48 flex-col justify-between lg:min-h-56 lg:max-w-[33.75rem]">
           {/* Título + bandera */}
           <div className="flex items-center justify-between gap-4">
             <h1 className="text-neutral">
               <span className="mb-2 block text-3xl font-bold">
-                {locale === "es"
-                  ? `${t.greeting} ${t.name}`
-                  : `${t.greeting} ${t.name}`}
+                {`${t.greeting} ${t.name}`}
               </span>
             </h1>
 
-            {/* Bandera Chile alineada verticalmente */}
             <a
               href="https://www.gob.cl/nuestro-pais/"
               target="_blank"
@@ -82,7 +71,7 @@ const Hero = () => {
             </a>
           </div>
 
-          {/* Rol dinámico con altura fija para evitar saltos entre idiomas */}
+          {/* Rol dinámico */}
           <div className="mt-3 flex h-[3.5rem] items-center">
             <p
               className={`text-[1.75rem] font-bold leading-tight ${
@@ -94,23 +83,24 @@ const Hero = () => {
           </div>
 
           {/* Subtítulo */}
-          <h2 className="mt-4 text-base text-neutral md:text-lg">
+          <h2 className="mt-7 text-base text-neutral md:text-lg">
             {t.subtitle}
           </h2>
 
-          {/* Botones acción */}
-          <div className="mt-8 flex flex-wrap gap-4 md:gap-6">
-            {/* 1. LinkedIn (solo logo, mismo alto) */}
+          {/* Botones */}
+          <div className="mt-8 flex flex-wrap items-center gap-4 md:gap-6 lg:flex-nowrap">
+            {/* LinkedIn (sin tocar) */}
             <a
               href="https://www.linkedin.com/in/janodevg"
               target="_blank"
               rel="noopener noreferrer"
               aria-label={t.buttons.linkedinAria}
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-accent/60 bg-primary/40 text-accent transition-colors hover:bg-accent hover:text-[#00071E]"
+              className="flex h-12 w-12 items-center justify-center rounded-full border border-accent/60 bg-primary/40 text-accent transition-colors hover:bg-accent hover:text-[#00071E]"
+              style={{ aspectRatio: "1 / 1" }}
             >
               <svg
                 viewBox="0 0 24 24"
-                className="h-5 w-5"
+                className="h-6 w-6"
                 aria-hidden="true"
               >
                 <path
@@ -120,36 +110,36 @@ const Hero = () => {
               </svg>
             </a>
 
-            {/* 2. CV */}
+            {/* CV */}
             <a
               href="#cv"
               aria-label={t.buttons.cvAria}
-              className="min-w-[170px] rounded-lg bg-accent px-5 py-2.5 text-center text-sm font-medium text-[#00071E] transition-colors hover:bg-accent/90"
+              className="w-[220px] whitespace-nowrap rounded-lg bg-accent px-5 py-2.5 text-center text-sm font-medium text-[#00071E] transition-colors hover:bg-accent/90"
             >
               {t.buttons.cv}
             </a>
 
-            {/* 3. Proyectos */}
+            {/* Proyectos */}
             <a
               href="#projects"
               aria-label={t.buttons.projectsAria}
-              className="min-w-[210px] rounded-lg bg-secondary px-5 py-2.5 text-center text-sm font-medium text-neutral transition-colors hover:bg-secondary/80"
+              className="w-[220px] whitespace-nowrap rounded-lg bg-secondary px-2 py-2.5 text-center text-sm font-medium text-neutral transition-colors hover:bg-secondary/80"
             >
               {t.buttons.projects}
             </a>
 
-            {/* 4. Contacto */}
+            {/* Contacto */}
             <a
               href="#contact"
               aria-label={t.buttons.contactAria}
-              className="min-w-[160px] rounded-lg border border-accent/60 px-5 py-2.5 text-center text-sm font-medium text-accent transition-colors hover:bg-accent hover:text-[#00071E]"
+              className="w-[220px] whitespace-nowrap rounded-lg border border-accent/60 px-5 py-2.5 text-center text-sm font-medium text-accent transition-colors hover:bg-accent hover:text-[#00071E]"
             >
               {t.buttons.contact}
             </a>
           </div>
         </div>
 
-        {/* Columna derecha: ilustración */}
+        {/* Columna derecha */}
         <div className="flex min-h-[18.75rem] items-center justify-center lg:min-h-[35rem]">
           <div className="relative size-56 text-accent sm:size-60 md:size-[20rem] lg:size-[25.75rem]">
             <Image
