@@ -9,9 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "framer-motion": "^12.23.25",
     "next": "15.1.7",
     "react": "19.0.0",
-    "react-dom": "19.0.0"
+    "react-dom": "19.0.0",
+    "simplex-noise": "^4.0.3"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.0.6",
