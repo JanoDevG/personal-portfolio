@@ -35,7 +35,7 @@ const VortexBackground: React.FC<VortexBackgroundProps> = ({
   className,
   containerClassName,
   particleCount = 650,
-  rangeY = 180,
+  rangeY = 240,
   baseSpeed = 0.15,
   rangeSpeed = 1.0,
   baseRadius = 1,
@@ -181,7 +181,8 @@ const VortexBackground: React.FC<VortexBackgroundProps> = ({
   const resize = (canvas: HTMLCanvasElement) => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    center = [canvas.width / 2, canvas.height / 2];
+    center[0] = 0.5 * canvas.width;
+    center[1] = 0.45 * canvas.height
   };
 
   const draw = (canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) => {

@@ -1,15 +1,12 @@
 // src/components/Hero/Hero.tsx
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState } from "react";
 
 import useRoleSwitcher from "@/hooks/useRoleSwitcher";
-import useRotatingAnimation from "@/hooks/useRotatingAnimation";
-import Ellipse from "./Ellipse";
-import { HeroImage } from "../../utils/images";
 import ChileFlag from "../UI/ChileFlag";
 import VortexBackground from "../UI/VortexBackground";
+import HeroAnimation from "./HeroAnimation";
 
 import {
   messages,
@@ -19,7 +16,6 @@ import {
 } from "@/i18n/messages";
 
 const Hero = () => {
-  const ellipseRef = useRotatingAnimation();
   const [locale, setLocale] = useState<Locale>(DEFAULT_LOCALE);
 
   useEffect(() => {
@@ -49,125 +45,109 @@ const Hero = () => {
     currentRole.toLowerCase().includes("webflux");
 
   return (
-  <section className="relative min-h-[calc(100vh-4rem)] overflow-hidden bg-primary bg-small-glow bg-small-glow-position md:bg-large-glow-position lg:bg-large-glow bg-no-repeat">
-    <VortexBackground
-      // Ajustes finos para que no opaque el texto
-      particleCount={550}
-      rangeY={220}
-      baseHue={160} // verde/teal tipo Spring
-      baseSpeed={0.12}
-      rangeSpeed={1.1}
-      baseRadius={1}
-      rangeRadius={1.8}
-      containerClassName="mx-auto flex max-w-[1200px] px-4 pt-12 pb-10 lg:p-4"
-      className="grid w-full grid-cols-1 items-center gap-4 md:grid-cols-2"
-    >
-      {/* Columna izquierda */}
-      <div className="flex min-h-48 flex-col justify-between lg:min-h-56 lg:max-w-[33.75rem]">
-        {/* Título + bandera */}
-        <div className="flex items-center justify-between gap-4">
-          <h1 className="text-neutral">
-            <span className="mb-2 block text-3xl font-bold">
-              {`${t.greeting} ${t.name}`}
-            </span>
-          </h1>
+    <section className="bg-primary min-h-[calc(100vh-4rem)]">
+      <VortexBackground
+        // solo partículas, sin pintar fondo
+        backgroundColor="transparent"
+        containerClassName="min-h-[calc(100vh-4rem)] bg-primary"
+        className="mx-auto grid max-w-[1200px] grid-cols-1 items-center gap-4 px-4 pt-20 pb-20 md:grid-cols-2 lg:pt-28"
+      >
+        {/* Columna izquierda */}
+        <div className="flex min-h-48 flex-col justify-between lg:min-h-56 lg:max-w-[33.75rem]">
+          {/* Título + bandera */}
+          <div className="flex items-center justify-between gap-4">
+            <h1 className="text-neutral">
+              <span className="mb-2 block text-3xl font-bold">
+                {`${t.greeting} ${t.name}`}
+              </span>
+            </h1>
 
-          <a
-            href="https://www.gob.cl/nuestro-pais/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={t.chileAria}
-            className="flex items-center"
-          >
-            <ChileFlag size={32} />
-          </a>
+            <a
+              href="https://www.gob.cl/nuestro-pais/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={t.chileAria}
+              className="flex items-center"
+            >
+              <ChileFlag size={32} />
+            </a>
+          </div>
+
+          {/* Rol dinámico */}
+          <div className="mt-3 flex h-[3.5rem] items-center">
+            <p
+              className={`text-[1.75rem] font-bold leading-tight ${
+                isReactiveRole ? "text-[#22c55e]" : "text-accent"
+              }`}
+            >
+              {currentRole}
+            </p>
+          </div>
+
+          {/* Subtítulo */}
+          <h2 className="mt-7 text-base text-neutral md:text-lg">
+            {t.subtitle}
+          </h2>
+
+          {/* Botones */}
+          <div className="mt-8 flex flex-wrap items-center gap-4 md:gap-6 lg:flex-nowrap">
+            {/* LinkedIn */}
+            <a
+              href="https://www.linkedin.com/in/janodevg"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={t.buttons.linkedinAria}
+              className="flex h-12 w-12 items-center justify-center rounded-full border border-accent/60 bg-primary/40 text-accent transition-colors hover:bg-accent hover:text-[#00071E]"
+              style={{ aspectRatio: "1 / 1" }}
+            >
+              <svg
+                viewBox="0 0 24 24"
+                className="h-6 w-6"
+                aria-hidden="true"
+              >
+                <path
+                  d="M4.98 3.5C4.98 4.88 3.88 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM0 8h5v16H0V8zm7.5 0h4.8v2.2h.07c.67-1.27 2.3-2.6 4.73-2.6 5.06 0 6 3.33 6 7.66V24h-5V16.4c0-1.82-.03-4.17-2.54-4.17-2.54 0-2.93 1.98-2.93 4.03V24h-5V8z"
+                  fill="currentColor"
+                />
+              </svg>
+            </a>
+
+            {/* CV */}
+            <a
+              href="#cv"
+              aria-label={t.buttons.cvAria}
+              className="w-[220px] whitespace-nowrap rounded-lg bg-accent px-5 py-2.5 text-center text-sm font-medium text-[#00071E] transition-colors hover:bg-accent/90"
+            >
+              {t.buttons.cv}
+            </a>
+
+            {/* Proyectos */}
+            <a
+              href="#projects"
+              aria-label={t.buttons.projectsAria}
+              className="w-[220px] whitespace-nowrap rounded-lg bg-secondary px-2 py-2.5 text-center text-sm font-medium text-neutral transition-colors hover:bg-secondary/80"
+            >
+              {t.buttons.projects}
+            </a>
+
+            {/* Contacto */}
+            <a
+              href="#contact"
+              aria-label={t.buttons.contactAria}
+              className="w-[220px] whitespace-nowrap rounded-lg border border-accent/60 px-5 py-2.5 text-center text-sm font-medium text-accent transition-colors hover:bg-accent hover:text-[#00071E]"
+            >
+              {t.buttons.contact}
+            </a>
+          </div>
         </div>
 
-        {/* Rol dinámico */}
-        <div className="mt-3 flex h-[3.5rem] items-center">
-          <p
-            className={`text-[1.75rem] font-bold leading-tight ${
-              isReactiveRole ? "text-[#22c55e]" : "text-accent"
-            }`}
-          >
-            {currentRole}
-          </p>
+        {/* Columna derecha – animación Lottie */}
+        <div className="flex min-h-[18.75rem] items-center justify-center lg:min-h-[35rem]">
+          <HeroAnimation className="w-full md:max-w-[25rem] lg:max-w-[28rem]" />
         </div>
-
-        {/* Subtítulo */}
-        <h2 className="mt-7 text-base text-neutral md:text-lg">
-          {t.subtitle}
-        </h2>
-
-        {/* Botones */}
-        <div className="mt-8 flex flex-wrap items-center gap-4 md:gap-6 lg:flex-nowrap">
-          {/* LinkedIn (sin tocar) */}
-          <a
-            href="https://www.linkedin.com/in/janodevg"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={t.buttons.linkedinAria}
-            className="flex h-12 w-12 items-center justify-center rounded-full border border-accent/60 bg-primary/40 text-accent transition-colors hover:bg-accent hover:text-[#00071E]"
-            style={{ aspectRatio: "1 / 1" }}
-          >
-            <svg viewBox="0 0 24 24" className="h-6 w-6" aria-hidden="true">
-              <path
-                d="M4.98 3.5C4.98 4.88 3.88 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM0 8h5v16H0V8zm7.5 0h4.8v2.2h.07c.67-1.27 2.3-2.6 4.73-2.6 5.06 0 6 3.33 6 7.66V24h-5V16.4c0-1.82-.03-4.17-2.54-4.17-2.54 0-2.93 1.98-2.93 4.03V24h-5V8z"
-                fill="currentColor"
-              />
-            </svg>
-          </a>
-
-          {/* CV */}
-          <a
-            href="#cv"
-            aria-label={t.buttons.cvAria}
-            className="w-[220px] whitespace-nowrap rounded-lg bg-accent px-5 py-2.5 text-center text-sm font-medium text-[#00071E] transition-colors hover:bg-accent/90"
-          >
-            {t.buttons.cv}
-          </a>
-
-          {/* Proyectos */}
-          <a
-            href="#projects"
-            aria-label={t.buttons.projectsAria}
-            className="w-[220px] whitespace-nowrap rounded-lg bg-secondary px-2 py-2.5 text-center text-sm font-medium text-neutral transition-colors hover:bg-secondary/80"
-          >
-            {t.buttons.projects}
-          </a>
-
-          {/* Contacto */}
-          <a
-            href="#contact"
-            aria-label={t.buttons.contactAria}
-            className="w-[220px] whitespace-nowrap rounded-lg border border-accent/60 px-5 py-2.5 text-center text-sm font-medium text-accent transition-colors hover:bg-accent hover:text-[#00071E]"
-          >
-            {t.buttons.contact}
-          </a>
-        </div>
-      </div>
-
-      {/* Columna derecha (dev + Ellipse, sin tocar) */}
-      <div className="flex min-h-[18.75rem] items-center justify-center lg:min-h-[35rem]">
-        <div className="relative size-56 text-accent sm:size-60 md:size-[20rem] lg:size-[25.75rem]">
-          <Image
-            src={HeroImage}
-            fill
-            priority
-            sizes="(min-width: 1024px) 25.75rem, (min-width: 768px) 20rem, (min-width: 640px) 15rem, 14rem"
-            alt={t.imageAlt}
-            className="object-contain p-7"
-          />
-          <Ellipse
-            ref={ellipseRef}
-            className="absolute left-0 top-0 size-56 transition-transform duration-500 ease-out sm:size-60 md:size-[20rem] lg:size-[25.75rem]"
-          />
-        </div>
-      </div>
-    </VortexBackground>
-  </section>
-);
-
+      </VortexBackground>
+    </section>
+  );
 };
 
 export default Hero;
