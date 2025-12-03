@@ -45,12 +45,21 @@ const Hero = () => {
     currentRole.toLowerCase().includes("webflux");
 
   return (
-    <section className="bg-primary min-h-[calc(100vh-4rem)]">
+    <section className="bg-primary">
       <VortexBackground
-        // solo partículas, sin pintar fondo
         backgroundColor="transparent"
-        containerClassName="min-h-[calc(100vh-4rem)] bg-primary"
-        className="mx-auto grid max-w-[1200px] grid-cols-1 items-center gap-4 px-4 pt-20 pb-20 md:grid-cols-2 lg:pt-28"
+        containerClassName="
+          bg-primary
+          min-h-[70vh]
+          md:min-h-[72vh]
+          lg:min-h-[75vh]
+        "
+        className="
+          mx-auto grid max-w-[1200px] grid-cols-1 items-center
+          gap-8 px-4 pt-16 pb-12
+          md:grid-cols-2 md:gap-10
+          lg:pt-20 lg:pb-14 lg:gap-16
+        "
       >
         {/* Columna izquierda */}
         <div className="flex min-h-48 flex-col justify-between lg:min-h-56 lg:max-w-[33.75rem]">
@@ -90,14 +99,24 @@ const Hero = () => {
           </h2>
 
           {/* Botones */}
-          <div className="mt-8 flex flex-wrap items-center gap-4 md:gap-6 lg:flex-nowrap">
+          <div
+            className="
+              mt-8 flex flex-wrap items-center
+              gap-3 md:gap-4 lg:gap-6
+            "
+          >
             {/* LinkedIn */}
             <a
               href="https://www.linkedin.com/in/janodevg"
               target="_blank"
               rel="noopener noreferrer"
               aria-label={t.buttons.linkedinAria}
-              className="flex h-12 w-12 items-center justify-center rounded-full border border-accent/60 bg-primary/40 text-accent transition-colors hover:bg-accent hover:text-[#00071E]"
+              className="
+                flex h-12 w-12 shrink-0 items-center justify-center
+                rounded-full border border-accent/60 bg-primary/40
+                text-accent transition-colors
+                hover:bg-accent hover:text-[#00071E]
+              "
               style={{ aspectRatio: "1 / 1" }}
             >
               <svg
@@ -116,7 +135,13 @@ const Hero = () => {
             <a
               href="#cv"
               aria-label={t.buttons.cvAria}
-              className="w-[220px] whitespace-nowrap rounded-lg bg-accent px-5 py-2.5 text-center text-sm font-medium text-[#00071E] transition-colors hover:bg-accent/90"
+              className="
+                whitespace-nowrap rounded-lg bg-accent
+                px-4 py-2 text-center text-xs font-medium
+                text-[#00071E] transition-colors
+                hover:bg-accent/90
+                sm:px-5 sm:py-2.5 sm:text-sm
+              "
             >
               {t.buttons.cv}
             </a>
@@ -125,7 +150,13 @@ const Hero = () => {
             <a
               href="#projects"
               aria-label={t.buttons.projectsAria}
-              className="w-[220px] whitespace-nowrap rounded-lg bg-secondary px-2 py-2.5 text-center text-sm font-medium text-neutral transition-colors hover:bg-secondary/80"
+              className="
+                whitespace-nowrap rounded-lg bg-secondary
+                px-4 py-2 text-center text-xs font-medium
+                text-neutral transition-colors
+                hover:bg-secondary/80
+                sm:px-5 sm:py-2.5 sm:text-sm
+              "
             >
               {t.buttons.projects}
             </a>
@@ -134,7 +165,13 @@ const Hero = () => {
             <a
               href="#contact"
               aria-label={t.buttons.contactAria}
-              className="w-[220px] whitespace-nowrap rounded-lg border border-accent/60 px-5 py-2.5 text-center text-sm font-medium text-accent transition-colors hover:bg-accent hover:text-[#00071E]"
+              className="
+                whitespace-nowrap rounded-lg border border-accent/60
+                px-4 py-2 text-center text-xs font-medium
+                text-accent transition-colors
+                hover:bg-accent hover:text-[#00071E]
+                sm:px-5 sm:py-2.5 sm:text-sm
+              "
             >
               {t.buttons.contact}
             </a>
