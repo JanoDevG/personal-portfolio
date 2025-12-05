@@ -1,27 +1,40 @@
 'use client'
+
 import dynamic from 'next/dynamic'
-import Image from 'next/image'
+import JavaIcon from '@/assets/icons/java-original-wordmark.svg'
+import SpringIcon from '@/assets/icons/spring-original-wordmark.svg'
+import KafkaIcon from '@/assets/icons/apachekafka-original-wordmark.svg'
+import RedisIcon from '@/assets/icons/redis-plain-wordmark.svg'
+import DockerIcon from '@/assets/icons/docker-original-wordmark.svg'
+import KubernetesIcon from '@/assets/icons/kubernetes-original-wordmark.svg'
+import OpenAPIIcon from '@/assets/icons/openapi-original-wordmark.svg'
+import JenkinsIcon from '@/assets/icons/jenkins-original.svg'
+import JiraIcon from '@/assets/icons/jira-original-wordmark.svg'
+import GithubIcon from '@/assets/icons/github-original-wordmark.svg'
+// Si tienes ícono de PostgreSQL, descomenta la siguiente línea y agrégalo en /assets/icons
+// import PostgresIcon from '@/assets/icons/postgresql-original-wordmark.svg'
 
-const MarqueeWrapper = dynamic(() => import('../Marquee/MarqueeWrapper'), { ssr: false })
+const TechMarquee = dynamic(() => import('../Marquee/TechMarquee'), { ssr: false })
 
-type SkillsProps = {
-  skills: { name: string; icon: string }[]
-}
+const backendStack = [
+  { name: 'Java', icon: JavaIcon },
+  { name: 'Spring Boot', icon: SpringIcon },
+  { name: 'Kafka / Service Bus', icon: KafkaIcon, className: 'icon-invert' },
+  { name: 'Redis', icon: RedisIcon },
+  { name: 'Docker', icon: DockerIcon },
+  { name: 'Kubernetes', icon: KubernetesIcon },
+  { name: 'OpenAPI / Swagger', icon: OpenAPIIcon },
+  { name: 'Jenkins', icon: JenkinsIcon },
+  { name: 'Jira', icon: JiraIcon },
+  { name: 'GitHub', icon: GithubIcon, className: 'icon-invert' },
+]
 
-const Skills: React.FC<SkillsProps> = ({ skills }) => {
+
+const Skills = () => {
   return (
-    <MarqueeWrapper className="from-primary to-primary via-marquee bg-linear-to-r">
-      <div className="flex gap-8 lg:gap-24">
-        {skills.map(({ name, icon }, index) => (
-          <span
-            key={index}
-            className="font-inter text-primary-content flex items-center text-xs lg:text-base">
-            <Image src={icon} alt={name} className="mx-2 size-11 lg:size-14" />
-            {name}
-          </span>
-        ))}
-      </div>
-    </MarqueeWrapper>
+    <section className="py-10">
+      <TechMarquee items={backendStack} />
+    </section>
   )
 }
 

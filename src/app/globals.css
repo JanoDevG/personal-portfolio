@@ -148,3 +148,14 @@ section {
   }
   scrollbar-width: none;
 }
+
+
+/* Iconos que son originalmente negros y deben invertirse en tema oscuro */
+.icon-invert {
+  filter: invert(1);
+}
+
+/* Cuando el tema es LIGHT, desactivamos el filtro para que vuelvan a negro */
+[data-theme='light'] .icon-invert {
+  filter: invert(0);
+}
