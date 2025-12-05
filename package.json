@@ -9,8 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tsparticles/engine": "^3.9.1",
+    "@tsparticles/react": "^3.0.0",
+    "@tsparticles/slim": "^3.9.1",
     "framer-motion": "^12.23.25",
     "lottie-react": "^2.4.1",
+    "motion": "^12.23.25",
     "next": "15.1.7",
     "react": "19.0.0",
     "react-dom": "19.0.0",
