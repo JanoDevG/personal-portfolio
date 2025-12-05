@@ -1,59 +1,96 @@
+'use client'
+
 import { Project } from '@/lib/types'
-import { SparklesCore } from '../UI/sparkles'
 import ProjectCard from './ProjectCard'
+import { LayoutTextFlip } from '@/components/UI/LayoutTextFlip'
+import { SparklesCore } from '../UI/sparkles'
+import { messages, Locale } from '@/i18n/messages'
 
 interface ProjectSectionProps {
   projects: Project[]
+  locale: Locale | undefined
 }
 
-const ProjectSection: React.FC<ProjectSectionProps> = ({ projects }) => {
+const ProjectSection: React.FC<ProjectSectionProps> = ({ projects, locale }) => {
+
+  const safeLocale: Locale = (locale === "en" || locale === "es") ? locale : "es"
+  const t = messages[safeLocale].executive
+
   return (
-    // Menos padding arriba para acercarlo al carrusel
-    <section id="projects" className="relative pt-0 pb-10 md:pt-2 md:pb-14">
-      {/* Encabezado centrado: título + sparkles debajo */}
-      <div className="relative mb-6 flex flex-col items-center text-center">
-        {/* Contenedor para que título y banda tengan el mismo ancho */}
-        <div className="w-full max-w-4xl">
-          {/* Título principal */}
-          <h2 className="text-balance text-2xl font-semibold leading-tight text-primary-content md:text-3xl lg:text-4xl">
-            Cómo aporto valor como
-            <span className="block text-accent">
-              Senior Backend Java &amp; Arquitecto de Software
-            </span>
-          </h2>
+    <section id="projects" className="pt-8 md:pt-10">
+      <div className="mx-auto max-w-[1100px] px-4">
 
-          {/* Banda de sparkles justo DEBAJO del título,
-              ocupando el mismo ancho del contenedor */}
-          <div className="pointer-events-none relative mt-2 h-16 w-full">
-            {/* Líneas de gradiente (rayo brillante) a todo el ancho */}
-            <div className="absolute top-0 h-[2px] w-full bg-linear-to-r from-transparent via-accent to-transparent blur-sm" />
-            <div className="absolute top-0 h-px w-full bg-linear-to-r from-transparent via-accent to-transparent" />
-            <div className="absolute left-1/4 top-0 h-[5px] w-1/2 bg-linear-to-r from-transparent via-[#0ea5e9] to-transparent blur-sm" />
-            <div className="absolute left-1/4 top-0 h-px w-1/2 bg-linear-to-r from-transparent via-[#0ea5e9] to-transparent" />
+        {/* ---------- Executive Header ---------- */}
+        <div className="flex flex-col items-center text-center gap-4 relative pb-10">
 
-            {/* Partículas */}
-            <SparklesCore
-              background="transparent"
-              minSize={0.8}
-              maxSize={2}
-              particleDensity={260}
-              speed={3}
-              particleColor="#ffffff"
-              className="h-full w-full"
-            />
+          {/* TAG */}
+          <p className="font-mono text-xs uppercase tracking-[0.25em] text-primary-content/60">
+            {t.tag}
+          </p>
 
-            {/* Máscara radial anclada ARRIBA, para que el brillo salga justo bajo el título */}
-            <div className="absolute inset-0 h-full w-full bg-primary [mask-image:radial-gradient(420px_220px_at_top,transparent_18%,white)]" />
+          {/* TÍTULO + TEXTO ANIMADO + LAYERS */}
+          <div className="relative flex flex-col items-center">
+
+            {/* CONTENEDOR QUE CONTROLA Z-INDEX DEL RECUADRO */}
+            <div className="relative z-[10]">
+
+              {/* TEXTO ANIMADO – SIEMPRE SOBRE LAS PARTÍCULAS */}
+              <LayoutTextFlip
+                text={t.title}
+                words={t.words}
+                duration={3000}
+                className="relative z-[30]"
+              />
+
+            </div>
+
+            {/* SPARKLES COLOCADOS ENTRE RECUADRO (z-10) Y TEXTO (z-30) */}
+            <div
+              className="
+                pointer-events-none
+                absolute left-0 right-0
+                top-[2.1rem]
+                mx-auto flex justify-center
+                z-[20]
+              "
+            >
+              <div
+                className="
+                  relative
+                  w-[75%]
+                  h-12
+                  overflow-hidden
+                "
+              >
+                <SparklesCore
+                  background="transparent"
+                  minSize={1.3}
+                  maxSize={3}
+                  particleDensity={500}
+                  particleColor="#00f2b3"
+                  className="h-full w-full"
+                />
+
+                {/* Línea verde */}
+                <div
+                  className="
+                    absolute inset-x-0 top-0
+                    h-[2px]
+                    bg-gradient-to-r from-transparent
+                    via-accent/80 to-transparent
+                    blur-[2px]
+                  "
+                />
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
 
-      {/* De momento seguimos mostrando los proyectos;
-          luego aquí meteremos el Bento Grid / highlights. */}
-      <div className="my-8 grid grid-cols-1 gap-8 md:my-12 md:grid-cols-2">
-        {projects.map((project) => (
-          <ProjectCard key={project.priority} data={project} />
-        ))}
+          {/* DESCRIPCIÓN */}
+          <p className="mt-6 max-w-3xl text-sm leading-relaxed text-primary-content/80 md:text-base z-10">
+            {t.description}
+          </p>
+
+        </div>
       </div>
     </section>
   )

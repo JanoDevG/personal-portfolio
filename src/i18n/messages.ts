@@ -1,5 +1,3 @@
-// src/i18n/messages.ts
-
 export const messages = {
   es: {
     seo: {
@@ -35,7 +33,6 @@ export const messages = {
       imageAlt:
         "Alejandro Gutiérrez - Ingeniero de Software Senior Java",
 
-      // Frases que rotan cada 4 segundos
       roles: [
         "Senior Software Engineer",
         "Desarrollador backend senior",
@@ -60,6 +57,21 @@ export const messages = {
         contact: "Contáctame",
         contactAria: "Ir a la sección de contacto",
       },
+    },
+
+    executive: {
+      title: "El valor que aporto en",
+      description:
+        "Diseño y lidero soluciones backend robustas empleadas en entornos empresariales y bancarios, integrando sistemas de misión crítica y construyendo plataformas escalables con Java, Spring Boot y WebFlux.",
+      words: [
+        "arquitecturas backend reactivas",
+        "integraciones bancarias complejas",
+        "sistemas distribuidos de alta criticidad",
+        "APIs resilientes y escalables",
+        "plataformas event-driven",
+        "proyectos de alto tráfico",
+        "equipos técnicos de alto desempeño",
+      ],
     },
   },
 
@@ -122,11 +134,24 @@ export const messages = {
         contactAria: "Go to contact section",
       },
     },
+
+    executive: {
+      title: "The value I bring to",
+      description:
+        "I design and lead robust backend solutions used in enterprise and banking environments, integrating mission-critical systems and building scalable platforms with Java, Spring Boot, and WebFlux.",
+      words: [
+        "reactive backend architectures",
+        "complex banking integrations",
+        "high-criticality distributed systems",
+        "resilient and scalable APIs",
+        "event-driven platforms",
+        "high-traffic enterprise systems",
+        "high-performance engineering teams",
+      ],
+    },
   },
 } as const;
 
 export type Locale = keyof typeof messages; // "es" | "en"
-
 export const DEFAULT_LOCALE: Locale = "es";
-
 export const LOCALE_STORAGE_KEY = "locale";

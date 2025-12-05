@@ -47,20 +47,21 @@ const Hero = () => {
   return (
     <section className="bg-primary">
       <VortexBackground
-        backgroundColor="transparent"
-        containerClassName="
-          bg-primary
-          min-h-[70vh]
-          md:min-h-[72vh]
-          lg:min-h-[75vh]
-        "
-        className="
-          mx-auto grid max-w-[1200px] grid-cols-1 items-center
-          gap-8 px-4 pt-16 pb-12
-          md:grid-cols-2 md:gap-10
-          lg:pt-20 lg:pb-14 lg:gap-16
-        "
-      >
+  backgroundColor="transparent"
+  containerClassName="
+    bg-primary
+    min-h-[55vh]
+    md:min-h-[50vh]
+    lg:min-h-[48vh]
+  "
+  className="
+    mx-auto grid max-w-[1200px] grid-cols-1 items-center
+    gap-8 px-4 pt-16 pb-12
+    md:grid-cols-2 md:gap-10
+    lg:pt-20 lg:pb-14 lg:gap-16
+  "
+>
+
         {/* Columna izquierda */}
         <div className="flex min-h-48 flex-col justify-between lg:min-h-56 lg:max-w-[33.75rem]">
           {/* Título + bandera */}

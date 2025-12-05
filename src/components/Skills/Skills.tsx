@@ -32,8 +32,8 @@ const backendStack = [
 
 const Skills = () => {
   return (
-    <section className="py-10">
-      <TechMarquee items={backendStack} />
+    <section className="pt-2 pb-0">
+     <TechMarquee items={backendStack} />
     </section>
   )
 }
