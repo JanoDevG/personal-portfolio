@@ -6,7 +6,9 @@ import Lottie from "lottie-react";
 
 import businessTeamAnimation from "@/assets/animations/Business_team.json";
 import itDealAnimation from "@/assets/animations/IT_Deal.json";
-import projectEvolutionStepsAnimation from "@/assets/animations/Project_Evolution_Steps.json";
+import assemblingPuzzle from "@/assets/animations/Assembling_puzzle.json";
+import buildingWebsite from "@/assets/animations/Building_Website.json";
+import contractProcess from "@/assets/animations/contract_process.json";
 
 type HeroAnimationProps = {
   className?: string;
@@ -18,7 +20,9 @@ const TRANSITION_TIME = 400; // ms para el scale in/out
 const animations = [
   businessTeamAnimation,
   itDealAnimation,
-  projectEvolutionStepsAnimation,
+  assemblingPuzzle,
+  buildingWebsite,
+  contractProcess,
 ];
 
 const HeroAnimation = ({ className }: HeroAnimationProps) => {
@@ -74,15 +78,17 @@ const HeroAnimation = ({ className }: HeroAnimationProps) => {
         `}
       >
         <Lottie
-          key={currentIndex} // fuerza a reiniciar la animación al cambiar de JSON
-          animationData={currentAnimation}
-          loop
-          autoplay
-          style={{
-            width: "100%",
-            height: "auto",
-          }}
-        />
+  key={currentIndex}
+  animationData={currentAnimation}
+  loop
+  autoplay
+  style={{
+    width: "100%",
+    height: "auto",
+    filter: currentAnimation === contractProcess ? "invert(1)" : "none",
+  }}
+/>
+
       </div>
     </div>
   );

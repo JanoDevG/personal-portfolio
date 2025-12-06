@@ -1,10 +1,10 @@
 'use client'
 
 import { Project } from '@/lib/types'
-import ProjectCard from './ProjectCard'
 import { LayoutTextFlip } from '@/components/UI/LayoutTextFlip'
 import { SparklesCore } from '../UI/sparkles'
 import { messages, Locale } from '@/i18n/messages'
+import { ExecutiveBentoGrid } from "@/components/Projects/ExecutiveBentoGrid";
 
 interface ProjectSectionProps {
   projects: Project[]
@@ -44,7 +44,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ projects, locale }) => 
 
             </div>
 
-            {/* SPARKLES COLOCADOS ENTRE RECUADRO (z-10) Y TEXTO (z-30) */}
+            {/* SPARKLES ENTRE RECUADRO (z-10) Y TEXTO (z-30) */}
             <div
               className="
                 pointer-events-none
@@ -89,6 +89,11 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ projects, locale }) => 
           <p className="mt-6 max-w-3xl text-sm leading-relaxed text-primary-content/80 md:text-base z-10">
             {t.description}
           </p>
+
+          {/* BENTO GRID */}
+          <div className="w-full mt-10">
+            <ExecutiveBentoGrid />
+          </div>
 
         </div>
       </div>
