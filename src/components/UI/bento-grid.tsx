@@ -2,7 +2,23 @@
 
 import React from "react";
 
-export const BentoGrid = ({ children }) => {
+type Alignment = "left" | "center" | "right";
+
+type BentoGridProps = {
+  children: React.ReactNode;
+};
+
+type BentoGridItemProps = {
+  className?: string;
+  title?: string | React.ReactNode;
+  description?: string | React.ReactNode;
+  header?: React.ReactNode;
+  icon?: React.ReactNode;
+  index?: number; // lo dejamos por compatibilidad aunque ya no lo usamos
+  align?: Alignment;
+};
+
+export const BentoGrid: React.FC<BentoGridProps> = ({ children }) => {
   return (
     <div
       className="
@@ -17,35 +33,35 @@ export const BentoGrid = ({ children }) => {
   );
 };
 
-export const BentoGridItem = ({
+export const BentoGridItem: React.FC<BentoGridItemProps> = ({
   className,
   title,
   description,
   header,
   icon,
-  index,
-}: {
-  className?: string;
-  title?: string | React.ReactNode;
-  description?: string | React.ReactNode;
-  header?: React.ReactNode;
-  icon?: React.ReactNode;
-  index?: number;
+  align,
 }) => {
-  // Detectar si esta tarjeta es ancha
   const isWide = className?.includes("col-span-2");
 
-  // Calcular posición en la fila según su índice (solo si no es ancha)
-  const col = index !== undefined ? index % 3 : 0;
+  let alignment: string;
 
-  const alignment =
-    isWide
-      ? "text-center items-center"
-      : col === 2
-      ? "text-right items-end"
-      : col === 0
-      ? "text-left items-start"
-      : "text-center items-center";
+  if (isWide) {
+    // Las wide siempre centradas
+    alignment = "text-center items-center";
+  } else {
+    switch (align) {
+      case "right":
+        alignment = "text-right items-end";
+        break;
+      case "center":
+        alignment = "text-center items-center";
+        break;
+      case "left":
+      default:
+        alignment = "text-left items-start";
+        break;
+    }
+  }
 
   return (
     <div
@@ -56,21 +72,9 @@ export const BentoGridItem = ({
         ${className ?? ""}
       `}
     >
-      {/* Skeleton solo si existe */}
-      {!isWide && header && (
-        <div className="mb-2">
-          {header}
-        </div>
-      )}
+      {!isWide && header && <div className="mb-2">{header}</div>}
+      {isWide && header && <div className="mb-3 flex justify-center">{header}</div>}
 
-      {/* Si es wide: dejamos el header centrado arriba */}
-      {isWide && header && (
-        <div className="mb-3 flex justify-center">
-          {header}
-        </div>
-      )}
-
-      {/* Contenido alineado dinámicamente */}
       <div
         className={`
           flex flex-col gap-2 transition-all duration-300 
@@ -78,28 +82,24 @@ export const BentoGridItem = ({
           ${alignment}
         `}
       >
-        {/* Ícono + título */}
-        <div
-          className={`
-            flex gap-2
-            ${alignment}
-          `}
-        >
-          {/* Ícono al lado correcto */}
-          {alignment === "text-right items-end" ? (
+        <div className={`flex gap-2 ${alignment}`}>
+          {alignment.startsWith("text-right") ? (
             <>
-              <h3 className="font-semibold text-primary-content text-lg">{title}</h3>
+              <h3 className="font-semibold text-primary-content text-lg">
+                {title}
+              </h3>
               {icon}
             </>
           ) : (
             <>
               {icon}
-              <h3 className="font-semibold text-primary-content text-lg">{title}</h3>
+              <h3 className="font-semibold text-primary-content text-lg">
+                {title}
+              </h3>
             </>
           )}
         </div>
 
-        {/* Descripción */}
         <p className="text-sm text-primary-content/70 leading-snug max-w-[95%]">
           {description}
         </p>
@@ -107,4 +107,3 @@ export const BentoGridItem = ({
     </div>
   );
 };
-
