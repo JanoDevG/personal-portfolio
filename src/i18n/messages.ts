@@ -73,7 +73,6 @@ export const messages = {
       ],
     },
 
-    // 🟩 NUEVO: textos de la Bento Grid ejecutiva
     executiveGrid: {
       banking: {
         title: "Sistemas bancarios y misión crítica",
@@ -83,7 +82,7 @@ export const messages = {
       reactive: {
         title: "Arquitecturas backend reactivas",
         description:
-         "Programación reactiva con Java (Spring WebFlux) para construir backends transaccionales de alta demanda, que sigan respondiendo rápido incluso con miles de usuarios y ante fallas inesperadas.",
+          "Programación reactiva con Java (Spring WebFlux) para construir backends transaccionales de alta demanda, que sigan respondiendo rápido incluso con miles de usuarios y ante fallas inesperadas.",
       },
       integration: {
         title: "Integración y mensajería empresarial",
@@ -111,13 +110,42 @@ export const messages = {
           "Código Java limpio y testeable, pruebas unitarias sólidas, code reviews y trabajo cercano con equipos DevOps y ágiles para entregar cambios frecuentes de forma segura.",
       },
     },
+
+    contact: {
+      title: "Gracias por llegar hasta aquí",
+      subtitle: "¿Hablamos?",
+      description:
+        "Si esta página te ayudó a conocer mejor cómo pienso y cómo trabajo, estaré encantado de seguir la conversación. Ya sea para una oportunidad laboral, colaboración técnica o simplemente compartir ideas sobre este mundo sin límites.",
+      cta: "Escríbeme a",
+      socialTitle: "También podemos conectar por:",
+      disclaimer:
+        "Dentro de un horario hábil, siéntete libre de contactarte conmigo ☺️",
+    },
+
+    // 🟩 NUEVO: footer i18n (ES)
+    footer: {
+      techTitle: "Tecnologías del proyecto",
+      techDescription:
+        "Este proyecto web fue desarrollado con tecnologías modernas como Next.js 15, React 19, TailwindCSS 4, animaciones con Framer Motion y Lottie, además de efectos visuales con tsparticles y ruido simplex. Su objetivo es ofrecer un portafolio rápido, accesible y optimizado.",
+      template:
+        "Plantilla base utilizada como punto de partida:",
+      templateLinkText: "nextjs-portfolio-template",
+      locationTitle: "Ubicación",
+      locationText: "Santiago de Chile, Región Metropolitana de Chile",
+      licenseTitle: "Licencia",
+      licenseText: "Proyecto Open Source bajo licencia MIT 2.0",
+      copy: "© 2025 — Desarrollado por Alejandro Gutiérrez",
+    },
   },
 
+  /* ==========================
+     ===== English version =====
+     ========================== */
   en: {
     seo: {
       title: "Alejandro Gutiérrez | Senior Java Software Engineer",
       description:
-        "Senior Software Engineer and Java Developer Certified (OCP 17). I specialize in system integration and enterprise service-oriented architecture (SOA) using Java and Spring Boot, leading robust and maintainable solutions.",
+        "Senior Software Engineer and Java Developer Certified (OCP 17). I specialize in system integration and enterprise SOA architecture using Java and Spring Boot, delivering robust and maintainable solutions.",
       siteName: "Alejandro's Portfolio",
       twitterCreator: "@alejandro_dev",
     },
@@ -143,7 +171,7 @@ export const messages = {
       name: "Alejandro Gutiérrez",
       chileAria: "Official website of the Government of Chile",
       subtitle:
-        "I design and build robust backend solutions in Java and Spring Boot, integrating enterprise systems and leading engineering teams to ship reliable, production-ready products.",
+        "I design and build robust backend solutions in Java and Spring Boot, integrating enterprise systems and leading engineering teams to production-ready delivery.",
       imageAlt: "Alejandro Gutiérrez - Senior Java Software Engineer",
 
       roles: [
@@ -151,8 +179,8 @@ export const messages = {
         "Senior backend developer",
         "Certified in Java - Oracle Certified Professional 17 (OCP 17)",
         "Java and Spring Boot enterprise solutions",
-        "Microservices and modular monoliths with service-oriented (SOA) design",
-        "BIAN and enterprise / banking development",
+        "Microservices and modular monoliths",
+        "BIAN and enterprise/banking development",
         "Enterprise software architecture",
         "Reactive programming with Spring WebFlux",
         "IT project lead",
@@ -175,7 +203,7 @@ export const messages = {
     executive: {
       title: "The value I bring to",
       description:
-        "I design and lead robust backend solutions used in enterprise and banking environments, integrating mission-critical systems and building scalable platforms with Java, Spring Boot, and WebFlux.",
+        "I design and lead robust backend solutions used in enterprise and banking environments, integrating mission-critical systems and building scalable platforms with Java, Spring Boot and WebFlux.",
       words: [
         "reactive backend architectures",
         "complex banking integrations",
@@ -187,47 +215,70 @@ export const messages = {
       ],
     },
 
-    // 🟩 NUEVO: textos de la Bento Grid ejecutiva (EN)
     executiveGrid: {
-  banking: {
-    title: "Banking systems & mission-critical platforms",
-    description:
-      "Design of banking and enterprise mission-critical platforms focused on resilience, high availability and scalability under heavy transaction volumes.",
-  },
-  reactive: {
-    title: "Reactive backend architectures",
-    description:
-      "Reactive programming with Java (Spring WebFlux) to build high-demand transactional backends that stay responsive even with thousands of users and unexpected failures.",
-  },
-  integration: {
-    title: "Enterprise integration & messaging",
-    description:
-      "Kafka, event-driven architectures, REST APIs, message queues and integration patterns to connect complex systems and keep information flowing reliably between services.",
-  },
-  evolution: {
-    title: "Evolutionary architecture & technical leadership",
-    description:
-      "Definition of architecture standards, design reviews and technical mentoring so teams can deliver sustainable software aligned with product vision.",
-  },
-  observability: {
-    title: "Observability & performance",
-    description:
-      "Distributed tracing, metrics and logs to detect performance issues before they impact the business and to keep production environments stable.",
-  },
-  data: {
-    title: "Data modeling & persistence",
-    description:
-      "Data modeling and query/index optimization for transactional applications and high-demand services.",
-  },
-  devops: {
-    title: "Engineering practices & DevOps culture",
-    description:
-      "Clean, testable Java code, solid unit testing, code reviews and close collaboration with DevOps and agile teams to deliver frequent, safe changes.",
-  },
+      banking: {
+        title: "Banking systems & mission-critical platforms",
+        description:
+          "Design of banking and enterprise platforms focused on resilience, high availability and scalability under heavy load.",
+      },
+      reactive: {
+        title: "Reactive backend architectures",
+        description:
+          "Reactive programming with Java (Spring WebFlux) to build high-demand transactional backends that stay responsive even under load or failures.",
+      },
+      integration: {
+        title: "Enterprise integration & messaging",
+        description:
+          "Kafka, event-driven architectures, REST APIs and messaging patterns for reliable communication between complex systems.",
+      },
+      evolution: {
+        title: "Evolutionary architecture & technical leadership",
+        description:
+          "Definition of architectural standards, design reviews and mentoring for sustainable software delivery.",
+      },
+      observability: {
+        title: "Observability & performance",
+        description:
+          "Distributed tracing, metrics and logs to detect performance issues early and maintain stability.",
+      },
+      data: {
+        title: "Data modeling & persistence",
+        description:
+          "Data modeling and performance optimizations for transactional services.",
+      },
+      devops: {
+        title: "Engineering practices & DevOps culture",
+        description:
+          "Clean, testable Java code, unit testing, code reviews, and close collaboration with DevOps and agile teams.",
+      },
+    },
+
+    contact: {
+      title: "Thanks for reaching this far",
+      subtitle: "Shall we talk?",
+      description:
+        "If this page helped you understand how I think and work, I'd be happy to continue the conversation—whether it's a job opportunity, technical collaboration, or simply sharing ideas.",
+      cta: "Write me at",
+      socialTitle: "We can also connect through:",
+      disclaimer: "Feel free to contact me during business hours ☺️",
+    },
+
+    // 🟩 NEW: footer i18n (EN)
+    footer: {
+      techTitle: "Project technologies",
+      techDescription:
+        "This web project was built with modern technologies such as Next.js 15, React 19, TailwindCSS 4, animations powered by Framer Motion and Lottie, along with visual effects using tsparticles and simplex noise. The goal is to offer a fast, accessible and optimized portfolio.",
+      template: "Base template used as a starting point:",
+      templateLinkText: "nextjs-portfolio-template",
+      locationTitle: "Location",
+      locationText: "Santiago, Metropolitan Region of Chile",
+      licenseTitle: "License",
+      licenseText: "Open Source project under MIT 2.0 license",
+      copy: "© 2025 — Developed by Alejandro Gutiérrez",
     },
   },
 } as const;
 
-export type Locale = keyof typeof messages; // "es" | "en"
+export type Locale = keyof typeof messages; 
 export const DEFAULT_LOCALE: Locale = "es";
 export const LOCALE_STORAGE_KEY = "locale";

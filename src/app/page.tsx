@@ -1,5 +1,5 @@
 import { skillList } from '@/appData'
-import ContactSection from '@/components/Contact/ContactSection'
+import ContactSection from '@/components/Contact/ContactSection';
 import Hero from '@/components/Hero/Hero'
 import ProjectSection from '@/components/Projects/ProjectSection'
 import Skills from '@/components/Skills/Skills'
