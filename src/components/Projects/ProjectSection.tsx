@@ -1,9 +1,10 @@
 'use client'
 
+import { useState, useEffect } from "react"
 import { Project } from '@/lib/types'
 import { LayoutTextFlip } from '@/components/UI/LayoutTextFlip'
 import { SparklesCore } from '../UI/sparkles'
-import { messages, Locale } from '@/i18n/messages'
+import { messages, DEFAULT_LOCALE, LOCALE_STORAGE_KEY, type Locale } from '@/i18n/messages'
 import { ExecutiveBentoGrid } from "@/components/Projects/ExecutiveBentoGrid";
 
 interface ProjectSectionProps {
@@ -13,8 +14,34 @@ interface ProjectSectionProps {
 
 const ProjectSection: React.FC<ProjectSectionProps> = ({ projects, locale }) => {
 
-  const safeLocale: Locale = (locale === "en" || locale === "es") ? locale : "es"
-  const t = messages[safeLocale].executive
+  // ⭐ Locale interno reactivo (importante)
+  const [currentLocale, setCurrentLocale] = useState<Locale>(
+    locale ?? DEFAULT_LOCALE
+  );
+
+  useEffect(() => {
+    // 1) Cargar desde localStorage
+    const stored = localStorage.getItem(LOCALE_STORAGE_KEY) as Locale | null;
+    if (stored === "es" || stored === "en") {
+      setCurrentLocale(stored);
+    }
+
+    // 2) Escuchar cambios globales
+    const handler = (event: Event) => {
+      const custom = event as CustomEvent<Locale>;
+      const nextLocale = custom.detail;
+
+      if (nextLocale === "es" || nextLocale === "en") {
+        setCurrentLocale(nextLocale);
+      }
+    };
+
+    window.addEventListener("locale-change", handler);
+    return () => window.removeEventListener("locale-change", handler);
+  }, []);
+
+  // ⭐ Traducciones
+  const t = messages[currentLocale].executive;
 
   return (
     <section id="projects" className="pt-8 md:pt-10">
@@ -31,20 +58,15 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ projects, locale }) => 
           {/* TÍTULO + TEXTO ANIMADO + LAYERS */}
           <div className="relative flex flex-col items-center">
 
-            {/* CONTENEDOR QUE CONTROLA Z-INDEX DEL RECUADRO */}
             <div className="relative z-[10]">
-
-              {/* TEXTO ANIMADO – SIEMPRE SOBRE LAS PARTÍCULAS */}
               <LayoutTextFlip
-                text={t.title}
-                words={t.words}
+                locale={currentLocale}
                 duration={3000}
                 className="relative z-[30]"
               />
-
             </div>
 
-            {/* SPARKLES ENTRE RECUADRO (z-10) Y TEXTO (z-30) */}
+            {/* SPARKLES */}
             <div
               className="
                 pointer-events-none
@@ -71,7 +93,6 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ projects, locale }) => 
                   className="h-full w-full"
                 />
 
-                {/* Línea verde */}
                 <div
                   className="
                     absolute inset-x-0 top-0
@@ -85,14 +106,14 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ projects, locale }) => 
             </div>
           </div>
 
-          {/* DESCRIPCIÓN */}
+          {/* DESCRIPCIÓN TRADUCIBLE */}
           <p className="mt-6 max-w-3xl text-sm leading-relaxed text-primary-content/80 md:text-base z-10">
             {t.description}
           </p>
 
           {/* BENTO GRID */}
           <div className="w-full mt-10">
-            <ExecutiveBentoGrid />
+            <ExecutiveBentoGrid locale={currentLocale} />
           </div>
 
         </div>

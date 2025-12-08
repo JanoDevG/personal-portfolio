@@ -122,13 +122,47 @@ export const messages = {
         "Dentro de un horario hábil, siéntete libre de contactarte conmigo ☺️",
     },
 
-    // 🟩 NUEVO: footer i18n (ES)
+    /* ===========================================================
+       🟩 NUEVO: EDUCATION SECTION (ES)
+       =========================================================== */
+    education: {
+      title: "Educación, certificaciones y formación continua",
+      subtitle: "Una vista rápida de mi formación profesional y técnica",
+
+      kinds: {
+        formal: "Educación formal",
+        cert: "Certificación",
+        learning: "Formación continua",
+      },
+
+      status: {
+        inProgress: "EN FORMACIÓN",
+        upcoming: "PRÓXIMAMENTE",
+      },
+
+      actions: {
+        verifyDegree: "Cómo verificar este título",
+        verifyCert: "Verificar certificación",
+      },
+
+      modal: {
+        title: "Verificación de título profesional",
+        privacy:
+          "Por privacidad, solo comparto mi certificado de título firmado digitalmente dentro de un proceso real de selección.",
+        contact:
+          "Si necesitas validarlo, contáctame por LinkedIn:",
+        understood: "Entendido",
+      },
+    },
+
+    /* ======================
+       FOOTER (ES)
+       ====================== */
     footer: {
       techTitle: "Tecnologías del proyecto",
       techDescription:
         "Este proyecto web fue desarrollado con tecnologías modernas como Next.js 15, React 19, TailwindCSS 4, animaciones con Framer Motion y Lottie, además de efectos visuales con tsparticles y ruido simplex. Su objetivo es ofrecer un portafolio rápido, accesible y optimizado.",
-      template:
-        "Plantilla base utilizada como punto de partida:",
+      template: "Plantilla base utilizada como punto de partida:",
       templateLinkText: "nextjs-portfolio-template",
       locationTitle: "Ubicación",
       locationText: "Santiago de Chile, Región Metropolitana de Chile",
@@ -138,9 +172,9 @@ export const messages = {
     },
   },
 
-  /* ==========================
-     ===== English version =====
-     ========================== */
+  /* ===========================================================
+     ======================= ENGLISH =============================
+     =========================================================== */
   en: {
     seo: {
       title: "Alejandro Gutiérrez | Senior Java Software Engineer",
@@ -263,7 +297,42 @@ export const messages = {
       disclaimer: "Feel free to contact me during business hours ☺️",
     },
 
-    // 🟩 NEW: footer i18n (EN)
+    /* ===========================================================
+       🟩 EDUCATION (EN)
+       =========================================================== */
+    education: {
+      title: "Education, certifications and continuous learning",
+      subtitle: "A quick overview of my academic and technical formation",
+
+      kinds: {
+        formal: "Formal education",
+        cert: "Certification",
+        learning: "Continuous learning",
+      },
+
+      status: {
+        inProgress: "IN PROGRESS",
+        upcoming: "COMING SOON",
+      },
+
+      actions: {
+        verifyDegree: "How to verify this degree",
+        verifyCert: "Verify certification",
+      },
+
+      modal: {
+        title: "Degree verification",
+        privacy:
+          "For privacy reasons, I only share my official digital certificate during a real selection process.",
+        contact:
+          "If you need to validate it, contact me via LinkedIn:",
+        understood: "Understood",
+      },
+    },
+
+    /* ======================
+       FOOTER (EN)
+       ====================== */
     footer: {
       techTitle: "Project technologies",
       techDescription:
@@ -279,6 +348,6 @@ export const messages = {
   },
 } as const;
 
-export type Locale = keyof typeof messages; 
+export type Locale = keyof typeof messages;
 export const DEFAULT_LOCALE: Locale = "es";
 export const LOCALE_STORAGE_KEY = "locale";
