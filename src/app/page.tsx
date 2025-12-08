@@ -6,6 +6,7 @@ import Skills from '@/components/Skills/Skills'
 import TestimonialSection from '@/components/Testimonials/TestimonialSection'
 import { getAllProjects, getAllTestimonials } from '@/services'
 import { SuccessStoriesSection } from "@/components/SuccessStories/SuccessStoriesSection";
+import { EducationSection } from '@/components/Education/EducationSection'
 
 
 export default async function Home() {
@@ -22,7 +23,7 @@ export default async function Home() {
     <ProjectSection projects={projects} />
 
 <SuccessStoriesSection />
-
+<EducationSection />
 <TestimonialSection testimonials={testimonials} />
 
     <TestimonialSection testimonials={testimonials} />
