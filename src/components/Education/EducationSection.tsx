@@ -1,8 +1,11 @@
 // src/components/Education/EducationSection.tsx
 "use client";
 
+/* 🔥 UTILIDADES PARA TAMAÑOS DE LOGOS – EDITA AQUÍ CUANDO QUIERAS */
+import "@/app/globals.css"; // Asegura que Tailwind procese layers, si ya cargas esto ignóralo.
+
 import * as React from "react";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import { motion, AnimatePresence } from "motion/react";
 import {
   Collapsible,
@@ -18,8 +21,37 @@ import {
   IconX,
 } from "@tabler/icons-react";
 
+/* ⭐️ TAILWIND UTILITIES DEFINIDAS DENTRO DEL COMPONENTE */
+if (typeof window !== "undefined") {
+  const style = document.createElement("style");
+  style.innerHTML = `
+    @layer utilities {
+      .logo-rect {
+        width: 140px;
+        height: auto;
+      }
+      .logo-square {
+        height: 75px;
+        width: auto;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+/* 🔗 LINKEDIN REAL */
 const LINKEDIN_URL =
-  "https://www.linkedin.com/in/tu-perfil"; // TODO: reemplaza por tu perfil real
+  "https://www.linkedin.com/in/TU-USUARIO-AQUI";
+
+/* 🖼️ IMPORTACIÓN DE LOGOS */
+import inacapLogo from "@/assets/images/certifications/inacap-logo.png";
+import ocpLogo from "@/assets/images/certifications/OCPJSE17.png";
+import gcpLogo from "@/assets/images/certifications/gcp-logo.png";
+import udemyLogo from "@/assets/images/certifications/Udemy_logo.svg.png";
+import usachInsignia from "@/assets/images/certifications/INSIGNIAS2_Mesa-de-trabajo-1-copia-1.png";
+import vmwareSpringLogo from "@/assets/images/certifications/VMwareSpringProfessional2022.png";
+import azureLogo from "@/assets/images/certifications/azureFundamentalsLogo.png";
+import bianLogo from "@/assets/images/certifications/Bian-foundation-badge.svg";
 
 type EducationKind = "formal" | "cert" | "learning";
 type StatusTone = "in-progress" | "upcoming";
@@ -37,14 +69,15 @@ type EducationStory = {
   summary: string;
   details?: string;
   highlights?: string[];
-  logoSrc?: string;
+  logoSrc?: StaticImageData;
   logoAlt?: string;
   status?: EducationStatus;
-  // nuevos campos
   credentialUrl?: string;
   isDegree?: boolean;
+  logoClassName?: string;
 };
 
+/* CONFIGURACIONES */
 const kindConfig: Record<
   EducationKind,
   { label: string; icon: React.ComponentType<any>; className: string }
@@ -74,163 +107,125 @@ const statusToneConfig: Record<StatusTone, string> = {
     "border-slate-400/70 bg-slate-400/10 text-slate-200",
 };
 
+/* 🔥 LISTA COMPLETA DE HISTORIAS */
 const stories: EducationStory[] = [
   {
     kind: "formal",
     title: "Ingeniería en Informática",
-    context:
-      "Título profesional · Universidad Tecnológica de Chile INACAP",
+    context: "Título profesional · Universidad Tecnológica de Chile INACAP",
     period: "Carrera finalizada",
     summary:
       "Formación en ingeniería de software, bases de datos, arquitectura de sistemas y desarrollo de aplicaciones empresariales.",
     details:
-      "Este ciclo formal me dio la base sólida en programación, estructuras de datos, diseño de bases de datos, redes y fundamentos de arquitectura de software que luego he aplicado en entornos corporativos y bancarios.",
+      "Este ciclo formal me dio la base sólida en programación, estructuras de datos, diseño de bases de datos, redes y fundamentos de arquitectura de software.",
     highlights: [
-      "Énfasis en ingeniería de software y desarrollo orientado a capas.",
-      "Trabajo con bases de datos relacionales y modelado de datos.",
-      "Proyectos académicos orientados a aplicaciones empresariales reales.",
+      "Enfoque en ingeniería de software.",
+      "Modelado de datos y desarrollo empresarial.",
+      "Fundamentos aplicables a proyectos reales.",
     ],
     isDegree: true,
-    // logoSrc: "/logos/inacap.png",
-    // logoAlt: "Universidad Tecnológica de Chile INACAP",
+    logoSrc: inacapLogo,
+    logoAlt: "INACAP",
+    logoClassName: "logo-rect",
   },
   {
     kind: "cert",
     title: "Oracle Certified Professional: Java SE 17 Developer",
     context: "Certificación oficial · Oracle",
-    period: "Issued Jun 2025 · Expires Jun 2035 · Exam 1Z0-829",
-    summary:
-      "Certificación que valida dominio avanzado del lenguaje Java y de la plataforma Java SE 17.",
-    details:
-      "Refuerza de forma oficial mi experiencia práctica en Java con un respaldo reconocido a nivel internacional.",
+    period: "Issued Jun 2025",
+    summary: "Certificación que valida dominio avanzado del lenguaje Java SE 17.",
     highlights: [
-      "Profundización en APIs modernas de Java SE 17.",
-      "Concurrencia, colecciones, lambdas y streams.",
-      "Buenas prácticas de diseño orientado a objetos y manejo robusto de errores.",
+      "APIs modernas de Java.",
+      "Concurrencia, Streams, Lambdas.",
+      "Buenas prácticas de diseño.",
     ],
     credentialUrl:
-      "https://catalog-education.oracle.com/ords/certview/sharebadge?id=FD5390904EB94E5FCC800042B9450CF905AC2EE7DD75514ACD498A2622111888&trk=public_profile_see-credential",
-    // logoSrc: "/logos/ocp17.png",
-    // logoAlt: "Oracle Certified Professional Java SE 17 Developer",
+      "https://catalog-education.oracle.com/ords/certview/sharebadge?id=FD5390904EB94E5FCC800042B9450CF905AC2EE7DD75514ACD498A2622111888",
+    logoSrc: ocpLogo,
+    logoAlt: "OCP Java 17",
+    logoClassName: "logo-square",
   },
   {
     kind: "cert",
     title:
       "Programa Especializado – Developing APIs with Google Cloud's Apigee API Platform",
     context: "Coursera · Google Cloud",
-    period: "Issued Jan 2022",
-    summary:
-      "Programa especializado centrado en diseño, seguridad y operación de APIs usando Apigee sobre Google Cloud.",
-    details:
-      "Profundización en diseño de APIs contract-first, políticas de seguridad, versionado, monitoreo y ciclo de vida completo de APIs en entornos enterprise.",
-    highlights: [
-      "Diseño de APIs orientadas a contratos y reutilización.",
-      "Gestión de políticas de seguridad, cuotas y limitación de tráfico.",
-      "Visibilidad del ciclo de vida de APIs en plataformas cloud.",
-    ],
+    summary: "Especialización en diseño y operación de APIs APIGEE.",
     credentialUrl:
-      "https://www.coursera.org/account/accomplishments/specialization/certificate/Z6T3U29X29JS?trk=public_profile_see-credential",
-    // logoSrc: "/logos/google-cloud.png",
-    // logoAlt: "Google Cloud / Apigee",
+      "https://www.coursera.org/account/accomplishments/specialization/certificate/Z6T3U29X29JS",
+    logoSrc: gcpLogo,
+    logoAlt: "Google Cloud",
+    logoClassName: "logo-square",
   },
   {
     kind: "learning",
-    title: "Máster Completo en Java de cero a experto 2025 (+180 hrs)",
+    title: "Máster Completo en Java (+180 hrs)",
     context: "Udemy",
-    period: "Issued Jan 2024",
-    summary:
-      "Programa intensivo para reforzar desde fundamentos de Java hasta patrones avanzados y buenas prácticas modernas.",
-    details:
-      "Me permitió unificar y actualizar conocimientos de Java, reforzando áreas clave como colecciones, programación funcional, manejo de excepciones y diseño orientado a objetos.",
-    highlights: [
-      "+180 horas de contenido práctico en Java.",
-      "Cobertura de fundamentos, APIs modernas y patrones de diseño.",
-      "Aplicación práctica en proyectos y ejercicios guiados.",
-    ],
+    summary: "Intensivo para dominar Java moderno.",
     credentialUrl:
-      "https://www.udemy.com/certificate/UC-88f0712d-b71c-4591-bc30-3faa8db68586/?trk=public_profile_see-credential",
-    // logoSrc: "/logos/udemy.png",
-    // logoAlt: "Udemy",
+      "https://www.udemy.com/certificate/UC-88f0712d-b71c-4591-bc30-3faa8db68586/",
+    logoSrc: udemyLogo,
+    logoAlt: "Udemy Java Master",
+    logoClassName: "logo-rect",
   },
   {
     kind: "learning",
-    title: "Implementar GitFlow en GitLab y GitHub",
+    title: "Curso GitFlow en GitLab / GitHub",
     context: "Udemy",
-    summary:
-      "Curso práctico enfocado en la implementación de GitFlow en equipos que trabajan con GitLab y GitHub.",
-    details:
-      "Orientado a mejorar la colaboración entre desarrolladores, organización de ramas y soporte al ciclo de vida de desarrollo y despliegue.",
-    highlights: [
-      "Definición de flujos de ramas para features, releases y hotfixes.",
-      "Aplicación de GitFlow sobre GitLab y GitHub.",
-      "Mejor alineamiento entre flujos de desarrollo y pipelines CI/CD.",
-    ],
+    summary: "Práctica profesional de GitFlow para equipos.",
     credentialUrl:
-      "https://www.udemy.com/certificate/UC-91746dc2-a8ce-46b1-ba12-08b780fd53cd/?trk=public_profile_see-credential",
-    // logoSrc: "/logos/git.png",
-    // logoAlt: "Git / GitFlow",
+      "https://www.udemy.com/certificate/UC-91746dc2-a8ce-46b1-ba12-08b780fd53cd/",
+    logoSrc: udemyLogo,
+    logoAlt: "Udemy GitFlow",
+    logoClassName: "logo-rect",
   },
-  // 🔹 Próximos pasos (3 items separados)
+  /* 🔥 Próximos pasos */
   {
     kind: "learning",
     title: "Diplomado en Arquitectura y Seguridad Cloud",
-    context: "Universidad de Santiago de Chile (USACH)",
+    context: "USACH",
     period: "En formación",
     summary:
-      "Programa de posgrado orientado a arquitectura de software en la nube, seguridad y diseño de plataformas escalables.",
-    details:
-      "Profundización en arquitectura cloud, gobierno de plataformas, modelos de seguridad y patrones para sistemas distribuidos de misión crítica.",
-    highlights: [
       "Diseño de arquitecturas cloud seguras y escalables.",
-      "Buenas prácticas de gobierno, estándares y compliance.",
-      "Enfoque en escenarios empresariales y financieros.",
-    ],
-    status: {
-      label: "EN FORMACIÓN",
-      tone: "in-progress",
-    },
+    status: { label: "EN FORMACIÓN", tone: "in-progress" },
+    logoSrc: usachInsignia,
+    logoAlt: "USACH",
+    logoClassName: "logo-rect",
+  },
+  {
+    kind: "cert",
+    title: "BIAN Foundation Certification",
+    context: "BIAN",
+    summary:
+      "Estándar global para arquitecturas bancarias basadas en servicios.",
+    status: { label: "PRÓXIMAMENTE", tone: "upcoming" },
+    logoSrc: bianLogo,
+    logoAlt: "BIAN Foundation",
+    logoClassName: "logo-square",
   },
   {
     kind: "learning",
-    title:
-      "Certificación oficial de Spring (Spring Boot / Spring Professional)",
-    context: "VMware · Ecosistema Spring",
-    period: "Planificada",
-    summary:
-      "Próximo paso para formalizar la experiencia práctica con Spring Boot y su ecosistema en una certificación oficial.",
-    details:
-      "El foco es consolidar conocimientos en Spring Core, Spring Boot, Data, Security y prácticas de arquitectura para servicios y microservicios.",
-    highlights: [
-      "Cobertura de los módulos principales de Spring y Spring Boot.",
-      "Énfasis en aplicaciones empresariales y servicios de backend.",
-      "Refuerzo de buenas prácticas de arquitectura y pruebas.",
-    ],
-    status: {
-      label: "PRÓXIMAMENTE",
-      tone: "upcoming",
-    },
+    title: "Spring Professional Certification",
+    context: "VMware",
+    summary: "Certificación oficial sobre el ecosistema Spring.",
+    status: { label: "PRÓXIMAMENTE", tone: "upcoming" },
+    logoSrc: vmwareSpringLogo,
+    logoAlt: "VMware Spring",
+    logoClassName: "logo-square",
   },
   {
     kind: "learning",
-    title: "Certificación Microsoft Azure Fundamentals",
-    context: "Microsoft · Azure (nivel fundamental)",
-    period: "Planificada",
-    summary:
-      "Certificación de fundamentos de Azure para complementar la experiencia en backend y banca con conocimientos formales de cloud.",
-    details:
-      "Busco reforzar conceptos de servicios básicos de Azure, modelos de despliegue, seguridad y costos, como base para futuras certificaciones de arquitectura cloud.",
-    highlights: [
-      "Servicios fundamentales de Azure y sus casos de uso.",
-      "Conceptos de seguridad, identidad y gobernanza en la nube.",
-      "Modelo de precios, costos y responsabilidades compartidas.",
-    ],
-    status: {
-      label: "PRÓXIMAMENTE",
-      tone: "upcoming",
-    },
+    title: "Microsoft Azure Fundamentals",
+    context: "Microsoft",
+    summary: "Fundamentos esenciales de Azure Cloud.",
+    status: { label: "PRÓXIMAMENTE", tone: "upcoming" },
+    logoSrc: azureLogo,
+    logoAlt: "Azure Fundamentals",
+    logoClassName: "logo-square",
   },
 ];
 
+/* COMPONENTE TIMELINE */
 const EducationTimelineItem: React.FC<{
   story: EducationStory;
   index: number;
@@ -242,46 +237,27 @@ const EducationTimelineItem: React.FC<{
 
   return (
     <div className="relative pl-10 md:pl-12">
-      {/* Punto de la línea de tiempo con icono — centrado verticalmente */}
+      {/* Punto timeline */}
       <div className="absolute left-[12px] top-1/2 -translate-x-1/2 -translate-y-1/2">
-        <div
-          className="
-            flex h-5 w-5 items-center justify-center
-            rounded-full bg-secondary border border-accent/50
-          "
-        >
+        <div className="flex h-5 w-5 items-center justify-center rounded-full bg-secondary border border-accent/50">
           <KindIcon className="h-3 w-3 text-accent" />
         </div>
       </div>
 
       <Collapsible open={open} onOpenChange={setOpen}>
-        <CollapsibleTrigger className="w-full text-left focus:outline-none">
-          <div
-            className="
-              rounded-xl border border-accent/20 bg-secondary/90
-              px-4 py-3 md:px-5 md:py-4
-              transition-colors hover:border-accent/60
-            "
-          >
+        <CollapsibleTrigger className="w-full text-left">
+          <div className="rounded-xl border border-accent/20 bg-secondary/90 px-4 py-3 md:px-5 md:py-4 transition-colors hover:border-accent/60">
             <div className="flex items-start justify-between gap-3">
-              {/* Texto principal */}
               <div className="flex-1 space-y-1">
-                <div className="flex flex-wrap items-center gap-2">
-                  <p className="text-sm font-semibold text-primary-content">
-                    {story.title}
-                  </p>
-                </div>
-
-                <p className="text-[11px] text-primary-content/70">
-                  {story.context}
+                <p className="text-sm font-semibold text-primary-content">
+                  {story.title}
                 </p>
-
+                <p className="text-[11px] text-primary-content/70">{story.context}</p>
                 {story.period && (
                   <p className="text-[11px] font-mono text-primary-content/55">
                     {story.period}
                   </p>
                 )}
-
                 {story.status && (
                   <span
                     className={`
@@ -296,24 +272,9 @@ const EducationTimelineItem: React.FC<{
                 )}
               </div>
 
-              {/* Logo + tipo + chevron */}
               <div className="flex flex-col items-end gap-2">
-                {story.logoSrc && (
-                  <Image
-                    src={story.logoSrc}
-                    alt={story.logoAlt || story.title}
-                    width={80}
-                    height={24}
-                    className="h-5 w-auto object-contain opacity-80"
-                  />
-                )}
-
                 <span
-                  className={`
-                    inline-flex items-center gap-1 rounded-full border px-2 py-[2px]
-                    text-[10px] font-mono uppercase tracking-wide
-                    ${cfg.className}
-                  `}
+                  className={`inline-flex items-center gap-1 rounded-full border px-2 py-[2px] text-[10px] font-mono uppercase tracking-wide ${cfg.className}`}
                 >
                   <cfg.icon className="h-3 w-3" />
                   <span>{cfg.label}</span>
@@ -322,7 +283,6 @@ const EducationTimelineItem: React.FC<{
                 <motion.div
                   animate={{ rotate: open ? 180 : 0 }}
                   transition={{ duration: 0.2 }}
-                  className="mt-1"
                 >
                   <IconChevronDown className="h-4 w-4 text-primary-content/65" />
                 </motion.div>
@@ -335,56 +295,52 @@ const EducationTimelineItem: React.FC<{
           {open && (
             <CollapsibleContent forceMount>
               <motion.div
-                key="edu-content"
                 initial={{ opacity: 0, y: -4 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -4 }}
                 transition={{ duration: 0.2 }}
-                className="
-                  ml-1 mt-2 rounded-xl border border-primary-content/10 
-                  bg-secondary/80 px-4 py-3 md:ml-2 md:px-5 md:py-4
-                  text-sm text-primary-content/80
-                "
+                className="ml-1 mt-2 rounded-xl border border-primary-content/10 bg-secondary/80 px-4 py-3 md:px-5 md:py-4 text-sm text-primary-content/80"
               >
-                <p className="leading-snug">{story.summary}</p>
+                <p>{story.summary}</p>
 
                 {story.details && (
-                  <p className="mt-2 text-[13px] leading-snug text-primary-content/80">
-                    {story.details}
-                  </p>
+                  <p className="mt-2 text-[13px] leading-snug">{story.details}</p>
                 )}
 
-                {story.highlights && story.highlights.length > 0 && (
+                {/* Highlights */}
+                {story.highlights && (
                   <div className="mt-3">
                     <p className="text-[11px] font-mono uppercase tracking-[0.18em] text-accent/80">
                       Aspectos destacados
                     </p>
                     <ul className="mt-1 space-y-1.5 text-[13px] leading-snug">
                       {story.highlights.map((h) => (
-                        <li
-                          key={h}
-                          className="flex gap-2 text-primary-content/80"
-                        >
+                        <li key={h} className="flex gap-2">
                           <span className="mt-1 h-[5px] w-[5px] rounded-full bg-accent" />
-                          <span>{h}</span>
+                          {h}
                         </li>
                       ))}
                     </ul>
                   </div>
                 )}
 
-                {/* Botón de verificación dentro de la card expandida */}
+                {/* Logo */}
+                {story.logoSrc && (
+                  <div className="mt-4 flex justify-end">
+                    <Image
+                      src={story.logoSrc}
+                      alt={story.logoAlt || story.title}
+                      className={`object-contain opacity-90 ${story.logoClassName}`}
+                    />
+                  </div>
+                )}
+
+                {/* Botón verificación */}
                 {(story.isDegree || story.credentialUrl) && (
                   <div className="mt-4">
                     {story.isDegree ? (
                       <button
-                        type="button"
                         onClick={onRequestDegreeVerification}
-                        className="
-                          inline-flex items-center gap-1 rounded-full border 
-                          border-accent/60 px-3 py-1 text-xs font-medium 
-                          text-accent hover:bg-accent/10
-                        "
+                        className="inline-flex items-center gap-1 rounded-full border border-accent/60 px-3 py-1 text-xs text-accent hover:bg-accent/10"
                       >
                         Cómo verificar este título
                       </button>
@@ -392,12 +348,7 @@ const EducationTimelineItem: React.FC<{
                       <a
                         href={story.credentialUrl}
                         target="_blank"
-                        rel="noopener noreferrer"
-                        className="
-                          inline-flex items-center gap-1 rounded-full border 
-                          border-accent/60 px-3 py-1 text-xs font-medium 
-                          text-accent hover:bg-accent/10
-                        "
+                        className="inline-flex items-center gap-1 rounded-full border border-accent/60 px-3 py-1 text-xs text-accent hover:bg-accent/10"
                       >
                         Verificar certificación
                         <IconArrowUpRight className="h-3 w-3" />
@@ -414,6 +365,7 @@ const EducationTimelineItem: React.FC<{
   );
 };
 
+/* COMPONENTE PRINCIPAL */
 export const EducationSection: React.FC = () => {
   const [showDegreeModal, setShowDegreeModal] = React.useState(false);
 
@@ -424,80 +376,61 @@ export const EducationSection: React.FC = () => {
           Educación, certificaciones y formación continua
         </h2>
         <p className="mt-3 text-center text-sm md:text-base text-primary-content/75">
-          Una vista rápida de la formación que respalda mi trabajo como
-          desarrollador backend y arquitecto de software en entornos
-          empresariales y bancarios.
+          Una vista rápida de mi formación profesional y técnica.
         </p>
 
         <div className="mt-8 relative">
-          {/* Línea vertical de la timeline */}
           <div className="absolute left-[12px] top-0 bottom-3 hidden md:block border-l border-accent/30" />
 
           <div className="space-y-5">
-            {stories.map((story, index) => (
+            {stories.map((story, i) => (
               <EducationTimelineItem
-                key={story.title + index}
+                key={story.title + i}
                 story={story}
-                index={index}
-                onRequestDegreeVerification={() =>
-                  setShowDegreeModal(true)
-                }
+                index={i}
+                onRequestDegreeVerification={() => setShowDegreeModal(true)}
               />
             ))}
           </div>
         </div>
       </div>
 
-      {/* Modal para verificación de título profesional */}
+      {/* MODAL */}
       {showDegreeModal && (
         <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/60">
           <div className="w-full max-w-lg rounded-xl border border-accent/40 bg-secondary p-6 shadow-xl">
-            <div className="flex items-start justify-between gap-4">
+            <div className="flex justify-between items-start">
               <h3 className="text-lg font-semibold text-primary-content">
                 Verificación de título profesional
               </h3>
               <button
-                type="button"
                 onClick={() => setShowDegreeModal(false)}
                 className="rounded-full border border-accent/40 p-1 text-accent hover:bg-accent/10"
-                aria-label="Cerrar"
               >
                 <IconX className="h-4 w-4" />
               </button>
             </div>
 
-            <p className="mt-3 text-sm text-primary-content/80 leading-relaxed">
-              El certificado de título profesional contiene información
-              personal sensible. Por resguardo de privacidad, solo
-              comparto una copia firmada de este documento en el contexto
-              de un proceso de selección real y con una empresa
-              identificada.
+            <p className="mt-3 text-sm text-primary-content/80">
+              Por privacidad, solo comparto mi certificado de título firmado
+              digitalmente dentro de un proceso real de selección.
             </p>
 
-            <p className="mt-3 text-sm text-primary-content/80 leading-relaxed">
-              Si estás conduciendo un proceso de selección y necesitas
-              validar mi título, puedes contactarme a través de mi perfil
-              de LinkedIn. Con gusto coordinaré el envío de la
-              documentación necesaria:&nbsp;
+            <p className="mt-3 text-sm text-primary-content/80">
+              Si necesitas validarlo, contáctame por LinkedIn:
               <a
                 href={LINKEDIN_URL}
                 target="_blank"
-                rel="noopener noreferrer"
-                className="text-accent underline underline-offset-2"
+                className="text-accent underline ml-1"
               >
-                Ver perfil en LinkedIn
+                Ver perfil
               </a>
-              .
             </p>
 
             <div className="mt-5 flex justify-end">
               <button
-                type="button"
                 onClick={() => setShowDegreeModal(false)}
-                className="
-                  rounded-full border border-accent/60 px-4 py-1.5 
-                  text-sm font-medium text-accent hover:bg-accent/10
-                "
+                className="rounded-full border border-accent/60 px-4 py-1.5 text-sm text-accent hover:bg-accent/10"
               >
                 Entendido
               </button>
