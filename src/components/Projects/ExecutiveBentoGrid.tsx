@@ -16,12 +16,14 @@ import {
 
 import Lottie, { LottieRefCurrentProps } from "lottie-react";
 
+import { messages, DEFAULT_LOCALE, type Locale } from "@/i18n/messages";
+
 // Animaciones 1–3 (bloque Sistemas / Arquitecturas reactivas)
 import profile1 from "@/assets/animations/profile/1.json";
 import profile2 from "@/assets/animations/profile/2.json";
 import profile3 from "@/assets/animations/profile/3.json";
 
-// Animaciones 4–8 (bloque Arquitectura evolutiva / Observabilidad)
+// Animaciones 4–7 (bloque Arquitectura evolutiva / Observabilidad)
 import profile4 from "@/assets/animations/profile/4.json";
 import profile5 from "@/assets/animations/profile/5.json";
 import profile6 from "@/assets/animations/profile/6.json";
@@ -123,7 +125,7 @@ const ReactiveProfileHeader = () => {
   );
 };
 
-/* Header 2: arquitectura evolutiva / observabilidad (animaciones 4–8) */
+/* Header 2: arquitectura evolutiva / observabilidad (animaciones 4–7) */
 const ObservabilityProfileHeader = () => {
   const animations = [profile4, profile5, profile6, profile7];
 
@@ -172,68 +174,70 @@ const ObservabilityProfileHeader = () => {
   );
 };
 
-const items = [
-  // Fila 1
-  {
-    title: "Sistemas bancarios y misión crítica",
-    description:
-      "Diseño de plataformas bancarias y enterprise de misión crítica, enfocadas en resiliencia, alta disponibilidad y escalabilidad bajo alto volumen de transacciones.",
-    icon: <IconBuildingBank className="h-5 w-5 text-accent" stroke={1.5} />,
-    header: <ReactiveProfileHeader />,
-    className: "md:col-span-2",
-    // wide => centrado por defecto
-  },
-  {
-    title: "Arquitecturas backend reactivas",
-    description:
-      "Pipelines no bloqueantes con Java y Spring WebFlux para soportar altas tasas de solicitudes concurrentes sin degradar la experiencia de usuario y del sistema.",
-    icon: <IconTopologyStar3 className="h-5 w-5 text-accent" stroke={1.5} />,
-    align: "right",
-  },
+type ExecutiveBentoGridProps = {
+  locale?: Locale;
+};
 
-  // Fila 2
-  {
-    title: "Integración y mensajería empresarial",
-    description:
-      "Kafka, arquitecturas orientadas a eventos, APIs REST, colas de mensajes y patrones de integración para conectar sistemas complejos y hacer que la información fluya de forma confiable entre servicios.",
-    icon: <IconShare3 className="h-5 w-5 text-accent" stroke={1.5} />,
-    align: "left",
-  },
-  {
-    title: "Arquitectura evolutiva & liderazgo técnico",
-    description:
-      "Definición de estándares de arquitectura, revisión de diseño y mentoría técnica para que los equipos entreguen software sostenible y alineado a la visión de producto.",
-    icon: <IconUsersGroup className="h-5 w-5 text-accent" stroke={1.5} />,
-    header: <ObservabilityProfileHeader />,
-    className: "md:col-span-2",
-    // wide => centrado
-  },
+export const ExecutiveBentoGrid: React.FC<ExecutiveBentoGridProps> = ({
+  locale,
+}) => {
+  const safeLocale: Locale = locale ?? DEFAULT_LOCALE;
+  const t = messages[safeLocale].executiveGrid;
 
-  // Fila 3
-  {
-    title: "Observabilidad & rendimiento",
-    description:
-      "Trazas distribuidas, métricas y logs que permiten detectar problemas de rendimiento antes de que impacten al negocio y mantener estable el entorno productivo.",
-    icon: <IconActivityHeartbeat className="h-5 w-5 text-accent" stroke={1.5} />,
-    align: "left",
-  },
-  {
-    title: "Modelado & persistencia de datos",
-    description:
-      "Modelado de datos y optimización de consultas e índices para aplicaciones transaccionales y servicios con alta demanda.",
-    icon: <IconDatabase className="h-5 w-5 text-accent" stroke={1.5} />,
-    align: "center",
-  },
-  {
-    title: "Prácticas de ingeniería & cultura DevOps",
-    description:
-      "Código Java limpio y testeable, pruebas unitarias sólidas, code reviews y trabajo cercano con equipos DevOps y ágiles para entregar cambios frecuentes de forma segura.",
-    icon: <IconShieldCheck className="h-5 w-5 text-accent" stroke={1.5} />,
-    align: "right",
-  },
-];
+  const items = [
+    // Fila 1
+    {
+      title: t.banking.title,
+      description: t.banking.description,
+      icon: <IconBuildingBank className="h-5 w-5 text-accent" stroke={1.5} />,
+      header: <ReactiveProfileHeader />,
+      className: "md:col-span-2",
+    },
+    {
+      title: t.reactive.title,
+      description: t.reactive.description,
+      icon: <IconTopologyStar3 className="h-5 w-5 text-accent" stroke={1.5} />,
+      align: "right",
+    },
 
-export const ExecutiveBentoGrid = () => {
+    // Fila 2
+    {
+      title: t.integration.title,
+      description: t.integration.description,
+      icon: <IconShare3 className="h-5 w-5 text-accent" stroke={1.5} />,
+      align: "left",
+    },
+    {
+      title: t.evolution.title,
+      description: t.evolution.description,
+      icon: <IconUsersGroup className="h-5 w-5 text-accent" stroke={1.5} />,
+      header: <ObservabilityProfileHeader />,
+      className: "md:col-span-2",
+    },
+
+    // Fila 3
+    {
+      title: t.observability.title,
+      description: t.observability.description,
+      icon: (
+        <IconActivityHeartbeat className="h-5 w-5 text-accent" stroke={1.5} />
+      ),
+      align: "left",
+    },
+    {
+      title: t.data.title,
+      description: t.data.description,
+      icon: <IconDatabase className="h-5 w-5 text-accent" stroke={1.5} />,
+      align: "center",
+    },
+    {
+      title: t.devops.title,
+      description: t.devops.description,
+      icon: <IconShieldCheck className="h-5 w-5 text-accent" stroke={1.5} />,
+      align: "right",
+    },
+  ];
+
   return (
     <div className="mt-10 w-full">
       <BentoGrid>

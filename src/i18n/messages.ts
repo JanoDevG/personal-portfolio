@@ -30,8 +30,7 @@ export const messages = {
       chileAria: "Sitio oficial del Gobierno de Chile",
       subtitle:
         "Diseño e implemento soluciones backend robustas en Java y Spring Boot, integrando sistemas empresariales y liderando equipos técnicos para llevar productos de calidad a producción.",
-      imageAlt:
-        "Alejandro Gutiérrez - Ingeniero de Software Senior Java",
+      imageAlt: "Alejandro Gutiérrez - Ingeniero de Software Senior Java",
 
       roles: [
         "Senior Software Engineer",
@@ -73,6 +72,45 @@ export const messages = {
         "equipos técnicos de alto desempeño",
       ],
     },
+
+    // 🟩 NUEVO: textos de la Bento Grid ejecutiva
+    executiveGrid: {
+      banking: {
+        title: "Sistemas bancarios y misión crítica",
+        description:
+          "Diseño de plataformas bancarias y enterprise de misión crítica, enfocadas en resiliencia, alta disponibilidad y escalabilidad bajo alto volumen de transacciones.",
+      },
+      reactive: {
+        title: "Arquitecturas backend reactivas",
+        description:
+         "Programación reactiva con Java (Spring WebFlux) para construir backends transaccionales de alta demanda, que sigan respondiendo rápido incluso con miles de usuarios y ante fallas inesperadas.",
+      },
+      integration: {
+        title: "Integración y mensajería empresarial",
+        description:
+          "Kafka, arquitecturas orientadas a eventos, APIs REST, colas de mensajes y patrones de integración para conectar sistemas complejos y hacer que la información fluya de forma confiable entre servicios.",
+      },
+      evolution: {
+        title: "Arquitectura evolutiva & liderazgo técnico",
+        description:
+          "Definición de estándares de arquitectura, revisión de diseño y mentoría técnica para que los equipos entreguen software sostenible y alineado a la visión de producto.",
+      },
+      observability: {
+        title: "Observabilidad & rendimiento",
+        description:
+          "Trazas distribuidas, métricas y logs que permiten detectar problemas de rendimiento antes de que impacten al negocio y mantener estable el entorno productivo.",
+      },
+      data: {
+        title: "Modelado & persistencia de datos",
+        description:
+          "Modelado de datos y optimización de consultas e índices para aplicaciones transaccionales y servicios con alta demanda.",
+      },
+      devops: {
+        title: "Prácticas de ingeniería & cultura DevOps",
+        description:
+          "Código Java limpio y testeable, pruebas unitarias sólidas, code reviews y trabajo cercano con equipos DevOps y ágiles para entregar cambios frecuentes de forma segura.",
+      },
+    },
   },
 
   en: {
@@ -106,8 +144,7 @@ export const messages = {
       chileAria: "Official website of the Government of Chile",
       subtitle:
         "I design and build robust backend solutions in Java and Spring Boot, integrating enterprise systems and leading engineering teams to ship reliable, production-ready products.",
-      imageAlt:
-        "Alejandro Gutiérrez - Senior Java Software Engineer",
+      imageAlt: "Alejandro Gutiérrez - Senior Java Software Engineer",
 
       roles: [
         "Senior Software Engineer",
@@ -148,6 +185,45 @@ export const messages = {
         "high-traffic enterprise systems",
         "high-performance engineering teams",
       ],
+    },
+
+    // 🟩 NUEVO: textos de la Bento Grid ejecutiva (EN)
+    executiveGrid: {
+  banking: {
+    title: "Banking systems & mission-critical platforms",
+    description:
+      "Design of banking and enterprise mission-critical platforms focused on resilience, high availability and scalability under heavy transaction volumes.",
+  },
+  reactive: {
+    title: "Reactive backend architectures",
+    description:
+      "Reactive programming with Java (Spring WebFlux) to build high-demand transactional backends that stay responsive even with thousands of users and unexpected failures.",
+  },
+  integration: {
+    title: "Enterprise integration & messaging",
+    description:
+      "Kafka, event-driven architectures, REST APIs, message queues and integration patterns to connect complex systems and keep information flowing reliably between services.",
+  },
+  evolution: {
+    title: "Evolutionary architecture & technical leadership",
+    description:
+      "Definition of architecture standards, design reviews and technical mentoring so teams can deliver sustainable software aligned with product vision.",
+  },
+  observability: {
+    title: "Observability & performance",
+    description:
+      "Distributed tracing, metrics and logs to detect performance issues before they impact the business and to keep production environments stable.",
+  },
+  data: {
+    title: "Data modeling & persistence",
+    description:
+      "Data modeling and query/index optimization for transactional applications and high-demand services.",
+  },
+  devops: {
+    title: "Engineering practices & DevOps culture",
+    description:
+      "Clean, testable Java code, solid unit testing, code reviews and close collaboration with DevOps and agile teams to deliver frequent, safe changes.",
+  },
     },
   },
 } as const;
