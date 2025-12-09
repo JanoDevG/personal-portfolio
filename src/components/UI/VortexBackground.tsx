@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { createNoise3D } from "simplex-noise";
 import { motion } from "framer-motion";
 
@@ -17,18 +17,37 @@ type VortexBackgroundProps = {
   backgroundColor?: string;
 };
 
-/** Utilidad mínima para unir clases */
 const cn = (...classes: Array<string | undefined | null | false>) =>
   classes.filter(Boolean).join(" ");
 
-const PREMIUM_PALETTE = [
-  110, // 💚 verde fluorescente premium
-  150, // verde claro spring
-  165, // turquesa verdoso
-  45,  // dorado elegante
-  35,  // dorado oscuro cálido
-  215, // azul profundo brillante
-];
+/* -------------------------------------------------------------
+   Convertidor HEX → Hue dinámico
+------------------------------------------------------------- */
+const cssVarToHue = (name: string): number => {
+  const raw = getComputedStyle(document.documentElement)
+    .getPropertyValue(name)
+    .trim();
+
+  if (!raw || !raw.startsWith("#")) return 200;
+
+  const hex = raw.replace("#", "");
+  const r = parseInt(hex.substring(0, 2), 16) / 255;
+  const g = parseInt(hex.substring(2, 4), 16) / 255;
+  const b = parseInt(hex.substring(4, 6), 16) / 255;
+
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+
+  let h = 0;
+
+  if (max !== min) {
+    if (max === r) h = (60 * ((g - b) / (max - min)) + 360) % 360;
+    else if (max === g) h = 60 * ((b - r) / (max - min)) + 120;
+    else h = 60 * ((r - g) / (max - min)) + 240;
+  }
+
+  return Math.round(h);
+};
 
 const VortexBackground: React.FC<VortexBackgroundProps> = ({
   children,
@@ -45,8 +64,54 @@ const VortexBackground: React.FC<VortexBackgroundProps> = ({
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
+  /* ---------------------------------------------------------
+     PALETA DINÁMICA
+  --------------------------------------------------------- */
+  const [palette, setPalette] = useState<number[]>([]);
+
+  useEffect(() => {
+    const computePalette = () => {
+      const theme = document.documentElement.getAttribute("data-theme");
+      const isDark = theme === "dark";
+
+      if (isDark) {
+        return [
+          cssVarToHue("--a"),
+          cssVarToHue("--pc"),
+          cssVarToHue("--sc"),
+          cssVarToHue("--tc"),
+        ];
+      }
+
+      // Paleta especial para modo claro
+      return [215, 195, 175, 255];
+    };
+
+    const newPalette = computePalette();
+    setPalette(newPalette);
+
+    const observer = new MutationObserver(() => {
+      setPalette(computePalette());
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  const randomHue = () =>
+    palette[Math.floor(Math.random() * palette.length)] ?? 200;
+
+  /* ---------------------------------------------------------
+     SISTEMA DE PARTÍCULAS
+  --------------------------------------------------------- */
+
   const particlePropCount = 8;
   const particlePropsLength = particleCount * particlePropCount;
+
   const baseTTL = 60;
   const rangeTTL = 140;
   const noiseSteps = 3;
@@ -57,8 +122,10 @@ const VortexBackground: React.FC<VortexBackgroundProps> = ({
 
   let tick = 0;
   const noise3D = createNoise3D();
+
   let center: [number, number] = [0, 0];
   let props = new Float32Array(particlePropsLength);
+
   const TAU = Math.PI * 2;
 
   const rand = (n: number) => Math.random() * n;
@@ -66,38 +133,49 @@ const VortexBackground: React.FC<VortexBackgroundProps> = ({
 
   const fadeInOut = (t: number, m: number) => {
     const h = 0.5 * m;
-    return Math.abs(((t + h) % m) - h) / h;
+    return Math.abs(((t + h) % m) - h) / h; // 0 a 1
   };
 
   const lerp = (n1: number, n2: number, speed: number) =>
     (1 - speed) * n1 + speed * n2;
 
-  const randomHue = () =>
-    PREMIUM_PALETTE[Math.floor(Math.random() * PREMIUM_PALETTE.length)];
-
+  /* ---------------------------------------------------------
+     Inicializar partículas
+  --------------------------------------------------------- */
   const initParticle = (i: number) => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas || palette.length === 0) return;
 
     const x = rand(canvas.width);
     const y = center[1] + randRange(rangeY);
-    const life = 0;
-    const ttl = baseTTL + rand(rangeTTL);
-    const speed = baseSpeed + rand(rangeSpeed);
-    const radius = baseRadius + rand(rangeRadius);
-    const hue = randomHue();
 
-    props.set([x, y, 0, 0, life, ttl, radius, hue], i);
+    const ttl = baseTTL + rand(rangeTTL);
+
+    props.set(
+      [
+        x,
+        y,
+        0,
+        0,
+        0, // vida
+        ttl,
+        baseRadius + rand(rangeRadius),
+        randomHue(),
+      ],
+      i
+    );
   };
 
   const initParticles = () => {
     props = new Float32Array(particlePropsLength);
-
     for (let i = 0; i < particlePropsLength; i += particlePropCount) {
       initParticle(i);
     }
   };
 
+  /* ---------------------------------------------------------
+     Renderizar partícula
+  --------------------------------------------------------- */
   const drawParticle = (
     x: number,
     y: number,
@@ -109,10 +187,20 @@ const VortexBackground: React.FC<VortexBackgroundProps> = ({
     hue: number,
     ctx: CanvasRenderingContext2D
   ) => {
+    const isLight = document.documentElement.getAttribute("data-theme") === "light";
+
+    // 🔥 AUMENTAMOS LA VISIBILIDAD
+    const alphaBoost = isLight ? 1.35 : 1.15;
+    const rawAlpha = fadeInOut(life, ttl) * alphaBoost;
+
+    const alpha = Math.min(rawAlpha, 0.85); // límite máximo
+
     ctx.save();
     ctx.lineCap = "round";
     ctx.lineWidth = radius;
-    ctx.strokeStyle = `hsla(${hue}, 100%, 60%, ${fadeInOut(life, ttl)})`;
+
+    ctx.strokeStyle = `hsla(${hue}, 95%, 55%, ${alpha})`;
+
     ctx.beginPath();
     ctx.moveTo(x, y);
     ctx.lineTo(x2, y2);
@@ -120,6 +208,9 @@ const VortexBackground: React.FC<VortexBackgroundProps> = ({
     ctx.restore();
   };
 
+  /* ---------------------------------------------------------
+     Actualizar partícula
+  --------------------------------------------------------- */
   const updateParticle = (i: number, ctx: CanvasRenderingContext2D) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -139,6 +230,7 @@ const VortexBackground: React.FC<VortexBackgroundProps> = ({
     vy = lerp(vy, Math.sin(n), 0.5);
 
     const speed = baseSpeed + rand(rangeSpeed);
+
     const x2 = x + vx * speed;
     const y2 = y + vy * speed;
 
@@ -163,9 +255,12 @@ const VortexBackground: React.FC<VortexBackgroundProps> = ({
     }
   };
 
+  /* ---------------------------------------------------------
+     GLOW MEJORADO
+  --------------------------------------------------------- */
   const renderGlow = (canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) => {
     ctx.save();
-    ctx.filter = "blur(8px) brightness(180%)";
+    ctx.filter = "blur(12px) brightness(260%) saturate(120%)";
     ctx.globalCompositeOperation = "lighter";
     ctx.drawImage(canvas, 0, 0);
     ctx.restore();
@@ -178,15 +273,23 @@ const VortexBackground: React.FC<VortexBackgroundProps> = ({
     ctx.restore();
   };
 
+  /* ---------------------------------------------------------
+     Resize – asegurar full height del Hero
+  --------------------------------------------------------- */
   const resize = (canvas: HTMLCanvasElement) => {
     canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    center[0] = 0.5 * canvas.width;
-    center[1] = 0.45 * canvas.height
+    canvas.height = window.innerHeight * 1.2; // 👈 MÁS ALTO
+
+    center[0] = canvas.width * 0.5;
+    center[1] = canvas.height * 0.25; // 👈 SUBE EL CENTRO
   };
 
+  /* ---------------------------------------------------------
+     Draw loop
+  --------------------------------------------------------- */
   const draw = (canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) => {
     tick++;
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     if (backgroundColor && backgroundColor !== "transparent") {
@@ -201,7 +304,12 @@ const VortexBackground: React.FC<VortexBackgroundProps> = ({
     requestAnimationFrame(() => draw(canvas, ctx));
   };
 
+  /* ---------------------------------------------------------
+     Setup inicial
+  --------------------------------------------------------- */
   const setup = () => {
+    if (palette.length === 0) return;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -214,7 +322,7 @@ const VortexBackground: React.FC<VortexBackgroundProps> = ({
   };
 
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (palette.length === 0) return;
 
     setup();
 
@@ -226,12 +334,15 @@ const VortexBackground: React.FC<VortexBackgroundProps> = ({
 
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
-  }, []);
+  }, [palette]);
 
+  /* ---------------------------------------------------------
+     Render del componente
+  --------------------------------------------------------- */
   return (
     <div
       ref={containerRef}
-      className={cn("relative h-full w-full", containerClassName)}
+      className={cn("relative w-full h-full", containerClassName)}
     >
       <motion.div
         initial={{ opacity: 0 }}

@@ -22,7 +22,6 @@ function getServerLocale(): Locale {
   if (cookieLocale === "es" || cookieLocale === "en") {
     return cookieLocale;
   }
-
   return DEFAULT_LOCALE; // español por defecto
 }
 
@@ -67,9 +66,7 @@ export default function RootLayout({
   return (
     <html lang={locale} data-theme="dark">
       <body className={firaCode.className}>
-        <header>
-          <Navbar />
-        </header>
+        <Navbar />
         {children}
         <Footer />
       </body>
