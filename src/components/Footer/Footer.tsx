@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Logo from "../Navbar/Logo";
 import {
   messages,
   DEFAULT_LOCALE,
@@ -37,7 +36,6 @@ const Footer = () => {
         {/* Logo + descripción */}
         <div>
           <h5 className="mb-6 flex items-center gap-2">
-            <Logo width={30} height={24} />
             <span className="text-neutral text-lg font-medium">Portafolio</span>
           </h5>
 

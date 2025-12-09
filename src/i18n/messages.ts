@@ -132,7 +132,7 @@ export const messages = {
       locationTitle: "Ubicación",
       locationText: "Santiago de Chile",
       licenseTitle: "Licencia",
-      licenseText: "Licencia CC BY-NC-ND 4.0 — prohibido el uso comercial y la redistribución modificada",,
+      licenseText: "Licencia CC BY-NC-ND 4.0 — prohibido el uso comercial y la redistribución modificada",
       copy: "© 2025 — Desarrollado por Alejandro Gutiérrez",
     },
   },
