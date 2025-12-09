@@ -1,3 +1,4 @@
+// src/i18n/messages.ts
 export const messages = {
   es: {
     seo: {
@@ -115,71 +116,32 @@ export const messages = {
       title: "Gracias por llegar hasta aquí",
       subtitle: "¿Hablamos?",
       description:
-        "Si esta página te ayudó a conocer mejor cómo pienso y cómo trabajo, estaré encantado de seguir la conversación. Ya sea para una oportunidad laboral, colaboración técnica o simplemente compartir ideas sobre este mundo sin límites.",
+        "Si esta página te ayudó a conocer mejor cómo pienso y cómo trabajo, estaré encantado de seguir la conversación.",
       cta: "Escríbeme a",
       socialTitle: "También podemos conectar por:",
       disclaimer:
         "Dentro de un horario hábil, siéntete libre de contactarte conmigo ☺️",
     },
 
-    /* ===========================================================
-       🟩 NUEVO: EDUCATION SECTION (ES)
-       =========================================================== */
-    education: {
-      title: "Educación, certificaciones y formación continua",
-      subtitle: "Una vista rápida de mi formación profesional y técnica",
-
-      kinds: {
-        formal: "Educación formal",
-        cert: "Certificación",
-        learning: "Formación continua",
-      },
-
-      status: {
-        inProgress: "EN FORMACIÓN",
-        upcoming: "PRÓXIMAMENTE",
-      },
-
-      actions: {
-        verifyDegree: "Cómo verificar este título",
-        verifyCert: "Verificar certificación",
-      },
-
-      modal: {
-        title: "Verificación de título profesional",
-        privacy:
-          "Por privacidad, solo comparto mi certificado de título firmado digitalmente dentro de un proceso real de selección.",
-        contact:
-          "Si necesitas validarlo, contáctame por LinkedIn:",
-        understood: "Entendido",
-      },
-    },
-
-    /* ======================
-       FOOTER (ES)
-       ====================== */
     footer: {
       techTitle: "Tecnologías del proyecto",
       techDescription:
-        "Este proyecto web fue desarrollado con tecnologías modernas como Next.js 15, React 19, TailwindCSS 4, animaciones con Framer Motion y Lottie, además de efectos visuales con tsparticles y ruido simplex. Su objetivo es ofrecer un portafolio rápido, accesible y optimizado.",
+        "Este proyecto web fue desarrollado con tecnologías modernas como Next.js 15, React 19, TailwindCSS 4, animaciones con Framer Motion y Lottie.",
       template: "Plantilla base utilizada como punto de partida:",
       templateLinkText: "nextjs-portfolio-template",
       locationTitle: "Ubicación",
-      locationText: "Santiago de Chile, Región Metropolitana de Chile",
+      locationText: "Santiago de Chile",
       licenseTitle: "Licencia",
-      licenseText: "Proyecto Open Source bajo licencia MIT 2.0",
+      licenseText: "Proyecto Open Source bajo MIT 2.0",
       copy: "© 2025 — Desarrollado por Alejandro Gutiérrez",
     },
   },
 
-  /* ===========================================================
-     ======================= ENGLISH =============================
-     =========================================================== */
   en: {
     seo: {
       title: "Alejandro Gutiérrez | Senior Java Software Engineer",
       description:
-        "Senior Software Engineer and Java Developer Certified (OCP 17). I specialize in system integration and enterprise SOA architecture using Java and Spring Boot, delivering robust and maintainable solutions.",
+        "Senior Software Engineer and Java Developer Certified (OCP 17). Specialized in system integration and enterprise architecture.",
       siteName: "Alejandro's Portfolio",
       twitterCreator: "@alejandro_dev",
     },
@@ -205,21 +167,18 @@ export const messages = {
       name: "Alejandro Gutiérrez",
       chileAria: "Official website of the Government of Chile",
       subtitle:
-        "I design and build robust backend solutions in Java and Spring Boot, integrating enterprise systems and leading engineering teams to production-ready delivery.",
+        "I design and build robust backend solutions in Java and Spring Boot.",
       imageAlt: "Alejandro Gutiérrez - Senior Java Software Engineer",
 
       roles: [
         "Senior Software Engineer",
         "Senior backend developer",
-        "Certified in Java - Oracle Certified Professional 17 (OCP 17)",
-        "Java and Spring Boot enterprise solutions",
-        "Microservices and modular monoliths",
-        "BIAN and enterprise/banking development",
-        "Enterprise software architecture",
+        "Oracle Certified Professional 17 (OCP 17)",
+        "Java & Spring Boot enterprise solutions",
+        "Microservices & modular monoliths",
+        "BIAN & enterprise/banking architecture",
         "Reactive programming with Spring WebFlux",
-        "IT project lead",
-        "Integration lead for enterprise IT platforms",
-        "Computer engineer – Bachelor in Computer Engineering",
+        "Technical project lead",
       ],
 
       buttons: {
@@ -237,112 +196,37 @@ export const messages = {
     executive: {
       title: "The value I bring to",
       description:
-        "I design and lead robust backend solutions used in enterprise and banking environments, integrating mission-critical systems and building scalable platforms with Java, Spring Boot and WebFlux.",
+        "I design and lead robust backend systems for enterprise and banking environments.",
       words: [
         "reactive backend architectures",
-        "complex banking integrations",
-        "high-criticality distributed systems",
-        "resilient and scalable APIs",
+        "complex integrations",
+        "mission-critical distributed systems",
+        "scalable APIs",
         "event-driven platforms",
-        "high-traffic enterprise systems",
-        "high-performance engineering teams",
+        "high-performance teams",
       ],
-    },
-
-    executiveGrid: {
-      banking: {
-        title: "Banking systems & mission-critical platforms",
-        description:
-          "Design of banking and enterprise platforms focused on resilience, high availability and scalability under heavy load.",
-      },
-      reactive: {
-        title: "Reactive backend architectures",
-        description:
-          "Reactive programming with Java (Spring WebFlux) to build high-demand transactional backends that stay responsive even under load or failures.",
-      },
-      integration: {
-        title: "Enterprise integration & messaging",
-        description:
-          "Kafka, event-driven architectures, REST APIs and messaging patterns for reliable communication between complex systems.",
-      },
-      evolution: {
-        title: "Evolutionary architecture & technical leadership",
-        description:
-          "Definition of architectural standards, design reviews and mentoring for sustainable software delivery.",
-      },
-      observability: {
-        title: "Observability & performance",
-        description:
-          "Distributed tracing, metrics and logs to detect performance issues early and maintain stability.",
-      },
-      data: {
-        title: "Data modeling & persistence",
-        description:
-          "Data modeling and performance optimizations for transactional services.",
-      },
-      devops: {
-        title: "Engineering practices & DevOps culture",
-        description:
-          "Clean, testable Java code, unit testing, code reviews, and close collaboration with DevOps and agile teams.",
-      },
     },
 
     contact: {
       title: "Thanks for reaching this far",
       subtitle: "Shall we talk?",
       description:
-        "If this page helped you understand how I think and work, I'd be happy to continue the conversation—whether it's a job opportunity, technical collaboration, or simply sharing ideas.",
+        "If this page helped you understand how I think and work, I'd be glad to continue the conversation.",
       cta: "Write me at",
       socialTitle: "We can also connect through:",
       disclaimer: "Feel free to contact me during business hours ☺️",
     },
 
-    /* ===========================================================
-       🟩 EDUCATION (EN)
-       =========================================================== */
-    education: {
-      title: "Education, certifications and continuous learning",
-      subtitle: "A quick overview of my academic and technical formation",
-
-      kinds: {
-        formal: "Formal education",
-        cert: "Certification",
-        learning: "Continuous learning",
-      },
-
-      status: {
-        inProgress: "IN PROGRESS",
-        upcoming: "COMING SOON",
-      },
-
-      actions: {
-        verifyDegree: "How to verify this degree",
-        verifyCert: "Verify certification",
-      },
-
-      modal: {
-        title: "Degree verification",
-        privacy:
-          "For privacy reasons, I only share my official digital certificate during a real selection process.",
-        contact:
-          "If you need to validate it, contact me via LinkedIn:",
-        understood: "Understood",
-      },
-    },
-
-    /* ======================
-       FOOTER (EN)
-       ====================== */
     footer: {
       techTitle: "Project technologies",
       techDescription:
-        "This web project was built with modern technologies such as Next.js 15, React 19, TailwindCSS 4, animations powered by Framer Motion and Lottie, along with visual effects using tsparticles and simplex noise. The goal is to offer a fast, accessible and optimized portfolio.",
-      template: "Base template used as a starting point:",
+        "This website was built with Next.js 15, React 19, TailwindCSS 4, Framer Motion and Lottie.",
+      template: "Base template used as starting point:",
       templateLinkText: "nextjs-portfolio-template",
       locationTitle: "Location",
-      locationText: "Santiago, Metropolitan Region of Chile",
+      locationText: "Santiago, Chile",
       licenseTitle: "License",
-      licenseText: "Open Source project under MIT 2.0 license",
+      licenseText: "MIT 2.0 Open Source",
       copy: "© 2025 — Developed by Alejandro Gutiérrez",
     },
   },

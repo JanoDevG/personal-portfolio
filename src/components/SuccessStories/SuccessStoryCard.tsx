@@ -9,20 +9,25 @@ import {
 } from "@/components/ui/collapsible";
 import { IconChevronDown } from "@tabler/icons-react";
 
+import { getSuccessStoryTexts } from "@/i18n/successStories";
+import { type Locale } from "@/i18n/messages";
+
 type SuccessStoryProps = {
+  locale: Locale;
   title: string;
   context: string;
   tags: string[];
   challenge: string;
   solution: string;
   impact: string;
-  metrics?: string[]; // bullets de métricas / impacto cuantitativo
-  technicalSummary?: string; // párrafo corto
-  technicalHighlights?: string[]; // bullets técnicos
+  metrics?: string[];
+  technicalSummary?: string;
+  technicalHighlights?: string[];
   icon?: React.ReactNode;
 };
 
 export const SuccessStoryCard: React.FC<SuccessStoryProps> = ({
+  locale,
   title,
   context,
   tags,
@@ -37,15 +42,14 @@ export const SuccessStoryCard: React.FC<SuccessStoryProps> = ({
   const [open, setOpen] = React.useState(false);
   const [showTech, setShowTech] = React.useState(false);
 
+  const t = getSuccessStoryTexts(locale).labels;
+
   const hasMetrics = metrics && metrics.length > 0;
   const hasTechnical =
     technicalSummary || (technicalHighlights && technicalHighlights.length > 0);
 
-  // Si se cierra la card principal, ocultamos el detalle técnico
   React.useEffect(() => {
-    if (!open) {
-      setShowTech(false);
-    }
+    if (!open) setShowTech(false);
   }, [open]);
 
   return (
@@ -57,17 +61,13 @@ export const SuccessStoryCard: React.FC<SuccessStoryProps> = ({
         transition-colors hover:border-accent/60 
       "
     >
-      {/* Header de la Card */}
       <CollapsibleTrigger
-        className="
-          flex w-full items-start gap-4 text-left
-          focus:outline-none
-        "
+        className="flex w-full items-start gap-4 text-left focus:outline-none"
       >
-        {/* Ícono */}
+        {/* icono */}
         <div className="mt-1 text-accent">{icon}</div>
 
-        {/* Texto principal */}
+        {/* header */}
         <div className="flex-1">
           <h3 className="text-base font-semibold text-primary-content">
             {title}
@@ -75,7 +75,6 @@ export const SuccessStoryCard: React.FC<SuccessStoryProps> = ({
 
           <p className="mt-1 text-xs text-primary-content/70">{context}</p>
 
-          {/* Tags */}
           <div className="mt-2 flex flex-wrap gap-1.5">
             {tags.map((tag) => (
               <span
@@ -91,7 +90,6 @@ export const SuccessStoryCard: React.FC<SuccessStoryProps> = ({
           </div>
         </div>
 
-        {/* Chevron con animación */}
         <motion.div
           animate={{ rotate: open ? 180 : 0 }}
           transition={{ duration: 0.2 }}
@@ -101,7 +99,7 @@ export const SuccessStoryCard: React.FC<SuccessStoryProps> = ({
         </motion.div>
       </CollapsibleTrigger>
 
-      {/* Contenido expandible */}
+      {/* contenido */}
       <AnimatePresence initial={false}>
         {open && (
           <CollapsibleContent forceMount>
@@ -113,36 +111,37 @@ export const SuccessStoryCard: React.FC<SuccessStoryProps> = ({
               transition={{ duration: 0.25 }}
               className="mt-4 space-y-3 text-sm text-primary-content/75"
             >
-              {/* Desafío */}
+              {/* desafío */}
               <div>
                 <p className="font-mono text-xs uppercase text-accent/80">
-                  Desafío
+                  {t.challenge}
                 </p>
                 <p className="mt-1 leading-snug">{challenge}</p>
               </div>
 
-              {/* Enfoque */}
+              {/* enfoque */}
               <div>
                 <p className="font-mono text-xs uppercase text-accent/80">
-                  Enfoque
+                  {t.solution}
                 </p>
                 <p className="mt-1 leading-snug">{solution}</p>
               </div>
 
-              {/* Impacto (descriptivo) */}
+              {/* impacto */}
               <div>
                 <p className="font-mono text-xs uppercase text-accent/80">
-                  Impacto
+                  {t.impact}
                 </p>
                 <p className="mt-1 leading-snug">{impact}</p>
               </div>
 
-              {/* Métricas e impacto cuantitativo */}
+              {/* métricas */}
               {hasMetrics && (
                 <div className="pt-3 border-t border-primary-content/10">
                   <p className="font-mono text-xs uppercase text-accent/80">
-                    Métricas e impacto logrado
+                    {t.metrics}
                   </p>
+
                   <ul className="mt-1 space-y-1.5 text-sm leading-snug">
                     {metrics!.map((metric) => (
                       <li
@@ -157,7 +156,7 @@ export const SuccessStoryCard: React.FC<SuccessStoryProps> = ({
                 </div>
               )}
 
-              {/* Sub-card de detalle técnico */}
+              {/* detalle técnico */}
               {hasTechnical && (
                 <div className="mt-3 rounded-lg border border-accent/30 bg-secondary/80 px-3 py-2">
                   <button
@@ -169,11 +168,10 @@ export const SuccessStoryCard: React.FC<SuccessStoryProps> = ({
                       text-accent focus:outline-none
                     "
                   >
-                    <span>Detalle técnico</span>
+                    <span>{t.technical}</span>
                     <motion.span
                       animate={{ rotate: showTech ? 180 : 0 }}
                       transition={{ duration: 0.2 }}
-                      className="ml-2"
                     >
                       <IconChevronDown className="h-3 w-3" />
                     </motion.span>
@@ -193,15 +191,16 @@ export const SuccessStoryCard: React.FC<SuccessStoryProps> = ({
                           <p className="leading-snug">{technicalSummary}</p>
                         )}
 
-                        {technicalHighlights && technicalHighlights.length > 0 && (
-                          <ul className="mt-1 space-y-1.5 list-disc list-inside">
-                            {technicalHighlights.map((item) => (
-                              <li key={item} className="leading-snug">
-                                {item}
-                              </li>
-                            ))}
-                          </ul>
-                        )}
+                        {technicalHighlights &&
+                          technicalHighlights.length > 0 && (
+                            <ul className="mt-1 space-y-1.5 list-disc list-inside">
+                              {technicalHighlights.map((item) => (
+                                <li key={item} className="leading-snug">
+                                  {item}
+                                </li>
+                              ))}
+                            </ul>
+                          )}
                       </motion.div>
                     )}
                   </AnimatePresence>
