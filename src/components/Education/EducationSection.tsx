@@ -1,4 +1,3 @@
-// src/components/Education/EducationSection.tsx
 "use client";
 
 import "@/app/globals.css";
@@ -30,7 +29,7 @@ import {
 
 import { getEducationTexts } from "@/i18n/education";
 
-/* Tailwind utilities injected when mounted */
+/* Tailwind utilities */
 if (typeof window !== "undefined") {
   const style = document.createElement("style");
   style.innerHTML = `
@@ -42,9 +41,9 @@ if (typeof window !== "undefined") {
   document.head.appendChild(style);
 }
 
-const LINKEDIN_URL = "https://www.linkedin.com/in/TU-USUARIO-AQUI";
+const LINKEDIN_URL = "https://www.linkedin.com/in/janodevg";
 
-/* IMAGES */
+/* ---------- IMAGES ---------- */
 import inacapLogo from "@/assets/images/certifications/inacap-logo.png";
 import ocpLogo from "@/assets/images/certifications/OCPJSE17.png";
 import gcpLogo from "@/assets/images/certifications/gcp-logo.png";
@@ -78,6 +77,7 @@ type EducationStory = {
   credentialUrl?: string;
   isDegree?: boolean;
   logoClassName?: string;
+  moreInfoUrl?: string; // ⭐ nuevo link para "CONOCER MÁS"
 };
 
 /* ---------- CATEGORY CONFIG ---------- */
@@ -96,8 +96,7 @@ const getKindConfig = (locale: Locale) => ({
   },
 
   learning: {
-    label:
-      locale === "es" ? "CURSO COMPLEMENTARIO" : "COMPLEMENTARY COURSE",
+    label: locale === "es" ? "CURSO COMPLEMENTARIO" : "COMPLEMENTARY COURSE",
     icon: IconBooks,
     className: "border-sky-400/40 bg-sky-400/10 text-sky-200",
   },
@@ -114,7 +113,9 @@ const statusToneConfig: Record<StatusTone, string> = {
   upcoming: "border-slate-400/70 bg-slate-400/10 text-slate-200",
 };
 
-/* ---------- TIMELINE ITEM ---------- */
+/* ---------------------------------------------------
+   ⭐ TIMELINE ITEM (CON OFFSET -6px)
+--------------------------------------------------- */
 
 const EducationTimelineItem = ({
   story,
@@ -127,43 +128,47 @@ const EducationTimelineItem = ({
   locale: Locale;
   onRequestDegreeVerification: () => void;
 }) => {
-  // Todas parten cerradas
   const [open, setOpen] = React.useState(false);
 
+  const ref = React.useRef<HTMLDivElement>(null);
+  const [headerHeight, setHeaderHeight] = React.useState(0);
+
+  React.useEffect(() => {
+    if (ref.current) setHeaderHeight(ref.current.clientHeight);
+  }, [ref.current, open]);
+
   const kindConfig = getKindConfig(locale)[story.kind];
-  const KindIcon = kindConfig.icon;
 
   return (
-    <div className="relative pl-10 md:pl-12">
-      {/* Punto fijo de la timeline (anclado al header) */}
-      <div className="absolute left-[12px] top-5 -translate-x-1/2">
+    <div className="relative pl-12 md:pl-14">
+      {/* ⭐ ICONO PERFECTAMENTE CENTRADO VISUALMENTE */}
+      <div
+        className="absolute left-[12px] -translate-x-1/2"
+        style={{ top: headerHeight / 2 - 6 }}
+      >
         <div className="flex h-5 w-5 items-center justify-center rounded-full bg-secondary border border-accent/50">
-          <KindIcon className="h-3 w-3 text-accent" />
+          <kindConfig.icon className="h-3 w-3 text-accent" />
         </div>
       </div>
 
       <Collapsible open={open} onOpenChange={setOpen}>
-        <CollapsibleTrigger className="w-full text-left">
-          <div className="rounded-xl border border-accent/20 bg-secondary/90 px-4 py-3 md:px-5 md:py-4 transition-colors hover:border-accent/60">
-            <div className="flex items-start justify-between gap-3">
+        <CollapsibleTrigger ref={ref} className="w-full text-left">
+          <div className="rounded-xl border border-accent/20 bg-secondary/90 px-4 py-3 md:px-5 md:py-4 hover:border-accent/60 transition-colors">
+            <div className="flex justify-between gap-3">
               <div className="flex-1 space-y-1">
                 <p className="text-sm font-semibold">{story.title}</p>
                 <p className="text-[11px] opacity-70">{story.context}</p>
 
                 {story.period && (
-                  <p className="text-[11px] font-mono opacity-55">
-                    {story.period}
-                  </p>
+                  <p className="text-[11px] font-mono opacity-55">{story.period}</p>
                 )}
 
                 {story.status && (
                   <span
-                    className={`
-                      mt-1 inline-flex items-center rounded-full border px-2 py-[1px]
-                      text-[10px] font-mono uppercase tracking-widest
-                      ${statusToneConfig[story.status.tone]}
-                      animate-[blink_1.6s_ease-in-out_infinite]
-                    `}
+                    className={`mt-1 inline-flex items-center rounded-full border px-2 py-[1px]
+                    text-[10px] font-mono uppercase tracking-widest
+                    ${statusToneConfig[story.status.tone]}
+                    animate-[blink_1.6s_ease-in-out_infinite]`}
                   >
                     {story.status.label}
                   </span>
@@ -193,6 +198,7 @@ const EducationTimelineItem = ({
           </div>
         </CollapsibleTrigger>
 
+        {/* ⭐ CONTENIDO EXPANDIBLE */}
         <AnimatePresence initial={false}>
           {open && (
             <CollapsibleContent forceMount>
@@ -202,9 +208,7 @@ const EducationTimelineItem = ({
                 transition={{ duration: 0.2 }}
                 className="ml-1 mt-2 rounded-xl border border-white/10 bg-secondary/80 px-4 py-3 md:px-5 md:py-4 text-sm opacity-80"
               >
-                {/* Layout: texto + logo a la derecha en desktop */}
                 <div className="md:flex md:items-start md:gap-4">
-                  {/* Texto principal */}
                   <div className="flex-1">
                     <p>{story.summary}</p>
 
@@ -213,25 +217,19 @@ const EducationTimelineItem = ({
                     )}
 
                     {story.highlights?.length > 0 && (
-                      <div className="mt-3">
-                        <p className="text-[11px] font-mono uppercase tracking-widest opacity-80">
-                          Highlights
-                        </p>
-                        <ul className="mt-1 space-y-1.5 text-[13px]">
-                          {story.highlights.map((h) => (
-                            <li key={h} className="flex gap-2">
-                              <span className="mt-1 h-[5px] w-[5px] rounded-full bg-accent" />
-                              {h}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
+                      <ul className="mt-3 text-[13px] space-y-1.5">
+                        {story.highlights.map((h) => (
+                          <li key={h} className="flex gap-2">
+                            <span className="mt-1 h-[5px] w-[5px] rounded-full bg-accent" />
+                            {h}
+                          </li>
+                        ))}
+                      </ul>
                     )}
                   </div>
 
-                  {/* Logo alineado a la derecha, sin crear “bloque” vacío abajo */}
                   {story.logoSrc && (
-                    <div className="mt-4 md:mt-0 md:flex md:items-start md:justify-end md:min-w-[120px]">
+                    <div className="mt-4 md:mt-0 md:flex md:justify-end md:min-w-[120px]">
                       <Image
                         src={story.logoSrc}
                         alt={story.logoAlt || story.title}
@@ -241,32 +239,44 @@ const EducationTimelineItem = ({
                   )}
                 </div>
 
-                {/* Botón de verificación ocupa el ancho completo abajo */}
-                {(story.isDegree || story.credentialUrl) && (
-                  <div className="mt-4">
-                    {story.isDegree ? (
-                      <button
-                        onClick={onRequestDegreeVerification}
-                        className="inline-flex items-center gap-1 rounded-full border border-accent/60 px-3 py-1 text-xs text-accent hover:bg-accent/10"
-                      >
-                        {locale === "es"
-                          ? "Cómo verificar este título"
-                          : "How to verify this degree"}
-                      </button>
-                    ) : (
-                      <a
-                        href={story.credentialUrl}
-                        target="_blank"
-                        className="inline-flex items-center gap-1 rounded-full border border-accent/60 px-3 py-1 text-xs text-accent hover:bg-accent/10"
-                      >
-                        {locale === "es"
-                          ? "Verificar certificación"
-                          : "Verify certification"}
-                        <IconArrowUpRight className="h-3 w-3" />
-                      </a>
-                    )}
-                  </div>
-                )}
+                {/* ⭐ BOTÓNES INFERIORES */}
+                <div className="mt-4 flex flex-wrap gap-3">
+                  {story.isDegree && (
+                    <button
+                      onClick={onRequestDegreeVerification}
+                      className="rounded-full border border-accent/60 px-3 py-1 text-xs text-accent hover:bg-accent/10"
+                    >
+                      {locale === "es"
+                        ? "Cómo verificar este título"
+                        : "How to verify this degree"}
+                    </button>
+                  )}
+
+                  {story.credentialUrl && (
+                    <a
+                      href={story.credentialUrl}
+                      target="_blank"
+                      className="inline-flex items-center gap-1 rounded-full border border-accent/60 px-3 py-1 text-xs text-accent hover:bg-accent/10"
+                    >
+                      {locale === "es"
+                        ? "Verificar certificación"
+                        : "Verify certification"}
+                      <IconArrowUpRight className="h-3 w-3" />
+                    </a>
+                  )}
+
+                  {/* ⭐ NUEVO BOTÓN "CONOCER MÁS" */}
+                  {story.moreInfoUrl && (
+                    <a
+                      href={story.moreInfoUrl}
+                      target="_blank"
+                      className="inline-flex items-center gap-1 rounded-full border border-secondary px-3 py-1 text-xs text-neutral hover:bg-neutral/10"
+                    >
+                      {locale === "es" ? "Conocer más" : "Learn more"}
+                      <IconArrowUpRight className="h-3 w-3" />
+                    </a>
+                  )}
+                </div>
               </motion.div>
             </CollapsibleContent>
           )}
@@ -276,7 +286,9 @@ const EducationTimelineItem = ({
   );
 };
 
-/* ---------- MAIN COMPONENT ---------- */
+/* ---------------------------------------------------
+   ⭐ MAIN COMPONENT
+--------------------------------------------------- */
 
 export const EducationSection = () => {
   const [showDegreeModal, setShowDegreeModal] = React.useState(false);
@@ -284,11 +296,11 @@ export const EducationSection = () => {
 
   React.useEffect(() => {
     const stored = localStorage.getItem(LOCALE_STORAGE_KEY) as Locale | null;
-    if (stored === "es" || stored === "en") setLocale(stored);
+    if (stored) setLocale(stored);
 
-    const handler = (event: Event) => {
-      const next = (event as CustomEvent<Locale>).detail;
-      if (next === "es" || next === "en") setLocale(next);
+    const handler = (ev: Event) => {
+      const next = (ev as CustomEvent<Locale>).detail;
+      setLocale(next);
     };
 
     window.addEventListener("locale-change", handler);
@@ -359,6 +371,8 @@ export const EducationSection = () => {
       logoAlt: "Udemy GitFlow",
       logoClassName: "logo-rect",
     },
+
+    /* ⭐ DIPLOMADO EN CURSO (CON CONOCER MÁS) */
     {
       kind: "diploma",
       title: s.cloudDiploma.title,
@@ -369,7 +383,11 @@ export const EducationSection = () => {
       logoSrc: usachInsignia,
       logoAlt: "USACH",
       logoClassName: "logo-rect",
+      moreInfoUrl:
+        "https://diplomadociberseguridad.com/new-diplomado-en-arquitectura-y-seguridad-cloud/",
     },
+
+    /* ⭐ BIAN */
     {
       kind: "cert",
       title: s.bian.title,
@@ -379,7 +397,10 @@ export const EducationSection = () => {
       logoSrc: bianLogo,
       logoAlt: "BIAN Foundation",
       logoClassName: "logo-square",
+      moreInfoUrl: "https://bian-services.com/certifications/",
     },
+
+    /* ⭐ SPRING BOOT */
     {
       kind: "learning",
       title: s.springPro.title,
@@ -389,7 +410,11 @@ export const EducationSection = () => {
       logoSrc: vmwareSpringLogo,
       logoAlt: "VMware Spring",
       logoClassName: "logo-square",
+      moreInfoUrl:
+        "https://docs.broadcom.com/doc/vmw-spring-certified-professional",
     },
+
+    /* ⭐ AZURE FUNDAMENTALS */
     {
       kind: "learning",
       title: s.azureFundamentals.title,
@@ -399,6 +424,8 @@ export const EducationSection = () => {
       logoSrc: azureLogo,
       logoAlt: "Azure Fundamentals",
       logoClassName: "logo-square",
+      moreInfoUrl:
+        "https://learn.microsoft.com/es-mx/credentials/certifications/azure-fundamentals/",
     },
   ];
 
@@ -411,6 +438,7 @@ export const EducationSection = () => {
         <p className="mt-3 text-center opacity-75">{tEdu.subtitle}</p>
 
         <div className="mt-8 relative">
+          {/* Línea vertical */}
           <div className="absolute left-[12px] top-0 bottom-3 hidden md:block border-l border-accent/30" />
 
           <div className="space-y-5">
@@ -420,16 +448,14 @@ export const EducationSection = () => {
                 story={story}
                 index={i}
                 locale={locale}
-                onRequestDegreeVerification={() =>
-                  setShowDegreeModal(true)
-                }
+                onRequestDegreeVerification={() => setShowDegreeModal(true)}
               />
             ))}
           </div>
         </div>
       </div>
 
-      {/* MODAL */}
+      {/* MODAL DE VERIFICACIÓN */}
       {showDegreeModal && (
         <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/60">
           <div className="w-full max-w-lg rounded-xl border border-accent/40 bg-secondary p-6 shadow-xl">
