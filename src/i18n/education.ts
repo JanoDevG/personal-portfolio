@@ -20,90 +20,106 @@ export const educationTexts = {
     modal: {
       title: "Verificación de título profesional",
       privacy:
-        "Por privacidad, solo comparto mi certificado de título firmado digitalmente dentro de un proceso real de selección.",
-      contact: "Si necesitas validarlo, contáctame por LinkedIn:",
+        "Por razones de privacidad: una copia de mi certificado de título solo puede ser otorgada dentro de un proceso de selección real de mutuo acuerdo e interés. Gracias por la comprensión.",
+      contact:
+        "Puedes contactarme por LinkedIn en caso de estar interesado en mi perfil:",
       understood: "Entendido",
     },
 
     stories: {
       formalDegree: {
         title: "Ingeniería en Informática",
-        context: "Título profesional · Universidad Tecnológica de Chile INACAP",
+        context:
+          "Título profesional · Universidad Tecnológica de Chile INACAP",
         period: "Carrera finalizada",
         summary:
-          "Formación en ingeniería de software, bases de datos, arquitectura de sistemas y desarrollo de aplicaciones empresariales.",
+          "Título profesional como Ingeniero en Informática con grado académico de Licenciado en Informática.",
         details:
-          "Este ciclo formal me dio la base sólida en programación, estructuras de datos, diseño de bases de datos, redes y fundamentos de arquitectura de software.",
+          "Este ciclo formal me dio una base sólida en programación, estructuras de datos, diseño de bases de datos, redes y fundamentos de arquitectura de software.",
         highlights: [
-          "Enfoque en ingeniería de software.",
-          "Modelado de datos y desarrollo empresarial.",
-          "Fundamentos aplicables a proyectos reales.",
+          "Habilidad técnica y analítica para el diseño de datos y el modelado de negocio / dominio.",
+          "Modelamiento de datos normalizados para bases de datos relacionales y documentales.",
+          "Fundamentos y aplicación para el desarrollo de software.",
+          "Dominio de herramientas de apoyo, gestión y desarrollo de software.",
+          "Gestión crítica de necesidades del cliente y desarrollo evolutivo.",
         ],
       },
 
       ocp17: {
         title: "Oracle Certified Professional: Java SE 17 Developer",
         context: "Certificación oficial · Oracle",
-        period: "Issued Jun 2025",
+        period: "Oracle Corporation",
         summary:
-          "Certificación que valida dominio avanzado del lenguaje Java SE 17.",
+          "Certificación oficial impartida por Oracle, que valida dominio avanzado del lenguaje Java SE 17.",
         highlights: [
-          "APIs modernas de Java.",
-          "Concurrencia, Streams, Lambdas.",
-          "Buenas prácticas de diseño.",
+          "Dominio avanzado del lenguaje Java SE 17 (records, sealed classes, text blocks, pattern matching).",
+          "Uso efectivo de Streams, programación funcional y concurrencia moderna (Executors, CompletableFuture).",
+          "Diseño de código robusto con manejo de errores, testing y principios de seguridad aplicados a APIs Java.",
         ],
       },
 
       apigeeSpecialization: {
         title:
-          "Programa Especializado – Developing APIs with Google Cloud's Apigee API Platform",
+          "Programa Especializado: Developing APIs with Google Cloud's Apigee API Platform",
         context: "Coursera · Google Cloud",
-        summary: "Especialización en diseño y operación de APIs APIGEE.",
+        summary:
+          "Formación orientada al diseño, publicación y gobierno de APIs sobre la plataforma Google Apigee.",
+        highlights: [
+          "Diseño de APIs seguras como punto central de integración entre clientes y servicios (API Gateway).",
+          "Aplicación de OAuth 2.0 en sus principales flujos de autorización para asegurar el acceso a las APIs.",
+          "Diseño de APIs bajo metodología API First.",
+          "Uso y práctica de políticas de seguridad en Apigee para mitigar riesgos de inyección y otros ataques comunes.",
+        ],
       },
 
       javaMaster: {
         title: "Máster Completo en Java (+180 hrs)",
         context: "Udemy",
-        summary: "Intensivo para dominar Java moderno.",
+        summary:
+          "Curso intensivo de Java para profundizar en patrones de diseño, paradigmas de programación e integraciones con el ecosistema Spring.",
       },
 
       gitflow: {
         title: "Curso GitFlow en GitLab / GitHub",
         context: "Udemy",
-        summary: "Práctica profesional de GitFlow para equipos.",
+        summary:
+          "Curso complementario para aplicar buenas prácticas y uso de GitFlow dentro de equipos de desarrollo.",
       },
 
       cloudDiploma: {
         title: "Diplomado en Arquitectura y Seguridad Cloud",
-        context: "USACH",
+        context: "Universidad de Santiago de Chile - USACH",
         period: "En formación",
-        summary: "Diseño de arquitecturas cloud seguras y escalables.",
+        summary:
+          "Diplomado para profundizar en Arquitectura de Software y su aplicación en entornos Cloud, con foco en capas y herramientas para la seguridad en la nube.",
       },
 
       bian: {
         title: "BIAN Foundation Certification",
-        context: "BIAN",
+        context: "Banking Industry Architecture Network",
         summary:
-          "Estándar global para arquitecturas bancarias basadas en servicios.",
+          "Estándar global para arquitecturas bancarias basadas en servicios, orientado a descomponer sistemas legacy en dominios de negocio modulares y APIs estandarizadas, acelerando la integración y la modernización de plataformas bancarias.",
       },
 
       springPro: {
-        title: "Spring Professional Certification",
-        context: "VMware",
-        summary: "Certificación oficial sobre el ecosistema Spring.",
+        title: "Spring Professional Certification v2 2025",
+        context: "Broadcom",
+        summary:
+          "Certificación oficial sobre el ecosistema Spring, validando dominio sobre el framework predominante para sistemas y ecosistemas construidos sobre Java.",
       },
 
       azureFundamentals: {
         title: "Microsoft Azure Fundamentals",
         context: "Microsoft",
-        summary: "Fundamentos esenciales de Azure Cloud.",
+        summary:
+          "Fundamentos esenciales de Azure Cloud. Primera certificación como punto de partida para el desarrollo de software en la nube.",
       },
     },
   },
 
   en: {
     title: "Education, certifications and continuous learning",
-    subtitle: "A quick overview of my academic and technical formation",
+    subtitle: "A quick overview of my academic and technical background",
 
     kinds: {
       formal: "Formal education",
@@ -119,8 +135,9 @@ export const educationTexts = {
     modal: {
       title: "Degree verification",
       privacy:
-        "For privacy reasons, I only share my official digital certificate during a real selection process.",
-      contact: "If you need to validate it, contact me via LinkedIn:",
+        "For privacy reasons: a copy of my degree certificate can only be shared within a real selection process where there is mutual interest. Thank you for your understanding.",
+      contact:
+        "You can contact me via LinkedIn if you are interested in my profile:",
       understood: "Understood",
     },
 
@@ -131,68 +148,86 @@ export const educationTexts = {
           "Professional degree · Universidad Tecnológica de Chile INACAP",
         period: "Degree completed",
         summary:
-          "Training in software engineering, databases, system architecture and enterprise application development.",
+          "Professional degree in Computer Engineering with an academic Bachelor's degree in Computer Science.",
         details:
-          "This formal education cycle gave me a solid foundation in programming, data structures, database design, networking and software architecture fundamentals.",
+          "This formal education provided a solid foundation in programming, data structures, database design, networking and software architecture fundamentals.",
         highlights: [
-          "Focus on software engineering.",
-          "Data modeling and enterprise development.",
-          "Foundations applicable to real-world projects.",
+          "Strong technical and analytical skills for data design and business/domain modeling.",
+          "Normalized data modeling for relational and document-oriented databases.",
+          "Foundations and practical application for software development.",
+          "Proficiency with tools for software management, collaboration and development.",
+          "Critical assessment of customer needs and evolutionary product development.",
         ],
       },
 
       ocp17: {
         title: "Oracle Certified Professional: Java SE 17 Developer",
         context: "Official certification · Oracle",
-        period: "Issued Jun 2025",
+        period: "Oracle Corporation",
         summary:
-          "Certification that validates advanced proficiency in Java SE 17.",
-        highlights: ["Modern Java APIs.", "Concurrency, Streams, Lambdas.", "Design best practices."],
+          "Official certification issued by Oracle that validates advanced mastery of the Java SE 17 language.",
+        highlights: [
+          "Advanced command of Java SE 17 language features (records, sealed classes, text blocks, pattern matching).",
+          "Effective use of Streams, functional programming and modern concurrency (Executors, CompletableFuture).",
+          "Design of robust code with proper error handling, testing and security principles applied to Java APIs.",
+        ],
       },
 
       apigeeSpecialization: {
         title:
-          "Specialization – Developing APIs with Google Cloud's Apigee API Platform",
+          "Specialization: Developing APIs with Google Cloud's Apigee API Platform",
         context: "Coursera · Google Cloud",
         summary:
-          "Specialization focused on the design and operation of APIs on Apigee.",
+          "Training focused on the design, publishing and governance of APIs on the Google Apigee platform.",
+        highlights: [
+          "Design of secure APIs as the central integration layer between clients and backend services (API Gateway).",
+          "Application of OAuth 2.0 main authorization flows to secure API access.",
+          "API design following an API-First methodology.",
+          "Use and practice of Apigee security policies to mitigate injection risks and other common attacks.",
+        ],
       },
 
       javaMaster: {
         title: "Complete Java Masterclass (+180 hrs)",
         context: "Udemy",
-        summary: "Intensive training to master modern Java.",
+        summary:
+          "Intensive Java course to deepen design patterns, programming paradigms and integrations with the Spring ecosystem.",
       },
 
       gitflow: {
         title: "GitFlow Course on GitLab / GitHub",
         context: "Udemy",
-        summary: "Professional GitFlow practice for engineering teams.",
+        summary:
+          "Complementary course to apply GitFlow and good branching practices within development teams.",
       },
 
       cloudDiploma: {
         title: "Diploma in Cloud Architecture and Security",
-        context: "USACH",
+        context: "Universidad de Santiago de Chile (USACH)",
         period: "In progress",
-        summary: "Design of secure and scalable cloud architectures.",
+        summary:
+          "Postgraduate diploma to deepen Software Architecture and apply it in Cloud environments, with a focus on security layers and tooling.",
       },
 
       bian: {
         title: "BIAN Foundation Certification",
-        context: "BIAN",
-        summary: "Global standard for service-based banking architectures.",
+        context: "Banking Industry Architecture Network",
+        summary:
+          "Global standard for service-based banking architectures, focused on decomposing legacy systems into modular business domains and standardized APIs to accelerate integration and modernization of banking platforms.",
       },
 
       springPro: {
-        title: "Spring Professional Certification",
-        context: "VMware",
-        summary: "Official certification focused on the Spring ecosystem.",
+        title: "Spring Professional Certification v2 2025",
+        context: "Broadcom",
+        summary:
+          "Official certification on the Spring ecosystem, validating strong command of the leading framework for Java-based systems and platforms.",
       },
 
       azureFundamentals: {
         title: "Microsoft Azure Fundamentals",
         context: "Microsoft",
-        summary: "Essential foundations of Azure Cloud.",
+        summary:
+          "Essential Azure Cloud fundamentals and first certification as a starting point for cloud-native software development.",
       },
     },
   },

@@ -6,11 +6,13 @@ import "@/app/globals.css";
 import * as React from "react";
 import Image, { StaticImageData } from "next/image";
 import { motion, AnimatePresence } from "motion/react";
+
 import {
   Collapsible,
   CollapsibleTrigger,
   CollapsibleContent,
 } from "@/components/ui/collapsible";
+
 import {
   IconChevronDown,
   IconSchool,
@@ -28,7 +30,7 @@ import {
 
 import { getEducationTexts } from "@/i18n/education";
 
-/* utilidades tailwind */
+/* Tailwind utilities injected when mounted */
 if (typeof window !== "undefined") {
   const style = document.createElement("style");
   style.innerHTML = `
@@ -42,6 +44,7 @@ if (typeof window !== "undefined") {
 
 const LINKEDIN_URL = "https://www.linkedin.com/in/TU-USUARIO-AQUI";
 
+/* IMAGES */
 import inacapLogo from "@/assets/images/certifications/inacap-logo.png";
 import ocpLogo from "@/assets/images/certifications/OCPJSE17.png";
 import gcpLogo from "@/assets/images/certifications/gcp-logo.png";
@@ -51,7 +54,9 @@ import vmwareSpringLogo from "@/assets/images/certifications/VMwareSpringProfess
 import azureLogo from "@/assets/images/certifications/azureFundamentalsLogo.png";
 import bianLogo from "@/assets/images/certifications/Bian-foundation-badge.svg";
 
-type EducationKind = "formal" | "cert" | "learning";
+/* ---------- TYPES ---------- */
+
+type EducationKind = "formal" | "cert" | "learning" | "diploma";
 type StatusTone = "in-progress" | "upcoming";
 
 type EducationStatus = {
@@ -75,37 +80,63 @@ type EducationStory = {
   logoClassName?: string;
 };
 
-const kindConfig = {
+/* ---------- CATEGORY CONFIG ---------- */
+
+const getKindConfig = (locale: Locale) => ({
   formal: {
-    label: "Formal",
+    label: locale === "es" ? "TÍTULO PROFESIONAL" : "PROFESSIONAL DEGREE",
     icon: IconSchool,
     className: "border-accent/40 bg-accent/10 text-accent/90",
   },
+
   cert: {
-    label: "Cert",
+    label: locale === "es" ? "CERTIFICACIÓN OFICIAL" : "OFFICIAL CERTIFICATION",
     icon: IconCertificate,
     className: "border-emerald-400/40 bg-emerald-400/10 text-emerald-200",
   },
+
   learning: {
-    label: "Learning",
+    label:
+      locale === "es" ? "CURSO COMPLEMENTARIO" : "COMPLEMENTARY COURSE",
     icon: IconBooks,
     className: "border-sky-400/40 bg-sky-400/10 text-sky-200",
   },
-};
 
-const statusToneConfig = {
+  diploma: {
+    label: locale === "es" ? "DIPLOMADO" : "DIPLOMA PROGRAM",
+    icon: IconBooks,
+    className: "border-purple-400/40 bg-purple-400/10 text-purple-200",
+  },
+});
+
+const statusToneConfig: Record<StatusTone, string> = {
   "in-progress": "border-amber-300/70 bg-amber-300/10 text-amber-100",
   upcoming: "border-slate-400/70 bg-slate-400/10 text-slate-200",
 };
 
-const EducationTimelineItem = ({ story, index, onRequestDegreeVerification }: any) => {
-  const [open, setOpen] = React.useState(index === 0);
-  const cfg = kindConfig[story.kind];
-  const KindIcon = cfg.icon;
+/* ---------- TIMELINE ITEM ---------- */
+
+const EducationTimelineItem = ({
+  story,
+  index,
+  locale,
+  onRequestDegreeVerification,
+}: {
+  story: EducationStory;
+  index: number;
+  locale: Locale;
+  onRequestDegreeVerification: () => void;
+}) => {
+  // Todas parten cerradas
+  const [open, setOpen] = React.useState(false);
+
+  const kindConfig = getKindConfig(locale)[story.kind];
+  const KindIcon = kindConfig.icon;
 
   return (
     <div className="relative pl-10 md:pl-12">
-      <div className="absolute left-[12px] top-1/2 -translate-x-1/2 -translate-y-1/2">
+      {/* Punto fijo de la timeline (anclado al header) */}
+      <div className="absolute left-[12px] top-5 -translate-x-1/2">
         <div className="flex h-5 w-5 items-center justify-center rounded-full bg-secondary border border-accent/50">
           <KindIcon className="h-3 w-3 text-accent" />
         </div>
@@ -118,8 +149,11 @@ const EducationTimelineItem = ({ story, index, onRequestDegreeVerification }: an
               <div className="flex-1 space-y-1">
                 <p className="text-sm font-semibold">{story.title}</p>
                 <p className="text-[11px] opacity-70">{story.context}</p>
+
                 {story.period && (
-                  <p className="text-[11px] font-mono opacity-55">{story.period}</p>
+                  <p className="text-[11px] font-mono opacity-55">
+                    {story.period}
+                  </p>
                 )}
 
                 {story.status && (
@@ -138,12 +172,20 @@ const EducationTimelineItem = ({ story, index, onRequestDegreeVerification }: an
 
               <div className="flex flex-col items-end gap-2">
                 <span
-                  className={`inline-flex items-center gap-1 rounded-full border px-2 py-[2px] text-[10px] font-mono uppercase tracking-wide ${cfg.className}`}
+                  className={`
+                    inline-flex items-center gap-1 rounded-full border px-2 py-[2px]
+                    text-[10px] font-mono uppercase tracking-wide
+                    ${kindConfig.className}
+                  `}
                 >
-                  <cfg.icon className="h-3 w-3" /> {cfg.label}
+                  <kindConfig.icon className="h-3 w-3" />
+                  {kindConfig.label}
                 </span>
 
-                <motion.div animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.2 }}>
+                <motion.div
+                  animate={{ rotate: open ? 180 : 0 }}
+                  transition={{ duration: 0.2 }}
+                >
                   <IconChevronDown className="h-4 w-4 opacity-70" />
                 </motion.div>
               </div>
@@ -160,36 +202,46 @@ const EducationTimelineItem = ({ story, index, onRequestDegreeVerification }: an
                 transition={{ duration: 0.2 }}
                 className="ml-1 mt-2 rounded-xl border border-white/10 bg-secondary/80 px-4 py-3 md:px-5 md:py-4 text-sm opacity-80"
               >
-                <p>{story.summary}</p>
+                {/* Layout: texto + logo a la derecha en desktop */}
+                <div className="md:flex md:items-start md:gap-4">
+                  {/* Texto principal */}
+                  <div className="flex-1">
+                    <p>{story.summary}</p>
 
-                {story.details && <p className="mt-2 text-[13px]">{story.details}</p>}
+                    {story.details && (
+                      <p className="mt-2 text-[13px]">{story.details}</p>
+                    )}
 
-                {story.highlights?.length > 0 && (
-                  <div className="mt-3">
-                    <p className="text-[11px] font-mono uppercase tracking-widest opacity-80">
-                      Highlights
-                    </p>
-                    <ul className="mt-1 space-y-1.5 text-[13px]">
-                      {story.highlights.map((h: string) => (
-                        <li key={h} className="flex gap-2">
-                          <span className="mt-1 h-[5px] w-[5px] rounded-full bg-accent" />
-                          {h}
-                        </li>
-                      ))}
-                    </ul>
+                    {story.highlights?.length > 0 && (
+                      <div className="mt-3">
+                        <p className="text-[11px] font-mono uppercase tracking-widest opacity-80">
+                          Highlights
+                        </p>
+                        <ul className="mt-1 space-y-1.5 text-[13px]">
+                          {story.highlights.map((h) => (
+                            <li key={h} className="flex gap-2">
+                              <span className="mt-1 h-[5px] w-[5px] rounded-full bg-accent" />
+                              {h}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
                   </div>
-                )}
 
-                {story.logoSrc && (
-                  <div className="mt-4 flex justify-end">
-                    <Image
-                      src={story.logoSrc}
-                      alt={story.logoAlt || story.title}
-                      className={`object-contain opacity-90 ${story.logoClassName}`}
-                    />
-                  </div>
-                )}
+                  {/* Logo alineado a la derecha, sin crear “bloque” vacío abajo */}
+                  {story.logoSrc && (
+                    <div className="mt-4 md:mt-0 md:flex md:items-start md:justify-end md:min-w-[120px]">
+                      <Image
+                        src={story.logoSrc}
+                        alt={story.logoAlt || story.title}
+                        className={`object-contain opacity-90 ${story.logoClassName ?? ""}`}
+                      />
+                    </div>
+                  )}
+                </div>
 
+                {/* Botón de verificación ocupa el ancho completo abajo */}
                 {(story.isDegree || story.credentialUrl) && (
                   <div className="mt-4">
                     {story.isDegree ? (
@@ -197,7 +249,9 @@ const EducationTimelineItem = ({ story, index, onRequestDegreeVerification }: an
                         onClick={onRequestDegreeVerification}
                         className="inline-flex items-center gap-1 rounded-full border border-accent/60 px-3 py-1 text-xs text-accent hover:bg-accent/10"
                       >
-                        Cómo verificar este título
+                        {locale === "es"
+                          ? "Cómo verificar este título"
+                          : "How to verify this degree"}
                       </button>
                     ) : (
                       <a
@@ -205,7 +259,10 @@ const EducationTimelineItem = ({ story, index, onRequestDegreeVerification }: an
                         target="_blank"
                         className="inline-flex items-center gap-1 rounded-full border border-accent/60 px-3 py-1 text-xs text-accent hover:bg-accent/10"
                       >
-                        Verificar certificación <IconArrowUpRight className="h-3 w-3" />
+                        {locale === "es"
+                          ? "Verificar certificación"
+                          : "Verify certification"}
+                        <IconArrowUpRight className="h-3 w-3" />
                       </a>
                     )}
                   </div>
@@ -219,6 +276,8 @@ const EducationTimelineItem = ({ story, index, onRequestDegreeVerification }: an
   );
 };
 
+/* ---------- MAIN COMPONENT ---------- */
+
 export const EducationSection = () => {
   const [showDegreeModal, setShowDegreeModal] = React.useState(false);
   const [locale, setLocale] = React.useState<Locale>(DEFAULT_LOCALE);
@@ -227,14 +286,16 @@ export const EducationSection = () => {
     const stored = localStorage.getItem(LOCALE_STORAGE_KEY) as Locale | null;
     if (stored === "es" || stored === "en") setLocale(stored);
 
-    window.addEventListener("locale-change", (event) => {
+    const handler = (event: Event) => {
       const next = (event as CustomEvent<Locale>).detail;
       if (next === "es" || next === "en") setLocale(next);
-    });
+    };
+
+    window.addEventListener("locale-change", handler);
+    return () => window.removeEventListener("locale-change", handler);
   }, []);
 
   const tEdu = getEducationTexts(locale);
-
   const s = tEdu.stories;
 
   const stories: EducationStory[] = [
@@ -269,6 +330,7 @@ export const EducationSection = () => {
       title: s.apigeeSpecialization.title,
       context: s.apigeeSpecialization.context,
       summary: s.apigeeSpecialization.summary,
+      highlights: s.apigeeSpecialization.highlights,
       credentialUrl:
         "https://www.coursera.org/account/accomplishments/specialization/certificate/Z6T3U29X29JS",
       logoSrc: gcpLogo,
@@ -298,7 +360,7 @@ export const EducationSection = () => {
       logoClassName: "logo-rect",
     },
     {
-      kind: "learning",
+      kind: "diploma",
       title: s.cloudDiploma.title,
       context: s.cloudDiploma.context,
       period: s.cloudDiploma.period,
@@ -357,18 +419,23 @@ export const EducationSection = () => {
                 key={story.title + i}
                 story={story}
                 index={i}
-                onRequestDegreeVerification={() => setShowDegreeModal(true)}
+                locale={locale}
+                onRequestDegreeVerification={() =>
+                  setShowDegreeModal(true)
+                }
               />
             ))}
           </div>
         </div>
       </div>
 
+      {/* MODAL */}
       {showDegreeModal && (
         <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/60">
           <div className="w-full max-w-lg rounded-xl border border-accent/40 bg-secondary p-6 shadow-xl">
             <div className="flex justify-between items-start">
               <h3 className="text-lg font-semibold">{tEdu.modal.title}</h3>
+
               <button
                 onClick={() => setShowDegreeModal(false)}
                 className="rounded-full border border-accent/40 p-1 text-accent hover:bg-accent/10"
@@ -381,7 +448,11 @@ export const EducationSection = () => {
 
             <p className="mt-3 opacity-80">
               {tEdu.modal.contact}
-              <a href={LINKEDIN_URL} target="_blank" className="text-accent underline ml-1">
+              <a
+                href={LINKEDIN_URL}
+                target="_blank"
+                className="text-accent underline ml-1"
+              >
                 Ver perfil
               </a>
             </p>
