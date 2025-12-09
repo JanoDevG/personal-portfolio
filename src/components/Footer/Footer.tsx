@@ -69,8 +69,10 @@ const Footer = () => {
 
           <div className="text-right">
             <h5 className="text-neutral mb-2 text-lg font-medium">{t.licenseTitle}</h5>
+
+            {/* Enlace a Creative Commons */}
             <a
-              href="https://opensource.org/licenses/MIT"
+              href="https://creativecommons.org/licenses/by-nc-nd/4.0/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-tertiary-content hover:text-neutral text-sm underline"
