@@ -1,3 +1,4 @@
+// src/components/Education/EducationSection.tsx
 "use client";
 
 import "@/app/globals.css";
@@ -77,7 +78,7 @@ type EducationStory = {
   credentialUrl?: string;
   isDegree?: boolean;
   logoClassName?: string;
-  moreInfoUrl?: string; // ⭐ nuevo link para "CONOCER MÁS"
+  moreInfoUrl?: string; // link "CONOCER MÁS"
 };
 
 /* ---------- CATEGORY CONFIG ---------- */
@@ -114,19 +115,21 @@ const statusToneConfig: Record<StatusTone, string> = {
 };
 
 /* ---------------------------------------------------
-   ⭐ TIMELINE ITEM (CON OFFSET -6px)
+   ⭐ TIMELINE ITEM
 --------------------------------------------------- */
 
 const EducationTimelineItem = ({
   story,
-  index,
+  index, // (por si después quieres usarlo)
   locale,
   onRequestDegreeVerification,
+  onLogoClick,
 }: {
   story: EducationStory;
   index: number;
   locale: Locale;
   onRequestDegreeVerification: () => void;
+  onLogoClick?: (src: StaticImageData, alt: string) => void;
 }) => {
   const [open, setOpen] = React.useState(false);
 
@@ -141,7 +144,7 @@ const EducationTimelineItem = ({
 
   return (
     <div className="relative pl-12 md:pl-14">
-      {/* ⭐ ICONO PERFECTAMENTE CENTRADO VISUALMENTE */}
+      {/* ⭐ ICONO CENTRADO SOBRE LA LÍNEA */}
       <div
         className="absolute left-[12px] -translate-x-1/2"
         style={{ top: headerHeight / 2 - 6 }}
@@ -153,14 +156,27 @@ const EducationTimelineItem = ({
 
       <Collapsible open={open} onOpenChange={setOpen}>
         <CollapsibleTrigger ref={ref} className="w-full text-left">
-          <div className="rounded-xl border border-accent/20 bg-secondary/90 px-4 py-3 md:px-5 md:py-4 hover:border-accent/60 transition-colors">
+          <div
+            className={`
+              rounded-xl border border-accent/20 bg-secondary/90 
+              px-4 py-3 md:px-5 md:py-4 
+              hover:border-accent/60 transition-colors
+              ${open ? "shadow-lg shadow-accent/15" : ""}
+            `}
+          >
             <div className="flex justify-between gap-3">
               <div className="flex-1 space-y-1">
-                <p className="text-sm font-semibold">{story.title}</p>
-                <p className="text-[11px] opacity-70">{story.context}</p>
+                <p className="text-sm font-semibold text-primary-content">
+                  {story.title}
+                </p>
+                <p className="text-[11px] text-primary-content/70">
+                  {story.context}
+                </p>
 
                 {story.period && (
-                  <p className="text-[11px] font-mono opacity-55">{story.period}</p>
+                  <p className="text-[11px] font-mono text-primary-content/60">
+                    {story.period}
+                  </p>
                 )}
 
                 {story.status && (
@@ -205,15 +221,22 @@ const EducationTimelineItem = ({
               <motion.div
                 initial={{ opacity: 0, y: -4 }}
                 animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
                 transition={{ duration: 0.2 }}
-                className="ml-1 mt-2 rounded-xl border border-white/10 bg-secondary/80 px-4 py-3 md:px-5 md:py-4 text-sm opacity-80"
+                className="
+                  ml-1 mt-2 rounded-xl border border-white/10 
+                  bg-secondary/80 px-4 py-3 md:px-5 md:py-4 
+                  text-sm text-primary-content/80
+                "
               >
                 <div className="md:flex md:items-start md:gap-4">
                   <div className="flex-1">
                     <p>{story.summary}</p>
 
                     {story.details && (
-                      <p className="mt-2 text-[13px]">{story.details}</p>
+                      <p className="mt-2 text-[13px]">
+                        {story.details}
+                      </p>
                     )}
 
                     {story.highlights?.length > 0 && (
@@ -230,16 +253,32 @@ const EducationTimelineItem = ({
 
                   {story.logoSrc && (
                     <div className="mt-4 md:mt-0 md:flex md:justify-end md:min-w-[120px]">
-                      <Image
-                        src={story.logoSrc}
-                        alt={story.logoAlt || story.title}
-                        className={`object-contain opacity-90 ${story.logoClassName ?? ""}`}
-                      />
+                      <button
+                        type="button"
+                        onClick={() =>
+                          onLogoClick?.(
+                            story.logoSrc as StaticImageData,
+                            story.logoAlt || story.title
+                          )
+                        }
+                        className="group rounded-lg p-1 outline-none focus:ring-2 focus:ring-accent/60"
+                      >
+                        <Image
+                          src={story.logoSrc}
+                          alt={story.logoAlt || story.title}
+                          className={`
+                            object-contain opacity-90 
+                            group-hover:opacity-100 group-hover:scale-[1.03] 
+                            transition-transform
+                            ${story.logoClassName ?? ""}
+                          `}
+                        />
+                      </button>
                     </div>
                   )}
                 </div>
 
-                {/* ⭐ BOTÓNES INFERIORES */}
+                {/* ⭐ BOTONES INFERIORES */}
                 <div className="mt-4 flex flex-wrap gap-3">
                   {story.isDegree && (
                     <button
@@ -265,7 +304,6 @@ const EducationTimelineItem = ({
                     </a>
                   )}
 
-                  {/* ⭐ NUEVO BOTÓN "CONOCER MÁS" */}
                   {story.moreInfoUrl && (
                     <a
                       href={story.moreInfoUrl}
@@ -293,6 +331,11 @@ const EducationTimelineItem = ({
 export const EducationSection = () => {
   const [showDegreeModal, setShowDegreeModal] = React.useState(false);
   const [locale, setLocale] = React.useState<Locale>(DEFAULT_LOCALE);
+
+  const [logoModal, setLogoModal] = React.useState<{
+    src: StaticImageData;
+    alt: string;
+  } | null>(null);
 
   React.useEffect(() => {
     const stored = localStorage.getItem(LOCALE_STORAGE_KEY) as Locale | null;
@@ -432,35 +475,51 @@ export const EducationSection = () => {
   return (
     <section id="education" className="my-20">
       <div className="mx-auto max-w-[900px] px-4">
-        <h2 className="text-center text-3xl md:text-4xl font-bold">
+        <h2 className="text-center text-3xl md:text-4xl font-bold text-primary-content">
           {tEdu.title}
         </h2>
-        <p className="mt-3 text-center opacity-75">{tEdu.subtitle}</p>
+        <p className="mt-3 text-center text-primary-content/80">
+          {tEdu.subtitle}
+        </p>
 
         <div className="mt-8 relative">
-          {/* Línea vertical */}
-          <div className="absolute left-[12px] top-0 bottom-3 hidden md:block border-l border-accent/30" />
+          {/* Línea vertical animada */}
+          <motion.div
+            className="absolute left-[12px] top-0 bottom-3 hidden md:block origin-top border-l border-accent/40"
+            initial={{ scaleY: 0 }}
+            animate={{ scaleY: 1 }}
+            transition={{ duration: 0.4 }}
+          />
 
           <div className="space-y-5">
             {stories.map((story, i) => (
-              <EducationTimelineItem
+              <motion.div
                 key={story.title + i}
-                story={story}
-                index={i}
-                locale={locale}
-                onRequestDegreeVerification={() => setShowDegreeModal(true)}
-              />
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.25, delay: i * 0.05 }}
+              >
+                <EducationTimelineItem
+                  story={story}
+                  index={i}
+                  locale={locale}
+                  onRequestDegreeVerification={() => setShowDegreeModal(true)}
+                  onLogoClick={(src, alt) => setLogoModal({ src, alt })}
+                />
+              </motion.div>
             ))}
           </div>
         </div>
       </div>
 
-      {/* MODAL DE VERIFICACIÓN */}
+      {/* MODAL DE VERIFICACIÓN DE TÍTULO */}
       {showDegreeModal && (
         <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/60">
           <div className="w-full max-w-lg rounded-xl border border-accent/40 bg-secondary p-6 shadow-xl">
             <div className="flex justify-between items-start">
-              <h3 className="text-lg font-semibold">{tEdu.modal.title}</h3>
+              <h3 className="text-lg font-semibold text-primary-content">
+                {tEdu.modal.title}
+              </h3>
 
               <button
                 onClick={() => setShowDegreeModal(false)}
@@ -470,9 +529,11 @@ export const EducationSection = () => {
               </button>
             </div>
 
-            <p className="mt-3 opacity-80">{tEdu.modal.privacy}</p>
+            <p className="mt-3 text-primary-content/80">
+              {tEdu.modal.privacy}
+            </p>
 
-            <p className="mt-3 opacity-80">
+            <p className="mt-3 text-primary-content/80">
               {tEdu.modal.contact}
               <a
                 href={LINKEDIN_URL}
@@ -490,6 +551,36 @@ export const EducationSection = () => {
               >
                 {tEdu.modal.understood}
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL DE LOGO AMPLIADO */}
+      {logoModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+          {/* clic en fondo cierra */}
+          <button
+            type="button"
+            onClick={() => setLogoModal(null)}
+            className="absolute inset-0 cursor-default"
+            aria-label="Cerrar imagen ampliada"
+          />
+
+          <div className="relative z-50 max-w-[90vw] max-h-[80vh] rounded-xl bg-secondary/90 border border-accent/40 p-4 shadow-2xl flex flex-col items-end gap-3">
+            <button
+              onClick={() => setLogoModal(null)}
+              className="rounded-full border border-accent/40 p-1 text-accent hover:bg-accent/10"
+            >
+              <IconX className="h-4 w-4" />
+            </button>
+
+            <div className="flex w-full justify-center">
+              <Image
+                src={logoModal.src}
+                alt={logoModal.alt}
+                className="max-h-[60vh] w-auto object-contain"
+              />
             </div>
           </div>
         </div>
