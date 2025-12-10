@@ -120,13 +120,11 @@ const statusToneConfig: Record<StatusTone, string> = {
 
 const EducationTimelineItem = ({
   story,
-  index, // (por si después quieres usarlo)
   locale,
   onRequestDegreeVerification,
   onLogoClick,
 }: {
   story: EducationStory;
-  index: number;
   locale: Locale;
   onRequestDegreeVerification: () => void;
   onLogoClick?: (src: StaticImageData, alt: string) => void;
@@ -138,7 +136,7 @@ const EducationTimelineItem = ({
 
   React.useEffect(() => {
     if (ref.current) setHeaderHeight(ref.current.clientHeight);
-  }, [ref.current, open]);
+  }, []);
 
   const kindConfig = getKindConfig(locale)[story.kind];
 

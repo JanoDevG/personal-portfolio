@@ -2,7 +2,7 @@ import ContactSection from '@/components/Contact/ContactSection';
 import Hero from '@/components/Hero/Hero'
 import ProjectSection from '@/components/Projects/ProjectSection'
 import Skills from '@/components/Skills/Skills'
-import { getAllProjects, getAllTestimonials } from '@/services'
+import { getAllProjects } from '@/services'
 import { SuccessStoriesSection } from "@/components/SuccessStories/SuccessStoriesSection";
 import { EducationSection } from '@/components/Education/EducationSection'
 

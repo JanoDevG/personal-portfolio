@@ -7,7 +7,6 @@ import { SuccessStoryCard } from "./SuccessStoryCard";
 import {
   IconTopologyStar3,
   IconBuildingBank,
-  IconShare3, // lo dejo aunque no se use, tal como estaba
   IconInfoCircle,
   IconTruck,
   IconArrowsExchange,
@@ -49,11 +48,12 @@ export const SuccessStoriesSection = () => {
   const stories = localeBlock.successStories;
 
   const icons = [
-    <IconTopologyStar3 className="h-5 w-5 text-accent" />,
-    <IconBuildingBank className="h-5 w-5 text-accent" />,
-    <IconTruck className="h-5 w-5 text-accent" />,
-    <IconArrowsExchange className="h-5 w-5 text-accent" />,
-  ];
+  <IconTopologyStar3 key="icon-1" className="h-5 w-5 text-accent" />,
+  <IconBuildingBank key="icon-2" className="h-5 w-5 text-accent" />,
+  <IconTruck key="icon-3" className="h-5 w-5 text-accent" />,
+  <IconArrowsExchange key="icon-4" className="h-5 w-5 text-accent" />,
+];
+
 
   return (
     <section id="success-stories" className="my-20">
