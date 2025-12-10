@@ -23,27 +23,35 @@ export const successStoriesTexts = {
     successStories: [
       {
         title: "Gestión automatizada de oficios bancarios por Ley Parental",
-        context: "Banco · Arquitectura & backend senior · Java WebFlux",
-        tags: ["WEBFLUX", "JAVA", "REACTIVE", "OFICIOS JUDICIALES", "LEY PARENTAL"],
-        challenge:
-          "Los oficios judiciales por Ley Parental se tramitaban con procesos manuales lentos, alto volumen de casos y múltiples integraciones con sistemas internos y servicios externos poco confiables.",
-        solution:
-          "Lideré la arquitectura e implementación de una plataforma reactiva basada en WebFlux, orquestando servicios bancarios internos y servicios judiciales externos, con validaciones de negocio estrictas, manejo resiliente de errores y trazabilidad de cada transacción.",
-        impact:
-          "Reducción del tiempo de tramitación, menor riesgo operacional y un sistema estable incluso en escenarios de alta concurrencia y picos de carga.",
-        metrics: [
-          "Disminución del tiempo promedio de tramitación de oficios de varios minutos a decenas de segundos.",
-          "Capacidad de procesar cientos de oficios concurrentes sin degradación significativa del rendimiento.",
-          "Reducción de incidencias operacionales asociadas al proceso manual de oficios.",
-        ],
-        technicalSummary:
-          "Plataforma backend basada en Java y Spring WebFlux, integrando microservicios bancarios y servicios judiciales externos con enfoque reactivo end-to-end.",
-        technicalHighlights: [
-          "Orquestación de flujos de oficio mediante WebFlux y WebClient.",
-          "Manejo de backpressure, timeouts, reintentos y circuit breakers para servicios externos.",
-          "Validaciones de negocio centralizadas y trazabilidad completa de cada cambio de estado.",
-          "Diseño pensado para monitoreo y observabilidad en entornos productivos de banca.",
-        ],
+context: "Banco · Arquitectura & Backend Senior · Java WebFlux",
+tags: ["WEBFLUX", "JAVA", "REACTIVE", "OFICIOS JUDICIALES", "LEY PARENTAL"],
+
+challenge:
+  "La Ley Parental generó un aumento explosivo en la emisión de oficios judiciales para la retención de fondos por deudas de pensión de alimentos. El proceso era manual, lento, propenso a errores y con más de 500 oficios diarios gestionados manualmente, lo que exponía al banco a multas por respuestas fuera de plazo.",
+
+solution:
+  "Diseñé y lideré la arquitectura de una plataforma reactiva basada en microservicios, integrando el ecosistema bancario con los servicios judiciales del Estado. Implementé orquestación automática end-to-end que gestiona validaciones, retenciones, remisiones, alzamientos y notificaciones, reduciendo drásticamente la intervención manual.",
+
+impact:
+  "La automatización de más del 90% del ciclo de vida de los oficios permitió liberar al área de Fiscalía de una gran carga operativa, reducir riesgos regulatorios y acelerar procesos críticos de cumplimiento. La plataforma se convirtió en un componente estratégico dentro de la transformación digital del banco.",
+
+metrics: [
+  "Reducción del tiempo promedio de tramitación de minutos a decenas de segundos, eliminando multas asociadas a respuestas tardías.",
+  "Capacidad de procesar cientos de oficios concurrentes por segundo sin degradación del rendimiento, gracias a un diseño completamente reactivo.",
+  "Disminución significativa de incidencias operacionales y errores humanos asociados al proceso manual."
+],
+
+technicalSummary:
+  "Plataforma backend basada en Java 11 y Spring WebFlux, diseñada para operaciones I/O intensivas, integración entre microservicios bancarios, servicios judiciales externos y flujos orquestados con alta disponibilidad y observabilidad.",
+
+technicalHighlights: [
+  "Orquestación reactiva de flujos de oficio mediante WebFlux + WebClient, con ejecución asíncrona y manejo avanzado de I/O no bloqueante.",
+  "Implementación de backpressure, timeouts, reintentos inteligentes, circuit breakers y control de concurrencia para estabilidad en producción.",
+  "Motor de validaciones centralizado y trazabilidad completa del ciclo de vida del oficio, con auditoría basada en eventos.",
+  "Diseño orientado a observabilidad: logs estructurados, monitoreo de flujos, métricas y dashboards operativos.",
+  "Cumplimiento de estándares bancarios: SonarCloud, CheckStyle, ArchUnit, Veracode, 85% de cobertura en pruebas unitarias, lineamientos BIAN y API Enterprise Design."
+],
+
       },
       {
         title: "Backends bancarios para producto de ahorro con inversión",
@@ -175,28 +183,36 @@ export const successStoriesTexts = {
 
     successStories: [
       {
-        title: "Automated processing of court orders under Parental Law",
-        context: "Bank · Senior architecture & backend · Java WebFlux",
-        tags: ["WEBFLUX", "JAVA", "REACTIVE", "COURT ORDERS", "PARENTAL LAW"],
-        challenge:
-          "Court orders under Chile's Parental Law were handled using slow manual processes, high case volumes and multiple integrations with internal systems and unreliable external services.",
-        solution:
-          "I led the architecture and implementation of a reactive platform based on WebFlux, orchestrating internal banking services and external judicial services, with strict business validations, resilient error handling and full transaction traceability.",
-        impact:
-          "Shorter processing times, reduced operational risk and a stable system even under high concurrency and traffic spikes.",
-        metrics: [
-          "Average processing time per court order reduced from several minutes to tens of seconds.",
-          "Capability to process hundreds of concurrent court orders without significant performance degradation.",
-          "Reduction in operational incidents associated with the manual processing of court orders.",
-        ],
-        technicalSummary:
-          "Backend platform built on Java and Spring WebFlux, integrating banking microservices and external judicial services in an end-to-end reactive design.",
-        technicalHighlights: [
-          "Orchestration of court-order flows using WebFlux and WebClient.",
-          "Handling of backpressure, timeouts, retries and circuit breakers for external services.",
-          "Centralised business validations and complete traceability for every state change.",
-          "Observability-oriented design for production banking environments.",
-        ],
+        title: "Automated Management of Judicial Orders for the Parental Law",
+context: "Banking · Senior Backend & Architecture · Java WebFlux",
+tags: ["WEBFLUX", "JAVA", "REACTIVE", "JUDICIAL ORDERS", "PARENTAL LAW"],
+
+challenge:
+  "The Parental Law triggered a massive surge in judicial orders requesting fund retention due to child support debt. The process was fully manual, slow, and error-prone, with more than 500 orders manually reviewed each day. This exposed the bank to regulatory risk, operational bottlenecks, and fines for delayed responses.",
+
+solution:
+  "I designed and led the architecture of a reactive microservices platform that integrates the banking ecosystem with the State's judicial services. The solution automates end-to-end orchestration of validations, retentions, releases, cancellations, notifications, and customer flow handling, dramatically reducing manual workload.",
+
+impact:
+  "Automating over 90% of the judicial order lifecycle freed the Legal department from an extremely high operational load, reduced regulatory exposure, and significantly improved processing speed. The platform became a strategic component of the bank’s digital transformation initiatives.",
+
+metrics: [
+  "Reduced processing times from several minutes to just a few seconds, eliminating fines for late responses.",
+  "Ability to handle hundreds of concurrent judicial orders per second with no performance degradation, leveraging full reactive design.",
+  "Significant reduction in operational incidents and human-error-related issues from manual handling."
+],
+
+technicalSummary:
+  "Backend platform built using Java 11 and Spring WebFlux, focused on high-throughput I/O, integration with internal banking microservices and external judicial services, and reactive orchestration with strong observability and reliability.",
+
+technicalHighlights: [
+  "Reactive orchestration of judicial order flows using WebFlux + WebClient, enabling fully asynchronous pipelines with non-blocking I/O.",
+  "Advanced resilience patterns: backpressure, timeouts, smart retries, circuit breakers, and concurrency control for production stability.",
+  "Centralized business validation engine and full lifecycle traceability through structured logs and event-driven auditing.",
+  "Observability-driven design with metrics, dashboards, and monitoring tools for production troubleshooting.",
+  "Compliance with strict banking standards: SonarCloud, CheckStyle, ArchUnit, Veracode, 85% unit test coverage, BIAN, and API Enterprise Design."
+],
+
       },
       {
         title: "Banking backends for a savings & investment product",

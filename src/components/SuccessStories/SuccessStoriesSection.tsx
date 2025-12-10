@@ -86,6 +86,7 @@ export const SuccessStoriesSection = () => {
               key={i}
               locale={locale}
               icon={icons[i] ?? icons[0]}
+              featured={i === 0}
               {...story}
             />
           ))}

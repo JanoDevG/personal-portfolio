@@ -1,25 +1,32 @@
 @import 'tailwindcss';
 
-/* -------- TEMA LIGHT -------- */
+/* -------- TEMA LIGHT (suavizado / pastel) -------- */
 [data-theme='light'] {
-  --p: #ffffff;
-  --pc: #0d1a3b;
+  /* Fondo general: deja de ser blanco puro */
+  --p: #f5f7fb;         /* azul grisáceo muy suave */
+  --pc: #0b1220;        /* texto principal casi negro */
 
-  --s: #f2f2f5;
-  --sc: #0d1a3b;
+  /* Cards y bloques */
+  --s: #e6edf7;         /* tarjetas con leve azul/púrpura */
+  --sc: #0b1220;
 
-  --tc: #6b7c93;
+  /* Texto secundario */
+  --tc: #64748b;        /* gris azulado (tipo slate-500) */
 
-  --a: #22b8ff;
-  --n: #0d1a3b;
+  /* Accent / botones / links */
+  --a: #0284c7;         /* azul un poco más profundo, no tan “celeste lavado” */
 
-  --b: #e0e0e0;
-  --marquee: #dbe3f7;
+  /* Neutrales */
+  --n: #020617;         /* etiquetas, headings oscuros */
+  --b: #cbd5f5;         /* bordes suaves pero visibles */
+  --marquee: #dde7ff;   /* fondo para el marquee o bloques especiales */
 
-  --gradient-start: #22b8ff;
-  --gradient-mid: #18f2e5;
-  --gradient-end: #b8e6ff;
+  /* Gradiente de hero / detalles */
+  --gradient-start: #a5f3fc;  /* cian claro */
+  --gradient-mid: #38bdf8;    /* azul intermedio */
+  --gradient-end: #f4f9ff;    /* casi blanco pero con tinte frío */
 }
+
 
 /* -------- TEMA DARK (nuevo mejorado) -------- */
 [data-theme='dark'] {
@@ -115,8 +122,10 @@ body {
   font-optical-sizing: auto;
   font-style: normal;
 
-  @apply bg-primary text-white;
+  /* Usa los tokens de tema, no “white” fijo */
+  @apply bg-primary text-primary-content;
 }
+
 
 .rehype-code-title {
   @apply text-primary-content rounded-t-md bg-[#05101a] px-6 py-3 text-sm font-medium;
