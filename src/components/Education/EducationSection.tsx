@@ -118,24 +118,31 @@ const statusToneConfig: Record<StatusTone, string> = {
    ⭐ TIMELINE ITEM
 --------------------------------------------------- */
 
-const EducationTimelineItem = ({
-  story,
-  locale,
-  onRequestDegreeVerification,
-  onLogoClick,
-}: {
+type EducationTimelineItemProps = {
   story: EducationStory;
+  index: number;
   locale: Locale;
   onRequestDegreeVerification: () => void;
   onLogoClick?: (src: StaticImageData, alt: string) => void;
-}) => {
+};
+
+const EducationTimelineItem = ({
+  story,
+  index: _index, // se tipa pero no se usa (evita eslint de unused)
+  locale,
+  onRequestDegreeVerification,
+  onLogoClick,
+}: EducationTimelineItemProps) => {
   const [open, setOpen] = React.useState(false);
 
-  const ref = React.useRef<HTMLDivElement>(null);
+  // 👇 el trigger es un <button>, así que el ref debe ser de HTMLButtonElement
+  const ref = React.useRef<HTMLButtonElement | null>(null);
   const [headerHeight, setHeaderHeight] = React.useState(0);
 
   React.useEffect(() => {
-    if (ref.current) setHeaderHeight(ref.current.clientHeight);
+    if (ref.current) {
+      setHeaderHeight(ref.current.clientHeight);
+    }
   }, []);
 
   const kindConfig = getKindConfig(locale)[story.kind];
@@ -232,9 +239,7 @@ const EducationTimelineItem = ({
                     <p>{story.summary}</p>
 
                     {story.details && (
-                      <p className="mt-2 text-[13px]">
-                        {story.details}
-                      </p>
+                      <p className="mt-2 text-[13px]">{story.details}</p>
                     )}
 
                     {story.highlights?.length > 0 && (

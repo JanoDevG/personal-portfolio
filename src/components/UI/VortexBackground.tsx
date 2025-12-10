@@ -1,5 +1,7 @@
 "use client";
 
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect, useRef, useState } from "react";
 import { createNoise3D } from "simplex-noise";
 import { motion } from "framer-motion";
@@ -39,7 +41,6 @@ const cssVarToHue = (name: string): number => {
   const min = Math.min(r, g, b);
 
   let h = 0;
-
   if (max !== min) {
     if (max === r) h = (60 * ((g - b) / (max - min)) + 360) % 360;
     else if (max === g) h = 60 * ((b - r) / (max - min)) + 120;
@@ -87,8 +88,7 @@ const VortexBackground: React.FC<VortexBackgroundProps> = ({
       return [215, 195, 175, 255];
     };
 
-    const newPalette = computePalette();
-    setPalette(newPalette);
+    setPalette(computePalette());
 
     const observer = new MutationObserver(() => {
       setPalette(computePalette());
@@ -123,7 +123,8 @@ const VortexBackground: React.FC<VortexBackgroundProps> = ({
   let tick = 0;
   const noise3D = createNoise3D();
 
-  let center: [number, number] = [0, 0];
+  const center = { x: 0, y: 0 };
+
   let props = new Float32Array(particlePropsLength);
 
   const TAU = Math.PI * 2;
@@ -133,7 +134,7 @@ const VortexBackground: React.FC<VortexBackgroundProps> = ({
 
   const fadeInOut = (t: number, m: number) => {
     const h = 0.5 * m;
-    return Math.abs(((t + h) % m) - h) / h; // 0 a 1
+    return Math.abs(((t + h) % m) - h) / h;
   };
 
   const lerp = (n1: number, n2: number, speed: number) =>
@@ -147,21 +148,12 @@ const VortexBackground: React.FC<VortexBackgroundProps> = ({
     if (!canvas || palette.length === 0) return;
 
     const x = rand(canvas.width);
-    const y = center[1] + randRange(rangeY);
+    const y = center.y + randRange(rangeY);
 
     const ttl = baseTTL + rand(rangeTTL);
 
     props.set(
-      [
-        x,
-        y,
-        0,
-        0,
-        0, // vida
-        ttl,
-        baseRadius + rand(rangeRadius),
-        randomHue(),
-      ],
+      [x, y, 0, 0, 0, ttl, baseRadius + rand(rangeRadius), randomHue()],
       i
     );
   };
@@ -187,13 +179,13 @@ const VortexBackground: React.FC<VortexBackgroundProps> = ({
     hue: number,
     ctx: CanvasRenderingContext2D
   ) => {
-    const isLight = document.documentElement.getAttribute("data-theme") === "light";
+    const isLight =
+      document.documentElement.getAttribute("data-theme") === "light";
 
-    // 🔥 AUMENTAMOS LA VISIBILIDAD
     const alphaBoost = isLight ? 1.35 : 1.15;
     const rawAlpha = fadeInOut(life, ttl) * alphaBoost;
 
-    const alpha = Math.min(rawAlpha, 0.85); // límite máximo
+    const alpha = Math.min(rawAlpha, 0.85);
 
     ctx.save();
     ctx.lineCap = "round";
@@ -215,11 +207,13 @@ const VortexBackground: React.FC<VortexBackgroundProps> = ({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    let x = props[i];
-    let y = props[i + 1];
+    const x = props[i];
+    const y = props[i + 1];
+
     let vx = props[i + 2];
     let vy = props[i + 3];
     let life = props[i + 4];
+
     const ttl = props[i + 5];
     const radius = props[i + 6];
     const hue = props[i + 7];
@@ -256,9 +250,12 @@ const VortexBackground: React.FC<VortexBackgroundProps> = ({
   };
 
   /* ---------------------------------------------------------
-     GLOW MEJORADO
+     Efecto Glow
   --------------------------------------------------------- */
-  const renderGlow = (canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) => {
+  const renderGlow = (
+    canvas: HTMLCanvasElement,
+    ctx: CanvasRenderingContext2D
+  ) => {
     ctx.save();
     ctx.filter = "blur(12px) brightness(260%) saturate(120%)";
     ctx.globalCompositeOperation = "lighter";
@@ -266,7 +263,10 @@ const VortexBackground: React.FC<VortexBackgroundProps> = ({
     ctx.restore();
   };
 
-  const renderToScreen = (canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) => {
+  const renderToScreen = (
+    canvas: HTMLCanvasElement,
+    ctx: CanvasRenderingContext2D
+  ) => {
     ctx.save();
     ctx.globalCompositeOperation = "lighter";
     ctx.drawImage(canvas, 0, 0);
@@ -274,18 +274,18 @@ const VortexBackground: React.FC<VortexBackgroundProps> = ({
   };
 
   /* ---------------------------------------------------------
-     Resize – asegurar full height del Hero
+     Resize
   --------------------------------------------------------- */
   const resize = (canvas: HTMLCanvasElement) => {
     canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight * 1.2; // 👈 MÁS ALTO
+    canvas.height = window.innerHeight * 1.2;
 
-    center[0] = canvas.width * 0.5;
-    center[1] = canvas.height * 0.25; // 👈 SUBE EL CENTRO
+    center.x = canvas.width * 0.5;
+    center.y = canvas.height * 0.25;
   };
 
   /* ---------------------------------------------------------
-     Draw loop
+     Draw Loop
   --------------------------------------------------------- */
   const draw = (canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) => {
     tick++;
@@ -305,13 +305,11 @@ const VortexBackground: React.FC<VortexBackgroundProps> = ({
   };
 
   /* ---------------------------------------------------------
-     Setup inicial
+     Setup
   --------------------------------------------------------- */
   const setup = () => {
-    if (palette.length === 0) return;
-
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas || palette.length === 0) return;
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
@@ -337,7 +335,7 @@ const VortexBackground: React.FC<VortexBackgroundProps> = ({
   }, [palette]);
 
   /* ---------------------------------------------------------
-     Render del componente
+     Render
   --------------------------------------------------------- */
   return (
     <div
