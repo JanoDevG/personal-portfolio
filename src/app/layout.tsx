@@ -14,20 +14,18 @@ const firaCode = Fira_Code({
   weight: ["300", "400", "500", "600", "700"],
 });
 
-// Obtener locale desde cookie (server-side)
-function getServerLocale(): Locale {
-  const cookieStore = cookies();
+async function getServerLocale(): Promise<Locale> {
+  const cookieStore = await cookies();
   const cookieLocale = cookieStore.get("locale")?.value;
 
   if (cookieLocale === "es" || cookieLocale === "en") {
     return cookieLocale;
   }
-  return DEFAULT_LOCALE; // español por defecto
+  return DEFAULT_LOCALE;
 }
 
-// SEO dinámico según idioma
 export async function generateMetadata(): Promise<Metadata> {
-  const locale = getServerLocale();
+  const locale = await getServerLocale();
   const t = messages[locale].seo;
 
   const url = process.env.NEXT_PUBLIC_SITE_URL!;
@@ -56,12 +54,12 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const locale = getServerLocale();
+  const locale = await getServerLocale();
 
   return (
     <html lang={locale} data-theme="dark">

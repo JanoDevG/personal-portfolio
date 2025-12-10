@@ -1,60 +1,56 @@
-import { Project, Testimonial } from '@/lib/types'
-import { promises as fs } from 'fs'
-import path from 'path'
+"use server";
 
-// Function to read project file
-const readProjectFile = async (filePath: string): Promise<Project> => {
-  const projectData = await fs.readFile(filePath, 'utf8')
-  return JSON.parse(projectData)
-}
+import { promises as fs } from "fs";
+import path from "path";
+import { Project, Testimonial } from "@/lib/types";
 
-// Function to get all projects
-const getAllProjects = async (): Promise<Project[]> => {
+/* ---------------------------------------------------
+   🔧 Utility: Read + parse any JSON file
+--------------------------------------------------- */
+const readJsonFile = async <T>(filePath: string): Promise<T> => {
+  const raw = await fs.readFile(filePath, "utf8");
+  return JSON.parse(raw) as T;
+};
+
+/* ---------------------------------------------------
+   🔧 Utility: Read all JSON files in a folder
+--------------------------------------------------- */
+const readJsonFolder = async <T>(folder: string): Promise<T[]> => {
+  const dirPath = path.resolve(process.cwd(), folder);
+  const files = await fs.readdir(dirPath);
+
+  return Promise.all(
+    files.map((name) => {
+      const filePath = path.join(dirPath, name);
+      return readJsonFile<T>(filePath);
+    })
+  );
+};
+
+/* ---------------------------------------------------
+   📚 Get all projects (sorted by priority)
+--------------------------------------------------- */
+export const getAllProjects = async (): Promise<Project[]> => {
   try {
-    const projectsPath = path.join(process.cwd(), '/content/projects')
-    const projectsName = await fs.readdir(projectsPath)
-
-    const projects = await Promise.all(
-      projectsName.map(async (projectName) => {
-        const filePath = path.join(projectsPath, projectName)
-        const projectDetails = await readProjectFile(filePath)
-        return projectDetails
-      }),
-    )
-
-    // Sort projects by priority
-    projects.sort((a, b) => a.priority - b.priority)
-
-    return projects
-  } catch (error) {
-    // Handle errors
-    console.error('Error:', error)
-    return []
+    const projects = await readJsonFolder<Project>("content/projects");
+    return projects.sort((a, b) => a.priority - b.priority);
+  } catch (err) {
+    console.error("Error reading projects:", err);
+    return [];
   }
-}
+};
 
-const getAllTestimonials = async (): Promise<Testimonial[]> => {
+/* ---------------------------------------------------
+   💬 Get all testimonials (sorted by date)
+--------------------------------------------------- */
+export const getAllTestimonials = async (): Promise<Testimonial[]> => {
   try {
-    const testimonialsPath = path.join(process.cwd(), '/content/testimonials')
-    const testimonialsName = await fs.readdir(testimonialsPath)
-
-    const testimonials = await Promise.all(
-      testimonialsName.map(async (projectName) => {
-        const filePath = path.join(testimonialsPath, projectName)
-        const projectDetails = await fs.readFile(filePath, 'utf8')
-        return JSON.parse(projectDetails)
-      }),
-    )
-
-    // Sort testimonials by date
-    testimonials.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-
-    return testimonials
-  } catch (error) {
-    // Handle errors
-    console.error('Error:', error)
-    return []
+    const testimonials = await readJsonFolder<Testimonial>("content/testimonials");
+    return testimonials.sort(
+      (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+  } catch (err) {
+    console.error("Error reading testimonials:", err);
+    return [];
   }
-}
-
-export { getAllProjects, getAllTestimonials }
+};
