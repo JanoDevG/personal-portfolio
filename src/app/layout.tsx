@@ -14,34 +14,38 @@ const firaCode = Fira_Code({
   weight: ["300", "400", "500", "600", "700"],
 });
 
+// Obtener locale desde cookie (server-side)
 async function getServerLocale(): Promise<Locale> {
-  const cookieStore = await cookies();
+  const cookieStore = cookies();
   const cookieLocale = cookieStore.get("locale")?.value;
 
-  if (cookieLocale === "es" || cookieLocale === "en") {
-    return cookieLocale;
-  }
-  return DEFAULT_LOCALE;
+  return cookieLocale === "es" || cookieLocale === "en"
+    ? cookieLocale
+    : DEFAULT_LOCALE;
 }
 
+// SEO dinámico según idioma
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
   const t = messages[locale].seo;
 
-  const url = process.env.NEXT_PUBLIC_SITE_URL!;
+  // Evita error fatal cuando no existe la variable en Vercel
+  const siteUrl =
+    process.env.NEXT_PUBLIC_SITE_URL ??
+    "https://janodevg.vercel.app";
 
   return {
     title: t.title,
     description: t.description,
     category: "technology",
-    metadataBase: new URL(url),
+    metadataBase: new URL(siteUrl),
     alternates: {
-      canonical: url,
+      canonical: siteUrl,
     },
     openGraph: {
       title: t.title,
       description: t.description,
-      url,
+      url: siteUrl,
       siteName: t.siteName,
       type: "website",
     },
@@ -71,3 +75,4 @@ export default async function RootLayout({
     </html>
   );
 }
+
