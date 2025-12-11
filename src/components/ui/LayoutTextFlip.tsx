@@ -10,7 +10,6 @@ import {
 } from "@/i18n/messages";
 
 interface LayoutTextFlipProps {
-  // Permite override opcional, pero normalmente se usa i18n automático
   locale?: Locale;
   duration?: number;
   className?: string;
@@ -21,7 +20,6 @@ export const LayoutTextFlip: React.FC<LayoutTextFlipProps> = ({
   duration = 3000,
   className = "",
 }) => {
-  // 🔥 Locale dinámico como en todos los componentes
   const [currentLocale, setCurrentLocale] = useState<Locale>(
     locale ?? DEFAULT_LOCALE
   );
@@ -40,12 +38,10 @@ export const LayoutTextFlip: React.FC<LayoutTextFlipProps> = ({
     return () => window.removeEventListener("locale-change", handler);
   }, []);
 
-  // 📌 Cargamos los textos traducidos
   const tExec = messages[currentLocale].executive;
   const text = tExec.title;
   const words = tExec.words;
 
-  // 🔁 Control del índice
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
@@ -56,7 +52,7 @@ export const LayoutTextFlip: React.FC<LayoutTextFlipProps> = ({
     }, duration);
 
     return () => clearInterval(interval);
-  }, [duration, words.length, currentLocale]); 
+  }, [duration, words.length, currentLocale]);
 
   return (
     <div
@@ -70,19 +66,29 @@ export const LayoutTextFlip: React.FC<LayoutTextFlipProps> = ({
         {text}
       </motion.span>
 
-      {/* Texto rotante */}
+      {/* Texto rotante – FIX SAFARI */}
       <motion.span
         layout
-        className="relative w-fit overflow-hidden rounded-md border border-transparent
-                   bg-white px-4 py-2 font-sans text-2xl font-bold tracking-tight text-black shadow-sm
-                   ring shadow-black/10 ring-black/10
-                   md:text-3xl lg:text-4xl
-                   dark:bg-primary dark:text-accent dark:ring-1 dark:ring-accent/20 dark:shadow-accent/10"
+        className="
+          relative w-fit overflow-hidden rounded-md 
+          px-4 py-2 font-sans text-2xl font-bold tracking-tight 
+          border border-accent/40
+          text-accent
+          md:text-3xl lg:text-4xl
+        "
+        style={{
+          backgroundColor: "transparent",
+          WebkitBackdropFilter: "none",
+          backdropFilter: "none",
+          WebkitTransform: "translateZ(0)",
+          transform: "translateZ(0)",
+          WebkitMaskImage: "none",
+          maskImage: "none",
+        }}
       >
         <AnimatePresence mode="popLayout">
           <motion.span
-            key={currentIndex + currentLocale} 
-            // 👆 cambia cuando cambia el idioma → fuerza animación correcta
+            key={currentIndex + currentLocale}
             initial={{ y: -40, filter: "blur(10px)" }}
             animate={{ y: 0, filter: "blur(0px)" }}
             exit={{ y: 50, filter: "blur(10px)", opacity: 0 }}
