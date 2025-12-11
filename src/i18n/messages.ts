@@ -127,7 +127,7 @@ export const messages = {
     footer: {
       techTitle: "Tecnologías del proyecto",
       techDescription:
-        "Este proyecto web fue desarrollado con tecnologías modernas como Next.js 15, React 19, TailwindCSS 4, animaciones con Framer Motion y Lottie.",
+        "Este proyecto web fue desarrollado con tecnologías modernas como Next.js 16, React 19, TailwindCSS 4, animaciones con Framer Motion y Lottie.",
       template: "Plantilla base utilizada como punto de partida:",
       templateLinkText: "nextjs-portfolio-template",
       locationTitle: "Ubicación",
@@ -265,7 +265,7 @@ export const messages = {
     footer: {
       techTitle: "Project technologies",
       techDescription:
-        "This website was built with Next.js 15, React 19, TailwindCSS 4, Framer Motion and Lottie.",
+        "This website was built with Next.js 16, React 19, TailwindCSS 4, Framer Motion and Lottie.",
       template: "Base template used as starting point:",
       templateLinkText: "nextjs-portfolio-template",
       locationTitle: "Location",
