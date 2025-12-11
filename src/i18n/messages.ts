@@ -1,5 +1,4 @@
 // src/i18n/messages.ts
-
 export const messages = {
   es: {
     seo: {
@@ -32,10 +31,8 @@ export const messages = {
       chileAria: "Sitio oficial del Gobierno de Chile",
       subtitle:
         "Diseño e implemento soluciones backend robustas en Java y Spring Boot, integrando sistemas empresariales y liderando equipos técnicos para llevar productos de calidad a producción.",
-      imageAlt:
-        "Alejandro Gutiérrez - Ingeniero de Software Senior Java",
+      imageAlt: "Alejandro Gutiérrez - Ingeniero de Software Senior Java",
 
-      // Frases que rotan cada 4 segundos
       roles: [
         "Senior Software Engineer",
         "Desarrollador backend senior",
@@ -61,13 +58,92 @@ export const messages = {
         contactAria: "Ir a la sección de contacto",
       },
     },
+
+    executive: {
+      tag: "Especialidades",
+      title: "El valor que aporto en",
+      description:
+        "Diseño y lidero soluciones backend robustas empleadas en entornos empresariales y bancarios, integrando sistemas de misión crítica y construyendo plataformas escalables con Java, Spring Boot y WebFlux.",
+      words: [
+        "arquitecturas backend reactivas",
+        "integraciones bancarias complejas",
+        "sistemas distribuidos de alta criticidad",
+        "APIs resilientes y escalables",
+        "plataformas event-driven",
+        "proyectos de alto tráfico",
+        "equipos técnicos de alto desempeño",
+      ],
+    },
+
+    executiveGrid: {
+      banking: {
+        title: "Sistemas bancarios y misión crítica",
+        description:
+          "Diseño de plataformas bancarias y enterprise de misión crítica, enfocadas en resiliencia, alta disponibilidad y escalabilidad bajo alto volumen de transacciones.",
+      },
+      reactive: {
+        title: "Arquitecturas backend reactivas",
+        description:
+          "Programación reactiva con Java (Spring WebFlux) para construir backends transaccionales de alta demanda, que sigan respondiendo rápido incluso con miles de usuarios y ante fallas inesperadas.",
+      },
+      integration: {
+        title: "Integración y mensajería empresarial",
+        description:
+          "Kafka, arquitecturas orientadas a eventos, APIs REST, colas de mensajes y patrones de integración para conectar sistemas complejos y hacer que la información fluya de forma confiable entre servicios.",
+      },
+      evolution: {
+        title: "Arquitectura evolutiva & liderazgo técnico",
+        description:
+          "Definición de estándares de arquitectura, revisión de diseño y mentoría técnica para que los equipos entreguen software sostenible y alineado a la visión de producto.",
+      },
+      observability: {
+        title: "Observabilidad & rendimiento",
+        description:
+          "Trazas distribuidas, métricas y logs que permiten detectar problemas de rendimiento antes de que impacten al negocio y mantener estable el entorno productivo.",
+      },
+      data: {
+        title: "Modelado & persistencia de datos",
+        description:
+          "Modelado de datos y optimización de consultas e índices para aplicaciones transaccionales y servicios con alta demanda.",
+      },
+      devops: {
+        title: "Prácticas de ingeniería & cultura DevOps",
+        description:
+          "Código Java limpio y testeable, pruebas unitarias sólidas, code reviews y trabajo cercano con equipos DevOps y ágiles para entregar cambios frecuentes de forma segura.",
+      },
+    },
+
+    contact: {
+      title: "Gracias por llegar hasta aquí",
+      subtitle: "¿Hablamos?",
+      description:
+        "Si esta página te ayudó a conocer mejor cómo pienso y cómo trabajo, estaré encantado de seguir la conversación.",
+      cta: "Escríbeme a",
+      socialTitle: "También podemos conectar por:",
+      disclaimer:
+        "Dentro de un horario hábil, siéntete libre de contactarte conmigo ☺️",
+    },
+
+    footer: {
+      techTitle: "Tecnologías del proyecto",
+      techDescription:
+        "Este proyecto web fue desarrollado con tecnologías modernas como Next.js 15, React 19, TailwindCSS 4, animaciones con Framer Motion y Lottie.",
+      template: "Plantilla base utilizada como punto de partida:",
+      templateLinkText: "nextjs-portfolio-template",
+      locationTitle: "Ubicación",
+      locationText: "Santiago de Chile",
+      licenseTitle: "Licencia",
+      licenseText:
+        "Licencia CC BY-NC-ND 4.0 — prohibido el uso comercial y la redistribución modificada",
+      copy: "© 2025 — Desarrollado por Alejandro Gutiérrez",
+    },
   },
 
   en: {
     seo: {
       title: "Alejandro Gutiérrez | Senior Java Software Engineer",
       description:
-        "Senior Software Engineer and Java Developer Certified (OCP 17). I specialize in system integration and enterprise service-oriented architecture (SOA) using Java and Spring Boot, leading robust and maintainable solutions.",
+        "Senior Software Engineer and Java Developer Certified (OCP 17). Specialized in system integration and enterprise architecture.",
       siteName: "Alejandro's Portfolio",
       twitterCreator: "@alejandro_dev",
     },
@@ -93,22 +169,21 @@ export const messages = {
       name: "Alejandro Gutiérrez",
       chileAria: "Official website of the Government of Chile",
       subtitle:
-        "I design and build robust backend solutions in Java and Spring Boot, integrating enterprise systems and leading engineering teams to ship reliable, production-ready products.",
-      imageAlt:
-        "Alejandro Gutiérrez - Senior Java Software Engineer",
+        "I design and build robust backend solutions in Java and Spring Boot, integrating enterprise systems and leading technical teams to bring high-quality products into production.",
+      imageAlt: "Alejandro Gutiérrez - Senior Java Software Engineer",
 
       roles: [
         "Senior Software Engineer",
         "Senior backend developer",
-        "Certified in Java - Oracle Certified Professional 17 (OCP 17)",
-        "Java and Spring Boot enterprise solutions",
-        "Microservices and modular monoliths with service-oriented (SOA) design",
-        "BIAN and enterprise / banking development",
+        "Oracle Certified Professional 17 (OCP 17)",
+        "Java & Spring Boot enterprise solutions",
+        "Microservices & modular monoliths (SOA)",
+        "BIAN & enterprise/banking development",
         "Enterprise software architecture",
         "Reactive programming with Spring WebFlux",
-        "IT project lead",
-        "Integration lead for enterprise IT platforms",
-        "Computer engineer – Bachelor in Computer Engineering",
+        "IT project leader",
+        "Enterprise integration leader",
+        "Computer Engineer — Bachelor in Computer Science",
       ],
 
       buttons: {
@@ -122,11 +197,87 @@ export const messages = {
         contactAria: "Go to contact section",
       },
     },
+
+    executive: {
+      tag: "Specialties",
+      title: "The value I bring to",
+      description:
+        "I design and lead robust backend solutions used in enterprise and banking environments, integrating mission-critical systems and building scalable platforms with Java, Spring Boot and WebFlux.",
+      words: [
+        "reactive backend architectures",
+        "complex banking integrations",
+        "mission-critical distributed systems",
+        "resilient and scalable APIs",
+        "event-driven platforms",
+        "high-traffic projects",
+        "high-performance engineering teams",
+      ],
+    },
+
+    executiveGrid: {
+      banking: {
+        title: "Banking systems & mission-critical platforms",
+        description:
+          "Design of enterprise and banking platforms focused on resilience, high availability and scalability under heavy transactional workloads.",
+      },
+      reactive: {
+        title: "Reactive backend architectures",
+        description:
+          "Reactive programming with Java (Spring WebFlux) to build high-demand transactional backends that stay responsive even under thousands of concurrent users and unexpected failures.",
+      },
+      integration: {
+        title: "Enterprise integration & messaging",
+        description:
+          "Kafka, event-driven architectures, REST APIs, message queues and integration patterns to connect complex systems and enable reliable data flow across services.",
+      },
+      evolution: {
+        title: "Evolutionary architecture & technical leadership",
+        description:
+          "Definition of architectural standards, design reviews and technical mentoring to help teams deliver sustainable software aligned with the product vision.",
+      },
+      observability: {
+        title: "Observability & performance",
+        description:
+          "Distributed tracing, metrics and logging to detect performance issues before they impact the business and maintain stability in production environments.",
+      },
+      data: {
+        title: "Data modeling & persistence",
+        description:
+          "Data modeling and query/index optimization for transactional applications and high-demand services.",
+      },
+      devops: {
+        title: "Engineering practices & DevOps culture",
+        description:
+          "Clean, testable Java code, strong unit testing, code reviews and close collaboration with DevOps and agile teams to deliver safe and frequent changes.",
+      },
+    },
+
+    contact: {
+      title: "Thanks for reaching this far",
+      subtitle: "Shall we talk?",
+      description:
+        "If this page helped you understand how I think and work, I'd be glad to continue the conversation.",
+      cta: "Write me at",
+      socialTitle: "We can also connect through:",
+      disclaimer: "Feel free to contact me during business hours ☺️",
+    },
+
+    footer: {
+      techTitle: "Project technologies",
+      techDescription:
+        "This website was built with Next.js 15, React 19, TailwindCSS 4, Framer Motion and Lottie.",
+      template: "Base template used as starting point:",
+      templateLinkText: "nextjs-portfolio-template",
+      locationTitle: "Location",
+      locationText: "Santiago, Chile",
+      licenseTitle: "License",
+      licenseText:
+        "Licensed under CC BY-NC-ND 4.0 — commercial use and modifications prohibited",
+      copy: "© 2025 — Developed by Alejandro Gutiérrez",
+    },
   },
 } as const;
 
-export type Locale = keyof typeof messages; // "es" | "en"
-
+export type Locale = keyof typeof messages;
 export const DEFAULT_LOCALE: Locale = "es";
-
 export const LOCALE_STORAGE_KEY = "locale";

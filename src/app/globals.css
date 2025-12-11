@@ -1,42 +1,52 @@
 @import 'tailwindcss';
-@import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
-
+/* -------- TEMA LIGHT (suavizado / pastel) -------- */
 [data-theme='light'] {
-  --p: #fff;
-  --pc: #0d1a3b;
-  --s: #edeaf4;
-  --sc: #0d1a3b;
-  --tc: #6b7c93;
-  --a: #5565e8;
-  --n: #0d1a3b;
+  /* Fondo general: deja de ser blanco puro */
+  --p: #f5f7fb;         /* azul grisáceo muy suave */
+  --pc: #0b1220;        /* texto principal casi negro */
 
-  --b: #dfdcdc;
-  --marquee: #dbe3f7;
+  /* Cards y bloques */
+  --s: #e6edf7;         /* tarjetas con leve azul/púrpura */
+  --sc: #0b1220;
 
-  /* for logo */
-  --gradient-start: #5565e8;
-  --gradient-mid: #18f2e5;
-  --gradient-end: #dbe3f7;
+  /* Texto secundario */
+  --tc: #64748b;        /* gris azulado (tipo slate-500) */
+
+  /* Accent / botones / links */
+  --a: #0284c7;         /* azul un poco más profundo, no tan “celeste lavado” */
+
+  /* Neutrales */
+  --n: #020617;         /* etiquetas, headings oscuros */
+  --b: #cbd5f5;         /* bordes suaves pero visibles */
+  --marquee: #dde7ff;   /* fondo para el marquee o bloques especiales */
+
+  /* Gradiente de hero / detalles */
+  --gradient-start: #a5f3fc;  /* cian claro */
+  --gradient-mid: #38bdf8;    /* azul intermedio */
+  --gradient-end: #f4f9ff;    /* casi blanco pero con tinte frío */
 }
 
+
+/* -------- TEMA DARK (nuevo mejorado) -------- */
 [data-theme='dark'] {
-  --p: #011627;
-  --pc: #607b96;
-  --s: #011221;
-  --sc: #5565e8;
-  --tc: #99a1af;
-  --a: #18f2e5;
-  --n: #fff;
+  --p: #000a14; /* azul-marino muy profundo */
+  --pc: #8bb3d9;
 
-  --b: #1e2d3d;
-  --marquee: #062b48;
+  --s: #00101d; /* sombra fría profesional */
+  --sc: #5cc0fe;
 
-  /* for logo */
-  --gradient-start: #18f2e5;
-  --gradient-mid: #5cc0fe;
-  --gradient-end: #4ea7ff;
+  --tc: #b8c6d4;
+
+  --a: #00f2b3; /* verde premium */
+  --n: #ffffff;
+
+  --b: #0e1b29;
+  --marquee: #052037;
+
+  --gradient-start: #00f2b3;
+  --gradient-mid: #1ea9ff;
+  --gradient-end: #004f88;
 }
 
 @theme {
@@ -57,7 +67,12 @@
 
   --background-image-large-glow: url('../assets/images/bg-lg.svg');
   --background-image-small-glow: url('../assets/images/bg-sm.svg');
-  --background-image-skill-gradient: linear-gradient(to right, var(--p), #062b48, var(--p));
+  --background-image-skill-gradient: linear-gradient(
+    to right,
+    var(--p),
+    #062b48,
+    var(--p)
+  );
 
   --background-position-large-glow-position: 110% 30%;
   --background-position-small-glow-position: 50% 600%;
@@ -74,34 +89,15 @@
     }
   }
   @keyframes blink {
-    0% {
-      opacity: 0;
-    }
-    50% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0;
-    }
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
   }
   @keyframes fade-up {
-    0% {
-      top: 5px;
-    }
-    100% {
-      top: 0px;
-    }
+    0% { top: 5px; }
+    100% { top: 0px; }
   }
 }
 
-/*
-  The default border color has changed to `currentColor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
 @layer base {
   *,
   ::after,
@@ -115,6 +111,7 @@
 html {
   scroll-behavior: smooth !important;
   scrollbar-width: none;
+
   ::-webkit-scrollbar {
     display: none;
   }
@@ -125,15 +122,16 @@ body {
   font-optical-sizing: auto;
   font-style: normal;
 
-  @apply bg-primary text-white;
+  /* Usa los tokens de tema, no “white” fijo */
+  @apply bg-primary text-primary-content;
 }
+
 
 .rehype-code-title {
   @apply text-primary-content rounded-t-md bg-[#05101a] px-6 py-3 text-sm font-medium;
 }
 
-h2,
-h3 {
+h2, h3 {
   scroll-margin-top: 5.25rem;
 }
 
@@ -141,7 +139,6 @@ section {
   scroll-margin-top: 1.5rem;
 }
 
-/* Safari-only */
 @supports (-webkit-hyphens: none) {
   * {
     scroll-margin-top: 0;
@@ -149,8 +146,7 @@ section {
 }
 
 @media screen and (min-width: 1024px) {
-  h2,
-  h3 {
+  h2, h3 {
     scroll-margin-top: 1.5rem;
   }
 }
@@ -162,118 +158,13 @@ section {
   scrollbar-width: none;
 }
 
-@theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+
+/* Iconos que son originalmente negros y deben invertirse en tema oscuro */
+.icon-invert {
+  filter: invert(1);
 }
 
-:root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.147 0.004 49.25);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.147 0.004 49.25);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.147 0.004 49.25);
-  --primary: oklch(0.216 0.006 56.043);
-  --primary-foreground: oklch(0.985 0.001 106.423);
-  --secondary: oklch(0.97 0.001 106.424);
-  --secondary-foreground: oklch(0.216 0.006 56.043);
-  --muted: oklch(0.97 0.001 106.424);
-  --muted-foreground: oklch(0.553 0.013 58.071);
-  --accent: oklch(0.97 0.001 106.424);
-  --accent-foreground: oklch(0.216 0.006 56.043);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.923 0.003 48.717);
-  --input: oklch(0.923 0.003 48.717);
-  --ring: oklch(0.709 0.01 56.259);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0.001 106.423);
-  --sidebar-foreground: oklch(0.147 0.004 49.25);
-  --sidebar-primary: oklch(0.216 0.006 56.043);
-  --sidebar-primary-foreground: oklch(0.985 0.001 106.423);
-  --sidebar-accent: oklch(0.97 0.001 106.424);
-  --sidebar-accent-foreground: oklch(0.216 0.006 56.043);
-  --sidebar-border: oklch(0.923 0.003 48.717);
-  --sidebar-ring: oklch(0.709 0.01 56.259);
-}
-
-.dark {
-  --background: oklch(0.147 0.004 49.25);
-  --foreground: oklch(0.985 0.001 106.423);
-  --card: oklch(0.216 0.006 56.043);
-  --card-foreground: oklch(0.985 0.001 106.423);
-  --popover: oklch(0.216 0.006 56.043);
-  --popover-foreground: oklch(0.985 0.001 106.423);
-  --primary: oklch(0.923 0.003 48.717);
-  --primary-foreground: oklch(0.216 0.006 56.043);
-  --secondary: oklch(0.268 0.007 34.298);
-  --secondary-foreground: oklch(0.985 0.001 106.423);
-  --muted: oklch(0.268 0.007 34.298);
-  --muted-foreground: oklch(0.709 0.01 56.259);
-  --accent: oklch(0.268 0.007 34.298);
-  --accent-foreground: oklch(0.985 0.001 106.423);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.553 0.013 58.071);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.216 0.006 56.043);
-  --sidebar-foreground: oklch(0.985 0.001 106.423);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0.001 106.423);
-  --sidebar-accent: oklch(0.268 0.007 34.298);
-  --sidebar-accent-foreground: oklch(0.985 0.001 106.423);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.553 0.013 58.071);
-}
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
+/* Cuando el tema es LIGHT, desactivamos el filtro para que vuelvan a negro */
+[data-theme='light'] .icon-invert {
+  filter: invert(0);
 }

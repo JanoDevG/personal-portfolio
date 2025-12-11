@@ -2,43 +2,35 @@
 import { useEffect, useState } from "react";
 
 interface UseRoleSwitcherOptions {
-  roles: string[];
-  /**
-   * Intervalo en milisegundos para cambiar de rol.
-   * Por defecto: 4000 ms (4 segundos).
-   */
+  roles: readonly string[];   // ⬅️ acepta readonly string[]
   intervalMs?: number;
 }
 
-/**
- * Hook para rotar entre distintos roles/títulos de forma automática.
- * Ejemplo de uso:
- *
- * const role = useRoleSwitcher({ roles: hero.roles, intervalMs: 4000 });
- */
 export default function useRoleSwitcher({
   roles,
   intervalMs = 4000,
 }: UseRoleSwitcherOptions): string {
   const [index, setIndex] = useState(0);
 
-  useEffect(() => {
-    if (!roles || roles.length === 0) return;
+  // ⚠️ Convertimos a mutable para poder trabajar sin errores TS
+  const mutableRoles = [...roles];
 
-    // Cuando cambian los roles, reiniciamos al primero
+  useEffect(() => {
+    if (mutableRoles.length === 0) return;
+
     setIndex(0);
 
     const id = setInterval(() => {
       setIndex((prev) => {
-        if (roles.length === 0) return 0;
-        return (prev + 1) % roles.length;
+        if (mutableRoles.length === 0) return 0;
+        return (prev + 1) % mutableRoles.length;
       });
     }, intervalMs);
 
     return () => clearInterval(id);
-  }, [roles, intervalMs]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mutableRoles.join("|"), intervalMs]);
+  // join evita recrear intervalos por cambios de referencia
 
-  if (!roles || roles.length === 0) return "";
-
-  return roles[index] ?? roles[0];
+  return mutableRoles[index] ?? mutableRoles[0] ?? "";
 }

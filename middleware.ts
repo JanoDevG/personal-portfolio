@@ -36,10 +36,9 @@ export function middleware(request: NextRequest) {
 
   // País detectado por Vercel (en prod) o header
   const country =
-    request.geo?.country ||
+    (request as any).geo?.country ||
     request.headers.get("x-vercel-ip-country") ||
     "";
-
   if (country) {
     const isLatam = LATAM_COUNTRIES.has(country.toUpperCase());
     const locale: "es" | "en" = isLatam ? "es" : "en";

@@ -8,6 +8,11 @@ import {
   DEFAULT_LOCALE,
 } from "@/i18n/messages";
 
+// ------------------ PROPS ------------------
+interface ThemeToggleProps {
+  showHint?: boolean; // 👈 permite recibir showHint desde el Navbar
+}
+
 // ------------------ Tema ------------------
 const ALLOWED_THEMES = ["dark", "light"] as const;
 type Theme = (typeof ALLOWED_THEMES)[number];
@@ -54,15 +59,12 @@ const MoonIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-export default function ThemeToggle() {
+export default function ThemeToggle({ showHint: injectedHint }: ThemeToggleProps) {
   const [theme, setTheme] = useState<Theme>("dark");
   const [mounted, setMounted] = useState(false);
-  const [showHint, setShowHint] = useState(false);
+  const [showHint, setShowHint] = useState(false); // 👈 interno
   const [locale, setLocale] = useState<Locale>(DEFAULT_LOCALE);
 
-  // ----------------------------------------------------
-  // Inicialización: tema + idioma (ES por defecto)
-  // ----------------------------------------------------
   useEffect(() => {
     setMounted(true);
     if (typeof window === "undefined") return;
@@ -76,28 +78,26 @@ export default function ThemeToggle() {
     if (storedTheme && ALLOWED_THEMES.includes(storedTheme)) {
       setTheme(storedTheme);
       document.documentElement.setAttribute("data-theme", storedTheme);
-
-      // En móviles -> jamás mostrar hint
-      if (!mobile) setShowHint(false);
     } else {
       setTheme("dark");
       document.documentElement.setAttribute("data-theme", "dark");
       localStorage.setItem("theme", "dark");
+    }
 
-      // En móviles -> NO mostrar hint nunca
-      if (!mobile && !hintSeen) {
+    // ----------- Hint (si viene prop desde afuera, sobrescribe) -----------
+    if (!mobile) {
+      if (injectedHint !== undefined) {
+        setShowHint(injectedHint);
+      } else if (!hintSeen) {
         setShowHint(true);
       }
     }
 
     // ----------- Idioma -----------
-    const storedLocale = localStorage.getItem(LOCALE_STORAGE_KEY) as
-      | Locale
-      | null;
-
+    const storedLocale = localStorage.getItem(LOCALE_STORAGE_KEY) as Locale | null;
     const cookieLocale = getCookieLocale();
 
-    let initialLocale: Locale = DEFAULT_LOCALE; // ---- Español por defecto ----
+    let initialLocale: Locale = DEFAULT_LOCALE;
 
     if (storedLocale && (storedLocale === "es" || storedLocale === "en")) {
       initialLocale = storedLocale;
@@ -107,7 +107,7 @@ export default function ThemeToggle() {
 
     setLocale(initialLocale);
     localStorage.setItem(LOCALE_STORAGE_KEY, initialLocale);
-  }, []);
+  }, [injectedHint]);
 
   // Sincronizar cambios de tema
   useEffect(() => {
@@ -155,7 +155,7 @@ export default function ThemeToggle() {
 
   return (
     <div className="relative">
-      {/* Overlay oscuro (solo desktop) */}
+      {/* Overlay */}
       {!mobile && showHint && (
         <div
           className="fixed inset-0 z-40 bg-black/40 backdrop-blur-[1px]"
@@ -190,7 +190,7 @@ export default function ThemeToggle() {
         />
       </button>
 
-      {/* Hint flotante (solo desktop) */}
+      {/* Hint */}
       {!mobile && showHint && (
         <div className="animate-fade-in fixed right-4 top-20 z-50 w-[260px] rounded-xl border border-border bg-secondary p-4 text-sm text-primary-content shadow-xl md:right-8 md:top-20">
           <p className="mb-2">{hint.text}</p>
