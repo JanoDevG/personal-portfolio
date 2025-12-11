@@ -70,8 +70,8 @@ export const SparklesCore: React.FC<SparklesCoreProps> = ({
             interactivity: {
               events: {
                 onClick: { enable: true, mode: 'push' },
-                resize: true,
-              },
+                resize: { enable: true },
+                },
               modes: {
                 push: { quantity: 4 },
               },
