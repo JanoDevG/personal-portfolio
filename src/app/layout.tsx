@@ -33,7 +33,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL ??
     "https://janodevg.vercel.app";
-
+    
   return {
     title: t.title,
     description: t.description,
