@@ -55,9 +55,11 @@ export const SparklesCore: React.FC<SparklesCoreProps> = ({
 
   return (
     <motion.div
-      animate={controls}
-      className={cn('pointer-events-none opacity-0', className)}
-    >
+  animate={controls}
+  className={cn('pointer-events-none opacity-0', className)}
+  style={{ background }}
+>
+
       {ready && (
         <Particles
           id={id ?? generatedId}
