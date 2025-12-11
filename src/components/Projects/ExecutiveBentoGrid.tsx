@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import type { BentoGridItemProps } from "../ui/bento-grid";
 import {
   messages,
   DEFAULT_LOCALE,
@@ -8,7 +9,7 @@ import {
   type Locale,
 } from "@/i18n/messages";
 
-import { BentoGrid, BentoGridItem } from "../UI/bento-grid";
+import { BentoGrid, BentoGridItem } from "../ui/bento-grid";
 
 import {
   IconTopologyStar3,
@@ -60,8 +61,7 @@ const LoopWithPauseLottie = ({
       window.clearTimeout(timeoutRef.current);
 
     timeoutRef.current = window.setTimeout(() => {
-      if (!lottieRef.current) return;
-      lottieRef.current.goToAndPlay(0, true);
+      lottieRef.current?.goToAndPlay(0, true);
     }, pauseMs);
   };
 
@@ -124,7 +124,6 @@ type ExecutiveBentoGridProps = {
 export const ExecutiveBentoGrid: React.FC<ExecutiveBentoGridProps> = ({
   locale,
 }) => {
-  /* 🔥 Ahora usa estado interno del locale igual que Hero */
   const [currentLocale, setCurrentLocale] = useState<Locale>(
     locale ?? DEFAULT_LOCALE
   );
@@ -145,56 +144,56 @@ export const ExecutiveBentoGrid: React.FC<ExecutiveBentoGridProps> = ({
 
   const t = messages[currentLocale].executiveGrid;
 
-  const items = [
-    {
-      title: t.banking.title,
-      description: t.banking.description,
-      icon: <IconBuildingBank className="h-5 w-5 text-accent" stroke={1.5} />,
-      header: <ReactiveProfileHeader />,
-      className: "md:col-span-2",
-    },
-    {
-      title: t.reactive.title,
-      description: t.reactive.description,
-      icon: <IconTopologyStar3 className="h-5 w-5 text-accent" stroke={1.5} />,
-      align: "right",
-    },
-
-    {
-      title: t.integration.title,
-      description: t.integration.description,
-      icon: <IconShare3 className="h-5 w-5 text-accent" stroke={1.5} />,
-      align: "left",
-    },
-    {
-      title: t.evolution.title,
-      description: t.evolution.description,
-      icon: <IconUsersGroup className="h-5 w-5 text-accent" stroke={1.5} />,
-      header: <ObservabilityProfileHeader />,
-      className: "md:col-span-2",
-    },
-
-    {
-      title: t.observability.title,
-      description: t.observability.description,
-      icon: (
-        <IconActivityHeartbeat className="h-5 w-5 text-accent" stroke={1.5} />
-      ),
-      align: "left",
-    },
-    {
-      title: t.data.title,
-      description: t.data.description,
-      icon: <IconDatabase className="h-5 w-5 text-accent" stroke={1.5} />,
-      align: "center",
-    },
-    {
-      title: t.devops.title,
-      description: t.devops.description,
-      icon: <IconShieldCheck className="h-5 w-5 text-accent" stroke={1.5} />,
-      align: "right",
-    },
-  ];
+  const items: BentoGridItemProps[] = [
+  {
+    title: t.banking.title,
+    description: t.banking.description,
+    icon: <IconBuildingBank className="h-5 w-5 text-accent" stroke={1.5} />,
+    header: <ReactiveProfileHeader />,
+    className: "md:col-span-2",
+    align: "center",
+  },
+  {
+    title: t.reactive.title,
+    description: t.reactive.description,
+    icon: <IconTopologyStar3 className="h-5 w-5 text-accent" stroke={1.5} />,
+    align: "right",
+  },
+  {
+    title: t.integration.title,
+    description: t.integration.description,
+    icon: <IconShare3 className="h-5 w-5 text-accent" stroke={1.5} />,
+    align: "left",
+  },
+  {
+    title: t.evolution.title,
+    description: t.evolution.description,
+    icon: <IconUsersGroup className="h-5 w-5 text-accent" stroke={1.5} />,
+    header: <ObservabilityProfileHeader />,
+    className: "md:col-span-2",
+    align: "center",
+  },
+  {
+    title: t.observability.title,
+    description: t.observability.description,
+    icon: (
+      <IconActivityHeartbeat className="h-5 w-5 text-accent" stroke={1.5} />
+    ),
+    align: "left",
+  },
+  {
+    title: t.data.title,
+    description: t.data.description,
+    icon: <IconDatabase className="h-5 w-5 text-accent" stroke={1.5} />,
+    align: "center",
+  },
+  {
+    title: t.devops.title,
+    description: t.devops.description,
+    icon: <IconShieldCheck className="h-5 w-5 text-accent" stroke={1.5} />,
+    align: "right",
+  },
+];
 
   return (
     <div className="mt-10 w-full">

@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import useRoleSwitcher from "@/hooks/useRoleSwitcher";
-import ChileFlag from "../UI/ChileFlag";
-import VortexBackground from "../UI/VortexBackground";
+import ChileFlag from "../ui/ChileFlag";
+import VortexBackground from "../ui/VortexBackground";
 import HeroAnimation from "./HeroAnimation";
 import {
   messages,
@@ -29,7 +29,7 @@ const Hero = () => {
   }, []);
 
   const t = messages[locale].hero;
-  const currentRole = useRoleSwitcher({ roles: t.roles, interval: 4000 });
+  const currentRole = useRoleSwitcher({ roles: t.roles, intervalMs: 4000 });
   const isReactiveRole =
     currentRole.toLowerCase().includes("reactiv") ||
     currentRole.toLowerCase().includes("webflux");

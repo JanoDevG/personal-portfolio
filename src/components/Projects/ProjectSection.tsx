@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { LayoutTextFlip } from "@/components/UI/LayoutTextFlip";
-import { SparklesCore } from "../UI/sparkles";
+import { LayoutTextFlip } from "@/components/ui/LayoutTextFlip";
+import { SparklesCore } from "../ui/sparkles";
 import {
   messages,
   DEFAULT_LOCALE,

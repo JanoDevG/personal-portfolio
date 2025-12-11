@@ -16,15 +16,14 @@ type SuccessStoryProps = {
   locale: Locale;
   title: string;
   context: string;
-  tags: string[];
+  tags: readonly string[];                   // 🔥 FIX
   challenge: string;
   solution: string;
   impact: string;
-  metrics?: string[];
+  metrics?: readonly string[];               // 🔥 También readonly
   technicalSummary?: string;
-  technicalHighlights?: string[];
+  technicalHighlights?: readonly string[];   // 🔥 También readonly
   icon?: React.ReactNode;
-  /** sólo para la card destacada (Ley Parental) */
   featured?: boolean;
 };
 
@@ -62,7 +61,7 @@ export const SuccessStoryCard: React.FC<SuccessStoryProps> = ({
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.25 }}
     >
-      {/* glow + “partículas” doradas suaves */}
+      {/* glow + partículas */}
       {featured && (
         <div
           className="pointer-events-none absolute -inset-[2px] -z-10 rounded-2xl opacity-80 blur-[1px]"
@@ -77,8 +76,7 @@ export const SuccessStoryCard: React.FC<SuccessStoryProps> = ({
         open={open}
         onOpenChange={setOpen}
         className={`
-          group w-full rounded-xl bg-secondary/90 p-5
-          transition-colors
+          group w-full rounded-xl bg-secondary/90 p-5 transition-colors
           ${
             featured
               ? "border border-yellow-400 shadow-[0_0_20px_rgba(250,204,21,0.45)]"
@@ -86,13 +84,8 @@ export const SuccessStoryCard: React.FC<SuccessStoryProps> = ({
           }
         `}
       >
-        {/* bump animation al expandirse si es featured */}
         <motion.div
-          animate={
-            featured && open
-              ? { scale: 1.02, y: -2 }
-              : { scale: 1, y: 0 }
-          }
+          animate={featured && open ? { scale: 1.02, y: -2 } : { scale: 1, y: 0 }}
           transition={{ type: "spring", stiffness: 260, damping: 20 }}
         >
           <CollapsibleTrigger className="flex w-full items-start gap-4 text-left focus:outline-none">
@@ -101,11 +94,7 @@ export const SuccessStoryCard: React.FC<SuccessStoryProps> = ({
               {featured ? (
                 <motion.div
                   animate={{ rotate: [0, -4, 4, 0] }}
-                  transition={{
-                    duration: 6,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
+                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                   className="flex items-center justify-center"
                 >
                   <IconCrown className="h-5 w-5 text-yellow-400 drop-shadow-[0_0_6px_rgba(250,204,21,0.9)]" />
@@ -124,12 +113,11 @@ export const SuccessStoryCard: React.FC<SuccessStoryProps> = ({
                 </p>
               )}
 
-              <h3 className="text-base font-semibold text-primary-content">
-                {title}
-              </h3>
+              <h3 className="text-base font-semibold text-primary-content">{title}</h3>
 
               <p className="mt-1 text-xs text-primary-content/70">{context}</p>
 
+              {/* tags */}
               <div className="mt-2 flex flex-wrap gap-1.5">
                 {tags.map((tag) => (
                   <span
@@ -166,25 +154,19 @@ export const SuccessStoryCard: React.FC<SuccessStoryProps> = ({
                   transition={{ duration: 0.25 }}
                   className="mt-4 space-y-3 text-sm text-primary-content/75"
                 >
-                  {/* texto “este es mi proyecto más ambicioso” solo en featured */}
+                  {/* Texto destacado */}
                   {featured && (
                     <div className="rounded-lg border border-yellow-400/50 bg-yellow-500/10 p-3 text-xs leading-relaxed text-yellow-100">
                       {locale === "es" ? (
                         <>
                           Este proyecto representa el trabajo más ambicioso,
                           complejo y de mayor impacto en el que he participado
-                          hasta ahora. Combinó coordinación bancaria a gran
-                          escala, automatización de procesos judiciales y una
-                          arquitectura reactiva diseñada para procesos críticos
-                          a nivel país.
+                          hasta ahora...
                         </>
                       ) : (
                         <>
                           This project represents the most ambitious, complex
-                          and high-impact work I have been involved in so far.
-                          It combined large-scale banking coordination, judicial
-                          process automation and a reactive architecture
-                          designed for mission-critical, nationwide workloads.
+                          and high-impact work I've been involved in...
                         </>
                       )}
                     </div>
@@ -223,10 +205,7 @@ export const SuccessStoryCard: React.FC<SuccessStoryProps> = ({
 
                       <ul className="mt-1 space-y-1.5 text-sm leading-snug">
                         {metrics!.map((metric) => (
-                          <li
-                            key={metric}
-                            className="flex gap-2 text-primary-content/80"
-                          >
+                          <li key={metric} className="flex gap-2 text-primary-content/80">
                             <span className="mt-1 h-[5px] w-[5px] rounded-full bg-accent" />
                             <span>{metric}</span>
                           </li>
@@ -267,21 +246,18 @@ export const SuccessStoryCard: React.FC<SuccessStoryProps> = ({
                             className="mt-3 space-y-2 text-xs md:text-sm text-primary-content/80"
                           >
                             {technicalSummary && (
-                              <p className="leading-snug">
-                                {technicalSummary}
-                              </p>
+                              <p className="leading-snug">{technicalSummary}</p>
                             )}
 
-                            {technicalHighlights &&
-                              technicalHighlights.length > 0 && (
-                                <ul className="mt-1 space-y-1.5 list-disc list-inside">
-                                  {technicalHighlights.map((item) => (
-                                    <li key={item} className="leading-snug">
-                                      {item}
-                                    </li>
-                                  ))}
-                                </ul>
-                              )}
+                            {technicalHighlights && technicalHighlights.length > 0 && (
+                              <ul className="mt-1 space-y-1.5 list-disc list-inside">
+                                {technicalHighlights.map((item) => (
+                                  <li key={item} className="leading-snug">
+                                    {item}
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
                           </motion.div>
                         )}
                       </AnimatePresence>

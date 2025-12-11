@@ -120,7 +120,6 @@ const statusToneConfig: Record<StatusTone, string> = {
 
 type EducationTimelineItemProps = {
   story: EducationStory;
-  index: number;
   locale: Locale;
   onRequestDegreeVerification: () => void;
   onLogoClick?: (src: StaticImageData, alt: string) => void;
@@ -128,14 +127,13 @@ type EducationTimelineItemProps = {
 
 const EducationTimelineItem = ({
   story,
-  index: _index, // se tipa pero no se usa (evita eslint de unused)
   locale,
   onRequestDegreeVerification,
   onLogoClick,
 }: EducationTimelineItemProps) => {
   const [open, setOpen] = React.useState(false);
 
-  // 👇 el trigger es un <button>, así que el ref debe ser de HTMLButtonElement
+  // Trigger es un <button>, así que el ref debe ser de HTMLButtonElement
   const ref = React.useRef<HTMLButtonElement | null>(null);
   const [headerHeight, setHeaderHeight] = React.useState(0);
 
@@ -242,16 +240,17 @@ const EducationTimelineItem = ({
                       <p className="mt-2 text-[13px]">{story.details}</p>
                     )}
 
-                    {story.highlights?.length > 0 && (
-                      <ul className="mt-3 text-[13px] space-y-1.5">
-                        {story.highlights.map((h) => (
-                          <li key={h} className="flex gap-2">
-                            <span className="mt-1 h-[5px] w-[5px] rounded-full bg-accent" />
-                            {h}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
+                    {Array.isArray(story.highlights) && story.highlights.length > 0 && (
+  <ul className="mt-3 text-[13px] space-y-1.5">
+    {story.highlights.map((h) => (
+      <li key={h} className="flex gap-2">
+        <span className="mt-1 h-[5px] w-[5px] rounded-full bg-accent" />
+        {h}
+      </li>
+    ))}
+  </ul>
+)}
+
                   </div>
 
                   {story.logoSrc && (
@@ -357,123 +356,134 @@ export const EducationSection = () => {
   const s = tEdu.stories;
 
   const stories: EducationStory[] = [
-    {
-      kind: "formal",
-      title: s.formalDegree.title,
-      context: s.formalDegree.context,
-      period: s.formalDegree.period,
-      summary: s.formalDegree.summary,
-      details: s.formalDegree.details,
-      highlights: s.formalDegree.highlights,
-      isDegree: true,
-      logoSrc: inacapLogo,
-      logoAlt: "INACAP",
-      logoClassName: "logo-rect",
-    },
-    {
-      kind: "cert",
-      title: s.ocp17.title,
-      context: s.ocp17.context,
-      period: s.ocp17.period,
-      summary: s.ocp17.summary,
-      highlights: s.ocp17.highlights,
-      credentialUrl:
-        "https://catalog-education.oracle.com/ords/certview/sharebadge?id=FD5390904EB94E5FCC800042B9450CF905AC2EE7DD75514ACD498A2622111888",
-      logoSrc: ocpLogo,
-      logoAlt: "OCP Java 17",
-      logoClassName: "logo-square",
-    },
-    {
-      kind: "cert",
-      title: s.apigeeSpecialization.title,
-      context: s.apigeeSpecialization.context,
-      summary: s.apigeeSpecialization.summary,
-      highlights: s.apigeeSpecialization.highlights,
-      credentialUrl:
-        "https://www.coursera.org/account/accomplishments/specialization/certificate/Z6T3U29X29JS",
-      logoSrc: gcpLogo,
-      logoAlt: "Google Cloud",
-      logoClassName: "logo-square",
-    },
-    {
-      kind: "learning",
-      title: s.javaMaster.title,
-      context: s.javaMaster.context,
-      summary: s.javaMaster.summary,
-      credentialUrl:
-        "https://www.udemy.com/certificate/UC-88f0712d-b71c-4591-bc30-3faa8db68586/",
-      logoSrc: udemyLogo,
-      logoAlt: "Udemy Java Master",
-      logoClassName: "logo-rect",
-    },
-    {
-      kind: "learning",
-      title: s.gitflow.title,
-      context: s.gitflow.context,
-      summary: s.gitflow.summary,
-      credentialUrl:
-        "https://www.udemy.com/certificate/UC-91746dc2-a8ce-46b1-ba12-08b780fd53cd/",
-      logoSrc: udemyLogo,
-      logoAlt: "Udemy GitFlow",
-      logoClassName: "logo-rect",
-    },
+  {
+    kind: "formal",
+    title: s.formalDegree.title,
+    context: s.formalDegree.context,
+    period: s.formalDegree.period,
+    summary: s.formalDegree.summary,
+    details: s.formalDegree.details,
+    highlights: s.formalDegree.highlights
+      ? [...s.formalDegree.highlights] // 👈 FIX: copia mutable
+      : undefined,
+    isDegree: true,
+    logoSrc: inacapLogo,
+    logoAlt: "INACAP",
+    logoClassName: "logo-rect",
+  },
 
-    /* ⭐ DIPLOMADO EN CURSO (CON CONOCER MÁS) */
-    {
-      kind: "diploma",
-      title: s.cloudDiploma.title,
-      context: s.cloudDiploma.context,
-      period: s.cloudDiploma.period,
-      summary: s.cloudDiploma.summary,
-      status: { label: tEdu.status.inProgress, tone: "in-progress" },
-      logoSrc: usachInsignia,
-      logoAlt: "USACH",
-      logoClassName: "logo-rect",
-      moreInfoUrl:
-        "https://diplomadociberseguridad.com/new-diplomado-en-arquitectura-y-seguridad-cloud/",
-    },
+  {
+    kind: "cert",
+    title: s.ocp17.title,
+    context: s.ocp17.context,
+    period: s.ocp17.period,
+    summary: s.ocp17.summary,
+    highlights: s.ocp17.highlights
+      ? [...s.ocp17.highlights] // 👈 FIX
+      : undefined,
+    credentialUrl:
+      "https://catalog-education.oracle.com/ords/certview/sharebadge?id=FD5390904EB94E5FCC800042B9450CF905AC2EE7DD75514ACD498A2622111888",
+    logoSrc: ocpLogo,
+    logoAlt: "OCP Java 17",
+    logoClassName: "logo-square",
+  },
 
-    /* ⭐ BIAN */
-    {
-      kind: "cert",
-      title: s.bian.title,
-      context: s.bian.context,
-      summary: s.bian.summary,
-      status: { label: tEdu.status.upcoming, tone: "upcoming" },
-      logoSrc: bianLogo,
-      logoAlt: "BIAN Foundation",
-      logoClassName: "logo-square",
-      moreInfoUrl: "https://bian-services.com/certifications/",
-    },
+  {
+    kind: "cert",
+    title: s.apigeeSpecialization.title,
+    context: s.apigeeSpecialization.context,
+    summary: s.apigeeSpecialization.summary,
+    highlights: s.apigeeSpecialization.highlights
+      ? [...s.apigeeSpecialization.highlights] // 👈 FIX
+      : undefined,
+    credentialUrl:
+      "https://www.coursera.org/account/accomplishments/specialization/certificate/Z6T3U29X29JS",
+    logoSrc: gcpLogo,
+    logoAlt: "Google Cloud",
+    logoClassName: "logo-square",
+  },
 
-    /* ⭐ SPRING BOOT */
-    {
-      kind: "learning",
-      title: s.springPro.title,
-      context: s.springPro.context,
-      summary: s.springPro.summary,
-      status: { label: tEdu.status.upcoming, tone: "upcoming" },
-      logoSrc: vmwareSpringLogo,
-      logoAlt: "VMware Spring",
-      logoClassName: "logo-square",
-      moreInfoUrl:
-        "https://docs.broadcom.com/doc/vmw-spring-certified-professional",
-    },
+  {
+    kind: "learning",
+    title: s.javaMaster.title,
+    context: s.javaMaster.context,
+    summary: s.javaMaster.summary,
+    credentialUrl:
+      "https://www.udemy.com/certificate/UC-88f0712d-b71c-4591-bc30-3faa8db68586/",
+    logoSrc: udemyLogo,
+    logoAlt: "Udemy Java Master",
+    logoClassName: "logo-rect",
+  },
 
-    /* ⭐ AZURE FUNDAMENTALS */
-    {
-      kind: "learning",
-      title: s.azureFundamentals.title,
-      context: s.azureFundamentals.context,
-      summary: s.azureFundamentals.summary,
-      status: { label: tEdu.status.upcoming, tone: "upcoming" },
-      logoSrc: azureLogo,
-      logoAlt: "Azure Fundamentals",
-      logoClassName: "logo-square",
-      moreInfoUrl:
-        "https://learn.microsoft.com/es-mx/credentials/certifications/azure-fundamentals/",
-    },
-  ];
+  {
+    kind: "learning",
+    title: s.gitflow.title,
+    context: s.gitflow.context,
+    summary: s.gitflow.summary,
+    credentialUrl:
+      "https://www.udemy.com/certificate/UC-91746dc2-a8ce-46b1-ba12-08b780fd53cd/",
+    logoSrc: udemyLogo,
+    logoAlt: "Udemy GitFlow",
+    logoClassName: "logo-rect",
+  },
+
+  // ⭐ DIPLOMADO
+  {
+    kind: "diploma",
+    title: s.cloudDiploma.title,
+    context: s.cloudDiploma.context,
+    period: s.cloudDiploma.period,
+    summary: s.cloudDiploma.summary,
+    status: { label: tEdu.status.inProgress, tone: "in-progress" },
+    logoSrc: usachInsignia,
+    logoAlt: "USACH",
+    logoClassName: "logo-rect",
+    moreInfoUrl:
+      "https://diplomadociberseguridad.com/new-diplomado-en-arquitectura-y-seguridad-cloud/",
+  },
+
+  // ⭐ BIAN
+  {
+    kind: "cert",
+    title: s.bian.title,
+    context: s.bian.context,
+    summary: s.bian.summary,
+    status: { label: tEdu.status.upcoming, tone: "upcoming" },
+    logoSrc: bianLogo,
+    logoAlt: "BIAN Foundation",
+    logoClassName: "logo-square",
+    moreInfoUrl: "https://bian-services.com/certifications/",
+  },
+
+  // ⭐ SPRING BOOT
+  {
+    kind: "learning",
+    title: s.springPro.title,
+    context: s.springPro.context,
+    summary: s.springPro.summary,
+    status: { label: tEdu.status.upcoming, tone: "upcoming" },
+    logoSrc: vmwareSpringLogo,
+    logoAlt: "VMware Spring",
+    logoClassName: "logo-square",
+    moreInfoUrl:
+      "https://docs.broadcom.com/doc/vmw-spring-certified-professional",
+  },
+
+  // ⭐ AZURE
+  {
+    kind: "learning",
+    title: s.azureFundamentals.title,
+    context: s.azureFundamentals.context,
+    summary: s.azureFundamentals.summary,
+    status: { label: tEdu.status.upcoming, tone: "upcoming" },
+    logoSrc: azureLogo,
+    logoAlt: "Azure Fundamentals",
+    logoClassName: "logo-square",
+    moreInfoUrl:
+      "https://learn.microsoft.com/es-mx/credentials/certifications/azure-fundamentals/",
+  },
+];
+
 
   return (
     <section id="education" className="my-20">
@@ -504,7 +514,6 @@ export const EducationSection = () => {
               >
                 <EducationTimelineItem
                   story={story}
-                  index={i}
                   locale={locale}
                   onRequestDegreeVerification={() => setShowDegreeModal(true)}
                   onLogoClick={(src, alt) => setLogoModal({ src, alt })}
