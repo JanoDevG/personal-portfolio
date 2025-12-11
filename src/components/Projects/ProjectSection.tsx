@@ -12,24 +12,20 @@ import {
 import { ExecutiveBentoGrid } from "@/components/Projects/ExecutiveBentoGrid";
 
 interface ProjectSectionProps {
-  // ahora es opcional
   locale?: Locale;
 }
 
 const ProjectSection: React.FC<ProjectSectionProps> = ({ locale }) => {
-  // ⭐ Locale interno reactivo
   const [currentLocale, setCurrentLocale] = useState<Locale>(
     locale ?? DEFAULT_LOCALE
   );
 
   useEffect(() => {
-    // cargar desde localStorage
     const stored = localStorage.getItem(LOCALE_STORAGE_KEY) as Locale | null;
     if (stored === "es" || stored === "en") {
       setCurrentLocale(stored);
     }
 
-    // escuchar cambios globales de idioma
     const handler = (event: Event) => {
       const custom = event as CustomEvent<Locale>;
       const next = custom.detail;
@@ -49,14 +45,25 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ locale }) => {
     <section id="projects" className="pt-8 md:pt-10">
       <div className="mx-auto max-w-[1100px] px-4">
         <div className="flex flex-col items-center text-center gap-4 relative pb-10">
+
           {/* TAG */}
           <p className="font-mono text-xs uppercase tracking-[0.25em] text-primary-content/60">
             {t.tag}
           </p>
 
-          {/* TÍTULO + TEXTO ANIMADO + SPARKLES */}
+          {/* TÍTULO + SPARKLES */}
           <div className="relative flex flex-col items-center">
-            <div className="relative z-[10]">
+
+            <div
+              className="relative z-[10]"
+              style={{
+                backgroundColor: "transparent",
+                WebkitBackdropFilter: "none",
+                backdropFilter: "none",
+                WebkitTransform: "translateZ(0)",
+                transform: "translateZ(0)",
+              }}
+            >
               <LayoutTextFlip
                 locale={currentLocale}
                 duration={3000}
@@ -64,8 +71,16 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ locale }) => {
               />
             </div>
 
+            {/* SPARKLES */}
             <div className="pointer-events-none absolute left-0 right-0 top-[2.1rem] mx-auto flex justify-center z-[20]">
-              <div className="relative w-[75%] h-12 overflow-hidden">
+              <div
+                className="relative w-[75%] h-12 overflow-hidden"
+                style={{
+                  backgroundColor: "transparent",
+                  WebkitTransform: "translateZ(0)",
+                  transform: "translateZ(0)",
+                }}
+              >
                 <SparklesCore
                   background="transparent"
                   minSize={1.3}
